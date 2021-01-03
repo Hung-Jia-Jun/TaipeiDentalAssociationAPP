@@ -1,77 +1,45 @@
 import React from "react";
-import { Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput, StyleSheet, Text, View } from "react-native";
+import { createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
 
-// const image = require('./assets/b-首頁_noneUI.png');
-const image = require('./assets/b-首頁.png');
-const loginBtn = require('./assets/loginBtn.png');
+import Index from "./screens/index";
+import HightStoreMap from "./screens/HightStoreMap";
+import MediumStoreMaps from "./screens/MediumStoreMaps";
+import LowStoreMaps from "./screens/LowStoreMaps";
 
-const App = () => (
-  <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
-    <ImageBackground source={image} style={styles.image}>
-        <View style={{flex: 0.9, flexDirection: 'column'}}>
+import OverviewMap from "./screens/OverviewMap";
 
-        </View>
-        <View style={{flex: 1, flexDirection: 'column'}}>
-            <TextInput style={styles.UsernameTextInputclass}
-            placeholder = '    username'
-            class = 'placeholder'
-            />
-            <TextInput style={styles.TextInputStyleClass}
-            placeholder = '    password'
-            class = 'placeholder'
-            />
-            <TouchableOpacity style={styles.button,{
-                height: 50,
-                width:255,
-                marginStart: 60,
-                marginTop:135,
-            }} onPress={onPressLogin}>
-            </TouchableOpacity>
-        </View>
-    </ImageBackground>
-  </View>
-);
-
-function onPressLogin(params) {
-    console.log("change to login")
-}
-const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        flexDirection: "column"
+const AppNavigator = createStackNavigator({
+    Index: {
+        screen: Index,
+        navigationOptions: {
+            header: null,
+            }
     },
-    image: {
-        flex: 1,
-        justifyContent: "center"
+    HightStoreMap: {
+        screen: HightStoreMap,
+        navigationOptions: {
+            header: null,
+        }
     },
-    text: {
-        color: "white",
-        fontSize: 42,
-        fontWeight: "bold",
-        textAlign: "center",
-        background: "#000000a0"
+    MediumStoreMaps: {
+        screen: MediumStoreMaps,
+        navigationOptions: {
+            header: null,
+        }
     },
-    TextInputStyleClass:{
-        height: 50,
-        width:255,
-        marginStart: 60,
-        borderColor: '#ECF2F6',
-        borderWidth: 1,
-        borderRadius: 10 ,
-        backgroundColor : "#ECF2F6"
-        },
-    UsernameTextInputclass:{
-        height: 50,
-        width:255,
-        marginStart: 60,
-        marginBottom: 15,
-        borderColor: '#ECF2F6',
-        borderWidth: 1,
-        borderRadius: 10 ,
-        backgroundColor : "#ECF2F6",
+    LowStoreMaps: {
+        screen: LowStoreMaps,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    OverviewMap: {
+        screen: OverviewMap,
+        navigationOptions: {
+            header: null,
+        }
     },
 });
 
-export default App;
-
+export default createAppContainer(AppNavigator);
