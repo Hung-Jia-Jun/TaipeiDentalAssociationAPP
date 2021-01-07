@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import {Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import React, { Component } from 'react';
+import {Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from 'react-native';
 
 const image = require('../assets/b-主選單.png');
 const item_image = require('../assets/b-主選單.png');
 class MainMenu extends Component {
   render() {
 	const renderItem = ({ item }) => (
-		<Item title={item.title} />
+		<Item _this={this} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
 	);
 
 	return (
@@ -15,7 +15,7 @@ class MainMenu extends Component {
 				<View style={{flex: 1.63, flexDirection: 'column'}}>
 
 				</View>
-				<View style={{flex: 8.4, flexDirection: 'column'}}>
+				<View style={{flex: 8.9, flexDirection: 'column'}}>
 					<FlatList
 						contentContainerStyle={{ marginTop: 0}}
 						data={DATA}
@@ -30,7 +30,7 @@ class MainMenu extends Component {
 						borderWidth:1,
 						borderColor:'black',
 						marginStart: 24,
-						marginTop:14,
+						marginTop:10,
 					}} onPress={()=>this.props.navigation.navigate('MainMenu')}>
 					</TouchableOpacity> 
 					<TouchableOpacity style={styles.button,{
@@ -39,7 +39,7 @@ class MainMenu extends Component {
 						borderWidth:1,
 						borderColor:'black',
 						marginStart: 11,
-						marginTop:14,
+						marginTop:10,
 					}} onPress={()=>this.props.navigation.navigate('Search')}>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
@@ -48,8 +48,8 @@ class MainMenu extends Component {
 						borderWidth:1,
 						borderColor:'black',
 						marginStart: 28,
-						marginTop:14,
-					}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+						marginTop:10,
+					}} onPress={()=>this.props.navigation.navigate('OverViewMap')}>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
 						height: 50,
@@ -57,7 +57,7 @@ class MainMenu extends Component {
 						borderWidth:1,
 						borderColor:'black',
 						marginStart: 24,
-						marginTop:14,
+						marginTop:10,
 					}} onPress={()=>this.props.navigation.navigate('Message')}>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
@@ -66,7 +66,7 @@ class MainMenu extends Component {
 						borderWidth:1,
 						borderColor:'black',
 						marginStart: 15,
-						marginTop:14,
+						marginTop:10,
 					}} onPress={()=>this.props.navigation.navigate('Profile')}>
 					</TouchableOpacity>
 				</View>
@@ -76,56 +76,76 @@ class MainMenu extends Component {
   }
 };
 
-
 const DATA = [
 	{
 		id: '0',
 		title: '校友會公告',
+		item_image : require('../assets/Group 13.png'),
+		sceneName:'Announcement',
 	},
 	{
 		id: '1',
 		title: '學術活動',
+		item_image : require('../assets/Group 11.png'),
+		sceneName:'Announcement',
 	},
 	{
 		id: '2',
 		title: '牙材選購',
+		item_image : require('../assets/Group 10.png'),
+		sceneName:'Announcement',
 	},
 	{
 		id: '3',
 		title: '人力交流',
+		item_image : require('../assets/Group 7 Copy.png'),
+		sceneName:'Announcement',
   	},
 	{
 		id: '4',
 		title: '牙醫學生',
+		item_image : require('../assets/Group 9 Copy.png'),
+		sceneName:'Announcement',
 	},
 	{
 		id: '5',
 		title: '服務與協助',
+		item_image : require('../assets/Group 8.png'),
+		sceneName:'Announcement',
 	},
 	{
 		id: '6',
 		title: '意見反映',
+		item_image : require('../assets/Group 6.png'),
+		sceneName:'Announcement',
 	},
 ];
+function changeScene(item) {
+	navigate("Announcement",{item})
+};
 
-
-const Item = ({ title }) => (
+const Item = ({ _this,title,item_image,sceneName }) => (
 	<ImageBackground style={styles.MainMenuItemBackground}>
 		<TouchableOpacity style={styles.button,{
 			height: 87,
 			width:Dimensions.get('window').width,
-			borderWidth:1,
-			borderColor:'black',
 			marginStart: 0,
-			marginTop:2,
-		}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-		<text style={{
+			marginTop:15,
+		}} onPress={() => _this.props.navigation.navigate(sceneName)}>
+
+		<View style={styles.container,{flex: 1, flexDirection: 'row'}}>
+			<Image source={ item_image } style={styles.iconImage}></Image>
+			<Text style={{
+						position: 'absolute',
+						top: -1,
+						left : -1,
 						marginTop: 30,
 						marginLeft: 117,
 						fontSize:18,
 						color:'#FFFFFF'}}>
-					{title}
-		</text>
+							{title}
+			</Text>
+		</View>
 		</TouchableOpacity>
 	</ImageBackground>
 );
@@ -134,18 +154,24 @@ const styles = StyleSheet.create({
 	title:{},
 	container: {
 		flex: 1,
-		flexDirection: "column"
+		flexDirection: 'column'
 	},
 	image: {
 		flex: 1,
-		justifyContent: "center"
+		justifyContent: 'center'
+	},
+	iconImage: {
+		width:42,
+		height:42,
+		marginStart: 42,
+		marginTop:21,
+		justifyContent: 'center'
 	},
 	text: {
-		color: "white",
+		color: 'white',
 		fontSize: 42,
-		fontWeight: "bold",
-		textAlign: "center",
-		background: "#000000a0"
+		fontWeight: 'bold',
+		textAlign: 'center',
 	},
 	TextInputStyleClass:{
 		height: 50,
@@ -154,7 +180,7 @@ const styles = StyleSheet.create({
 		borderColor: '#ECF2F6',
 		borderWidth: 1,
 		borderRadius: 10 ,
-		backgroundColor : "#ECF2F6"
+		backgroundColor : '#ECF2F6'
 		},
 	UsernameTextInputclass:{
 		height: 50,
@@ -164,11 +190,14 @@ const styles = StyleSheet.create({
 		borderColor: '#ECF2F6',
 		borderWidth: 1,
 		borderRadius: 10 ,
-		backgroundColor : "#ECF2F6",
+		backgroundColor : '#ECF2F6',
 	},
 	MainMenuItemBackground:{
 		width:Dimensions.get('window').width,
-		// backgroundColor: "#43D1E3"
-	}
+		borderColor: '#00A6B8',
+		borderWidth: 1,
+		borderRadius: 1 ,
+		backgroundColor: '#43D1E3',
+	},
 });
 export default MainMenu;

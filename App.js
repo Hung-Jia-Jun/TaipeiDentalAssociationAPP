@@ -13,6 +13,7 @@ import MainMenu from "./screens/MainMenu";
 import Search from "./screens/Search";
 import Message from "./screens/Message";
 import Profile from "./screens/Profile";
+import Announcement from "./screens/Announcement";
 
 
 const AppNavigator = createStackNavigator({
@@ -78,6 +79,12 @@ const AppNavigator = createStackNavigator({
     },
     Profile: {
         screen: Profile,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    Announcement: {
+        screen: Announcement,
         navigationOptions: {
             header: null,
         }

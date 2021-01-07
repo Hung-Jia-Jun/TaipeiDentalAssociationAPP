@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
-const image = require('../assets/b-圖資-資訊.png');
-class OverviewMap extends Component {
+const image = require('../assets/b-校友會公告.png');
+class Search extends Component {
   render() {
     return (
         <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
@@ -126,4 +126,4 @@ const styles = StyleSheet.create({
         backgroundColor : "#ECF2F6",
     },
 });
-export default OverviewMap;
+export default Search;

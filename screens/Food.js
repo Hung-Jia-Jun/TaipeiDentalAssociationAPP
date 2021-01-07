@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         fontSize: 42,
         fontWeight: "bold",
         textAlign: "center",
-        background: "#000000a0"
+        
     },
     TextInputStyleClass:{
         height: 50,
