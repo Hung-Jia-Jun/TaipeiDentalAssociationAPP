@@ -36,7 +36,52 @@ class Food extends Component {
                     }} onPress={()=>this.props.navigation.navigate('FilterStroe')}>
                     </TouchableOpacity>
                 </View>
-                <View style={{flex: 1, flexDirection: 'column'}}>
+                <View style={{flex: 0.5, flexDirection: 'row'}}>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        borderWidth:1,
+                        borderColor:'black',
+                        marginStart: 24,
+                        marginTop:230,
+                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    </TouchableOpacity> 
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        borderWidth:1,
+                        borderColor:'black',
+                        marginStart: 11,
+                        marginTop:230,
+                    }} onPress={()=>this.props.navigation.navigate('Search')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        borderWidth:1,
+                        borderColor:'black',
+                        marginStart: 28,
+                        marginTop:230,
+                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        borderWidth:1,
+                        borderColor:'black',
+                        marginStart: 24,
+                        marginTop:230,
+                    }} onPress={()=>this.props.navigation.navigate('Message')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        borderWidth:1,
+                        borderColor:'black',
+                        marginStart: 15,
+                        marginTop:230,
+                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                    </TouchableOpacity>
                 </View>
             </ImageBackground>
         </View>

@@ -1,13 +1,24 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
-const image = require('../assets/b-訊息中心-通知.png');
-class Message extends Component {
+const image = require('../assets/b-校友會行事曆.png');
+class Page extends Component {
   render() {
     return (
         <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
             <ImageBackground source={image} style={styles.image}>
-                <View style={{flex: 0.9, flexDirection: 'row'}}>
+                <View style={{flex: 0.3, flexDirection: 'column'}}>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        borderWidth:1,
+                        borderColor:'black',
+                        marginStart: 23,
+                        marginTop:60,
+                    }} onPress={()=>this.props.navigation.navigate('Announcement')}>
+                    </TouchableOpacity>
+                </View>
+                <View style={{flex: 0.6, flexDirection: 'row'}}>
                     
                 </View>
                 <View style={{flex: 0.5, flexDirection: 'row'}}>
@@ -100,4 +111,4 @@ const styles = StyleSheet.create({
         backgroundColor : "#ECF2F6",
     },
 });
-export default Message;
+export default Page;

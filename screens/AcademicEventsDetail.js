@@ -1,14 +1,25 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
-const image = require('../assets/b-訊息中心-通知.png');
-class Message extends Component {
+const image = require('../assets/b-學術研討會內頁.png');
+class Page extends Component {
   render() {
     return (
         <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
             <ImageBackground source={image} style={styles.image}>
-                <View style={{flex: 0.9, flexDirection: 'row'}}>
-                    
+                <View style={{flex: 0.3, flexDirection: 'row'}}>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        borderWidth:1,
+                        borderColor:'black',
+                        marginStart: 23,
+                        marginTop:60,
+                    }} onPress={()=>this.props.navigation.navigate('AcademicEvents')}>
+                    </TouchableOpacity>
+                </View>
+                <View style={{flex: 0.6, flexDirection: 'row'}}>
+                   
                 </View>
                 <View style={{flex: 0.5, flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
@@ -16,45 +27,18 @@ class Message extends Component {
                         width:50,
                         borderWidth:1,
                         borderColor:'black',
-                        marginStart: 24,
+                        marginStart: 17,
                         marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    }} onPress={()=>alert("已加入我的最愛")}>
                     </TouchableOpacity> 
                     <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
+                        height: 66,
+                        width:288,
                         borderWidth:1,
                         borderColor:'black',
-                        marginStart: 11,
-                        marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('Search')}>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 28,
-                        marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 24,
-                        marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('Message')}>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 15,
-                        marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                        marginStart: 18,
+                        marginTop:222,
+                    }} onPress={()=>alert("報名完成")}>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>
@@ -100,4 +84,4 @@ const styles = StyleSheet.create({
         backgroundColor : "#ECF2F6",
     },
 });
-export default Message;
+export default Page;

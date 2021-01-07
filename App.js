@@ -14,6 +14,25 @@ import Search from "./screens/Search";
 import Message from "./screens/Message";
 import Profile from "./screens/Profile";
 import Announcement from "./screens/Announcement";
+import Schedule from "./screens/Schedule";
+import AcademicEvents from "./screens/AcademicEvents";
+import AcademicEventsDetail from "./screens/AcademicEventsDetail";
+import DentalGroupPurchase from "./screens/DentalGroupPurchase";
+import DentalGroupPurchaseFilter from "./screens/DentalGroupPurchaseFilter";
+import DentalSpecialGroupPurchase from "./screens/DentalSpecialGroupPurchase";
+import ClinicRecruitmentHumanSupport from "./screens/ClinicRecruitmentHumanSupport";
+import ClinicRecruitment from "./screens/ClinicRecruitment";
+import ClinicRecruitmentHumanSupportDetail from "./screens/ClinicRecruitmentHumanSupportDetail";
+import ContactTheClinic from "./screens/ContactTheClinic";
+
+
+import Student from "./screens/Student";
+import StudenDepartmentAssociationAnnouncementDetail from "./screens/StudenDepartmentAssociationAnnouncementDetail";
+
+import HelpAndService from "./screens/HelpAndService";
+import HelpAndServiceAnonymous from "./screens/HelpAndServiceAnonymous";
+
+
 
 
 const AppNavigator = createStackNavigator({
@@ -89,6 +108,91 @@ const AppNavigator = createStackNavigator({
             header: null,
         }
     },
+    Schedule: {
+        screen: Schedule,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    AcademicEvents: {
+        screen: AcademicEvents,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    AcademicEventsDetail: {
+        screen: AcademicEventsDetail,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    DentalGroupPurchase: {
+        screen: DentalGroupPurchase,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    DentalGroupPurchaseFilter: {
+        screen: DentalGroupPurchaseFilter,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    DentalSpecialGroupPurchase: {
+        screen: DentalSpecialGroupPurchase,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    ClinicRecruitment: {
+        screen: ClinicRecruitment,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    ClinicRecruitmentHumanSupport: {
+        screen: ClinicRecruitmentHumanSupport,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    ClinicRecruitmentHumanSupportDetail: {
+        screen: ClinicRecruitmentHumanSupportDetail,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    ContactTheClinic: {
+        screen: ContactTheClinic,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    Student: {
+        screen: Student,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    StudenDepartmentAssociationAnnouncementDetail: {
+        screen: StudenDepartmentAssociationAnnouncementDetail,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    HelpAndService: {
+        screen: HelpAndService,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    HelpAndServiceAnonymous: {
+        screen: HelpAndServiceAnonymous,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    
     
 });
 

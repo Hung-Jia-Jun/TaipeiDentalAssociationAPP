@@ -2,39 +2,33 @@ import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
 const image = require('../assets/b-校友會公告.png');
-class Search extends Component {
+class Page extends Component {
   render() {
     return (
         <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
             <ImageBackground source={image} style={styles.image}>
-                <View style={{flex: 0.9, flexDirection: 'row'}}>
+                <View style={{flex: 0.3, flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
-                        width:130,
+                        width:50,
                         borderWidth:1,
                         borderColor:'black',
-                        marginStart: 27,
-                        marginTop:148,
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:130,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 9,
-                        marginTop:148,
-                    }} onPress={()=>this.props.navigation.navigate('Food')}>
+                        marginStart: 23,
+                        marginTop:60,
+                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         borderWidth:1,
                         borderColor:'black',
-                        marginStart: 10,
-                        marginTop:148,
-                    }} onPress={()=>this.props.navigation.navigate('FilterStroe')}>
+                        marginStart: 236,
+                        marginTop:60,
+                    }} onPress={()=>this.props.navigation.navigate('Schedule')}>
                     </TouchableOpacity>
+                </View>
+                <View style={{flex: 0.6, flexDirection: 'row'}}>
+                    
                 </View>
                 <View style={{flex: 0.5, flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
@@ -126,4 +120,4 @@ const styles = StyleSheet.create({
         backgroundColor : "#ECF2F6",
     },
 });
-export default Search;
+export default Page;

@@ -3,7 +3,7 @@ import {Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackgr
 
 const image = require('../assets/b-主選單.png');
 const item_image = require('../assets/b-主選單.png');
-class MainMenu extends Component {
+class Page extends Component {
   render() {
 	const renderItem = ({ item }) => (
 		<Item _this={this} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
@@ -49,7 +49,7 @@ class MainMenu extends Component {
 						borderColor:'black',
 						marginStart: 28,
 						marginTop:10,
-					}} onPress={()=>this.props.navigation.navigate('OverViewMap')}>
+					}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
 						height: 50,
@@ -87,37 +87,37 @@ const DATA = [
 		id: '1',
 		title: '學術活動',
 		item_image : require('../assets/Group 11.png'),
-		sceneName:'Announcement',
+		sceneName:'AcademicEvents',
 	},
 	{
 		id: '2',
 		title: '牙材選購',
 		item_image : require('../assets/Group 10.png'),
-		sceneName:'Announcement',
+		sceneName:'DentalGroupPurchase',
 	},
 	{
 		id: '3',
 		title: '人力交流',
 		item_image : require('../assets/Group 7 Copy.png'),
-		sceneName:'Announcement',
+		sceneName:'ClinicRecruitmentHumanSupport',
   	},
 	{
 		id: '4',
 		title: '牙醫學生',
 		item_image : require('../assets/Group 9 Copy.png'),
-		sceneName:'Announcement',
+		sceneName:'Student',
 	},
 	{
 		id: '5',
 		title: '服務與協助',
 		item_image : require('../assets/Group 8.png'),
-		sceneName:'Announcement',
+		sceneName:'HelpAndService',
 	},
 	{
 		id: '6',
 		title: '意見反映',
 		item_image : require('../assets/Group 6.png'),
-		sceneName:'Announcement',
+		sceneName:'HelpAndService',
 	},
 ];
 function changeScene(item) {
@@ -200,4 +200,4 @@ const styles = StyleSheet.create({
 		backgroundColor: '#43D1E3',
 	},
 });
-export default MainMenu;
+export default Page;

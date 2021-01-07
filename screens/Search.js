@@ -2,39 +2,12 @@ import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
 const image = require('../assets/b-搜尋.png');
-class Search extends Component {
+class Page extends Component {
   render() {
     return (
         <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
             <ImageBackground source={image} style={styles.image}>
                 <View style={{flex: 0.9, flexDirection: 'row'}}>
-                    <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:130,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 27,
-                        marginTop:148,
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:130,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 9,
-                        marginTop:148,
-                    }} onPress={()=>this.props.navigation.navigate('Food')}>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 10,
-                        marginTop:148,
-                    }} onPress={()=>this.props.navigation.navigate('FilterStroe')}>
-                    </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.5, flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
@@ -126,4 +99,4 @@ const styles = StyleSheet.create({
         backgroundColor : "#ECF2F6",
     },
 });
-export default Search;
+export default Page;
