@@ -13,6 +13,8 @@ import MainMenu from "./screens/MainMenu";
 import Search from "./screens/Search";
 import Message from "./screens/Message";
 import Profile from "./screens/Profile";
+import Notifycation from "./screens/Notifycation";
+
 import Announcement from "./screens/Announcement";
 import Schedule from "./screens/Schedule";
 import AcademicEvents from "./screens/AcademicEvents";
@@ -98,6 +100,12 @@ const AppNavigator = createStackNavigator({
     },
     Profile: {
         screen: Profile,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    Notifycation: {
+        screen: Notifycation,
         navigationOptions: {
             header: null,
         }

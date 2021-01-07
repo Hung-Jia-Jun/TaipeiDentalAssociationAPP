@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
-const image = require('../assets/b-訊息中心（聊天室）.png');
+const image = require('../assets/b-訊息中心-通知.png');
 class Message extends Component {
   render() {
     return (

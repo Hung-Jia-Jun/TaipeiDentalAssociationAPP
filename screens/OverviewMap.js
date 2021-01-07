@@ -71,7 +71,7 @@ class OverviewMap extends Component {
                         borderColor:'black',
                         marginStart: 24,
                         marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('Message')}>
+                    }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
