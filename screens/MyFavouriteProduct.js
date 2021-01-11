@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
-const image = require('../assets/b-訊息中心-通知.png');
-class Message extends Component {
+const image = require('../assets/b-我的收藏 （商品）.png');
+class page extends Component {
   render() {
     return (
         <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
@@ -14,33 +14,42 @@ class Message extends Component {
                             marginLeft: 25,
                             marginTop: 61,
                             width: 50,
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button,{
-                        borderWidth: 1,
-                        height: 50,
-                        marginLeft: 239,
-                        marginTop: 61,
-                        width: 50,
-                    }} onPress={()=>this.props.navigation.navigate('SendMessage')}>
+                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.08, flexDirection: 'row'}}>
-                     <TouchableOpacity style={styles.button,{
-                            borderWidth: 1,
-                            height: 50,
-                            width: 137,
-                            marginLeft: 47,
-                            marginTop: 0,
-                    }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width: 104,   
+                        marginTop: 0,
+                        marginLeft: 22,
+                        borderWidth: 1,
+                        borderColor:'black',
+                    }} onPress={()=>this.props.navigation.navigate('MyFavourite')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         borderWidth: 1,
                         height: 50,
-                        width: 137,
+                        width: 85,
                         marginLeft: 5,
                         marginTop: 0,
-                    }} onPress={()=>this.props.navigation.navigate('Message')}>
+                    }} onPress={()=>this.props.navigation.navigate('MyFavouriteFood')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        borderWidth: 1,
+                        height: 50,
+                        width: 66,
+                        marginLeft: 5,
+                        marginTop: 0,
+                    }} onPress={()=>this.props.navigation.navigate('MyFavouriteSeminar')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        borderWidth: 1,
+                        height: 50,
+                        width: 63,
+                        marginLeft: 5,
+                        marginTop: 0,
+                    }} onPress={()=>this.props.navigation.navigate('MyFavouriteProduct')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.8, flexDirection: 'row'}}>
@@ -135,4 +144,4 @@ const styles = StyleSheet.create({
         backgroundColor : "#ECF2F6",
     },
 });
-export default Message;
+export default page;

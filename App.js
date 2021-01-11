@@ -33,6 +33,33 @@ import StudenDepartmentAssociationAnnouncementDetail from "./screens/StudenDepar
 
 import HelpAndService from "./screens/HelpAndService";
 import HelpAndServiceAnonymous from "./screens/HelpAndServiceAnonymous";
+import SendMessage from "./screens/SendMessage";
+import MessageCommunication from "./screens/MessageCommunication";
+import DentalProcurement from "./screens/DentalProcurement";
+import DentalProcurementConfirm from "./screens/DentalProcurementConfirm";
+import DentalProcurementSussful from "./screens/DentalProcurementSussful";
+import ShoppingCart from "./screens/ShoppingCart";
+import ShoppingCartDeleteProductConfirm from "./screens/ShoppingCartDeleteProductConfirm";
+import ShoppingCartDeletedProductList from "./screens/ShoppingCartDeletedProductList";
+import ShoppingCartDoneProductList from "./screens/ShoppingCartDoneProductList";
+
+import ReceiveAward from "./screens/ReceiveAward";
+import EditProfile from "./screens/EditProfile";
+import MyFavourite from "./screens/MyFavourite";
+import MyFavouriteFood from "./screens/MyFavouriteFood";
+import MyFavouriteSeminar from "./screens/MyFavouriteSeminar";
+import MyFavouriteProduct from "./screens/MyFavouriteProduct";
+import MyStore from "./screens/MyStore";
+import MyStoreHasBeenRemoved from "./screens/MyStoreHasBeenRemoved";
+import PersonalBusinessCard from "./screens/PersonalBusinessCard";
+
+
+
+
+
+
+
+
 
 
 
@@ -200,8 +227,115 @@ const AppNavigator = createStackNavigator({
             header: null,
         }
     },
-    
-    
+    SendMessage: {
+        screen: SendMessage,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    MessageCommunication: {
+        screen: MessageCommunication,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    DentalProcurement: {
+        screen: DentalProcurement,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    DentalProcurementConfirm: {
+        screen: DentalProcurementConfirm,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    DentalProcurementSussful: {
+        screen: DentalProcurementSussful,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    ShoppingCart: {
+        screen: ShoppingCart,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    ShoppingCartDeleteProductConfirm: {
+        screen: ShoppingCartDeleteProductConfirm,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    ShoppingCartDeletedProductList: {
+        screen: ShoppingCartDeletedProductList,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    ShoppingCartDoneProductList: {
+        screen: ShoppingCartDoneProductList,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    ReceiveAward: {
+        screen: ReceiveAward,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    EditProfile: {
+        screen: EditProfile,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    MyFavourite: {
+        screen: MyFavourite,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    MyFavouriteFood: {
+        screen: MyFavouriteFood,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    MyFavouriteSeminar: {
+        screen: MyFavouriteSeminar,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    MyFavouriteProduct: {
+        screen: MyFavouriteProduct,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    MyStore: {
+        screen: MyStore,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    MyStoreHasBeenRemoved : {
+        screen: MyStoreHasBeenRemoved ,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    PersonalBusinessCard : {
+        screen: PersonalBusinessCard ,
+        navigationOptions: {
+            header: null,
+        }
+    },
+   
 });
 
 export default createAppContainer(AppNavigator);
