@@ -11,7 +11,7 @@ class Page extends Component {
 
 	return (
 		<View style={styles.container,{flex: 4, flexDirection: 'column'}}>
-			<ImageBackground source={image} style={styles.image}>
+			<ImageBackground source={image} style={styles.image,{width:375,height: 812}}>
 				<View style={{flex: 1.63, flexDirection: 'column'}}>
 
 				</View>

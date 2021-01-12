@@ -68,271 +68,271 @@ const AppNavigator = createStackNavigator({
     Index: {
         screen: Index,
         navigationOptions: {
-            header: null,
+            headerShown: false
             }
     },
     HightStoreMap: {
         screen: HightStoreMap,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     MediumStoreMaps: {
         screen: MediumStoreMaps,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     LowStoreMaps: {
         screen: LowStoreMaps,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     OverviewMap: {
         screen: OverviewMap,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     Food: {
         screen: Food,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     FilterStroe: {
         screen: FilterStroe,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     MainMenu: {
         screen: MainMenu,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     Search: {
         screen: Search,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     Message: {
         screen: Message,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     Profile: {
         screen: Profile,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     Notifycation: {
         screen: Notifycation,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     Announcement: {
         screen: Announcement,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     Schedule: {
         screen: Schedule,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     AcademicEvents: {
         screen: AcademicEvents,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     AcademicEventsDetail: {
         screen: AcademicEventsDetail,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     DentalGroupPurchase: {
         screen: DentalGroupPurchase,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     DentalGroupPurchaseFilter: {
         screen: DentalGroupPurchaseFilter,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     DentalSpecialGroupPurchase: {
         screen: DentalSpecialGroupPurchase,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     ClinicRecruitment: {
         screen: ClinicRecruitment,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     ClinicRecruitmentHumanSupport: {
         screen: ClinicRecruitmentHumanSupport,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     ClinicRecruitmentHumanSupportDetail: {
         screen: ClinicRecruitmentHumanSupportDetail,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     ContactTheClinic: {
         screen: ContactTheClinic,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     Student: {
         screen: Student,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     StudenDepartmentAssociationAnnouncementDetail: {
         screen: StudenDepartmentAssociationAnnouncementDetail,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     HelpAndService: {
         screen: HelpAndService,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     HelpAndServiceAnonymous: {
         screen: HelpAndServiceAnonymous,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     SendMessage: {
         screen: SendMessage,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     MessageCommunication: {
         screen: MessageCommunication,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     DentalProcurement: {
         screen: DentalProcurement,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     DentalProcurementConfirm: {
         screen: DentalProcurementConfirm,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     DentalProcurementSussful: {
         screen: DentalProcurementSussful,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     ShoppingCart: {
         screen: ShoppingCart,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     ShoppingCartDeleteProductConfirm: {
         screen: ShoppingCartDeleteProductConfirm,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     ShoppingCartDeletedProductList: {
         screen: ShoppingCartDeletedProductList,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     ShoppingCartDoneProductList: {
         screen: ShoppingCartDoneProductList,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     ReceiveAward: {
         screen: ReceiveAward,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     EditProfile: {
         screen: EditProfile,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     MyFavourite: {
         screen: MyFavourite,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     MyFavouriteFood: {
         screen: MyFavouriteFood,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     MyFavouriteSeminar: {
         screen: MyFavouriteSeminar,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     MyFavouriteProduct: {
         screen: MyFavouriteProduct,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     MyStore: {
         screen: MyStore,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     MyStoreHasBeenRemoved : {
         screen: MyStoreHasBeenRemoved ,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
     PersonalBusinessCard : {
         screen: PersonalBusinessCard ,
         navigationOptions: {
-            header: null,
+            headerShown: false
         }
     },
    

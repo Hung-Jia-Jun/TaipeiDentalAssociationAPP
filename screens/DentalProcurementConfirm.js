@@ -6,7 +6,7 @@ class Page extends Component {
   render() {
 	return (
 		<View style={styles.container,{flex: 3, flexDirection: 'column'}}>
-			<ImageBackground source={image} style={styles.image}>
+			<ImageBackground source={image} style={styles.image,{width:375,height: 812}}>
 				<View style={{flex: 0.17, flexDirection: 'row' ,  flexWrap: 'wrap' }}>
 					<TouchableOpacity style={styles.button,{
 						marginLeft: 323,

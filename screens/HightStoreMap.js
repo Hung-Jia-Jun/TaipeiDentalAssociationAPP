@@ -6,7 +6,7 @@ class HightStoreMap extends Component {
   render() {
     return (
         <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
-            <ImageBackground source={image} style={styles.image}>
+            <ImageBackground source={image} style={styles.image,{width:375,height: 812}}>
                 <View style={{flex: 0.9, flexDirection: 'row'}}>
                     <View style={{flex: 0.78}}>
                         <TouchableOpacity style={styles.button,{
