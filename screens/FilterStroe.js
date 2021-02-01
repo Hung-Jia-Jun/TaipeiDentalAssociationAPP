@@ -6,7 +6,7 @@ class FilterStroe extends Component {
   render() {
     return (
         <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
-            <ImageBackground source={image} style={styles.image,{width:375,height: 812}}>
+            <ImageBackground source={image} style={styles.image}>
                 <View style={{flex: 0.9, flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
                         height: Dimensions.get('window').height / 2,

@@ -11,7 +11,7 @@ class Page extends Component {
 
 	return (
 		<View style={styles.container,{flex: 4, flexDirection: 'column'}}>
-			<ImageBackground source={image} style={styles.image,{width:375,height: 812}}>
+			<ImageBackground source={image} style={styles.image}>
 				<View style={{flex: 4.7, flexDirection: 'column'}}>
 
 				</View>
@@ -19,6 +19,7 @@ class Page extends Component {
 					<FlatList
 						contentContainerStyle={{ marginTop: 0}}
 						data={DATA}
+						style={{backgroundColor:'white'}}
 						renderItem={renderItem}
 						keyExtractor={item => item.id}
 					/>
@@ -27,46 +28,36 @@ class Page extends Component {
 					<TouchableOpacity style={styles.button,{
 						height: 50,
 						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 24,
-						marginTop:10,
+						marginStart:30,
+						marginTop:20,
 					}} onPress={()=>this.props.navigation.navigate('MainMenu')}>
 					</TouchableOpacity> 
 					<TouchableOpacity style={styles.button,{
 						height: 50,
 						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 11,
-						marginTop:10,
+						marginStart:20,
+						marginTop:20,
 					}} onPress={()=>this.props.navigation.navigate('Search')}>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
 						height: 50,
 						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 28,
-						marginTop:10,
+						marginStart: 40,
+						marginTop:20,
 					}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
 						height: 50,
 						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 24,
-						marginTop:10,
+						marginStart: 35,
+						marginTop:20,
 					}} onPress={()=>this.props.navigation.navigate('Notifycation')}>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
 						height: 50,
 						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 15,
-						marginTop:10,
+						marginStart: 20,
+						marginTop:20,
 					}} onPress={()=>this.props.navigation.navigate('Profile')}>
 					</TouchableOpacity>
 				</View>

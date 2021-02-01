@@ -11,7 +11,7 @@ class Page extends Component {
 
 	return (
 		<View style={styles.container,{flex: 4, flexDirection: 'column'}}>
-			<ImageBackground source={image} style={styles.image,{width:375,height: 812}}>
+			<ImageBackground source={image} style={styles.image}>
 				<View style={{flex: 1.63, flexDirection: 'column'}}>
 
 				</View>
@@ -120,10 +120,6 @@ const DATA = [
 		sceneName:'HelpAndService',
 	},
 ];
-function changeScene(item) {
-	navigate("Announcement",{item})
-};
-
 const Item = ({ _this,title,item_image,sceneName }) => (
 	<ImageBackground style={styles.MainMenuItemBackground}>
 		<TouchableOpacity style={styles.button,{
