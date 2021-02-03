@@ -1,15 +1,15 @@
 [
 	{
-		"path": "$ROOTPATH$/screens/Search.js",
+		"path": "$ROOTPATH$/screens/OverviewMap.js",
 		"bookmarks": [
 			{
-				"line": 27,
-				"column": 54,
+				"line": 16,
+				"column": 29,
 				"label": ""
 			},
 			{
-				"line": 141,
-				"column": 29,
+				"line": 151,
+				"column": 56,
 				"label": ""
 			}
 		]

@@ -165,7 +165,7 @@ const Item = ({ _this,title,item_image,address, status, openTime }) => (
                         marginStart: 0,
                         zIndex:0,
                         marginTop:0,
-                    }} onPress={() => _this.props.navigation.navigate(sceneName)}>
+                    }} onPress={() => _this.props.navigation.navigate('Search')}>
                     </TouchableOpacity>
             </View> 
         </ImageBackground>
