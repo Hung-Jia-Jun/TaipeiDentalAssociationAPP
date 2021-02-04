@@ -9,54 +9,29 @@ const overviewMapTopper_image = require('../assets/overviewMapTopper.png');
 const arrow_image = require('../assets/arrow.png');
 const footer_image = require('../assets/Footer.png');
 const MapDetail = require('../assets/MapDetail.png');
+const MapDetail_clinic = require('../assets/MapDetail_clinic.png');
 
 class OverviewMap extends Component {
+
     constructor(props) {
         super(props);
+        const MemberStoreList = require('../MemberStoreList.json');
         this.state = {
-            showDetail: false,
-            locationName : "泰泰茶餐廳 內湖店",
-            detailAddress: "台北市中山區內湖路一段98號",
-            opentime:"下午5:00-下午9:00",
+            showDetail: true,
+            detailAddress: "台北市中山區",
+            opentime:"",
             status:"營業中",
 
             DetailImage:require('../assets/DetailImage.png'),
+            TaipeiGroupMarkerSize:{
+                width:82,
+                height:82
+            },
             normalMarkerSize:{
-                width:80,
-                height:80
+                width:32,
+                height:40
             },
-            markers: [{
-                title: '台北車站',
-                coordinates: {
-                    latitude:  25.0475613,
-                    longitude: 121.5173399,
-                },
-                image:require('../assets/Marker_TaipeiGroup.png'),
-                size:{
-                    width:80,
-                    height:80
-                },
-                locationName : "台北車站",
-                detailAddress: "台北市中山區內湖路一段98號",
-                opentime:"下午5:00-下午9:00",
-                status:"營業中",
-            },
-            {
-                title: 'point 2',
-                coordinates: {
-                    latitude: 25.031934,
-                    longitude: 121.502222,
-                },  
-                image:require('../assets/Marker_other.png'),
-                size:{
-                    width:30,
-                    height:30
-                },
-                locationName : "泰泰茶餐廳 內湖店",
-                detailAddress: "台北市中山區內湖路一段98號",
-                opentime:"下午5:00-下午9:00",
-                status:"營業中",
-            }]
+            markers: MemberStoreList,
         }
     }
    
@@ -116,12 +91,16 @@ class OverviewMap extends Component {
                     {this.state.showDetail ? (
                         <View>
                             <Image
-                                source={MapDetail}
-                                style={{resizeMode:'contain', width:440, height: 210,marginTop:625,marginStart:-5 }}>
+                                source={MapDetail_clinic}
+                                style={{resizeMode:'cover',
+                                        width:415,  
+                                        height: 279,
+                                        marginTop:555,
+                                        marginStart:6 }}>
                             </Image>
                             <Image
                                 source={this.state.DetailImage}
-                                style={{marginTop:-150,
+                                style={{marginTop:-200,
                                         marginStart:30,
                                         width:143,
                                         height:106,
@@ -131,20 +110,25 @@ class OverviewMap extends Component {
                             </Image>
                             <View style={{flex:1,flexDirection:'column',marginTop:-75,marginStart:12,width:Dimensions.get('window').width}}>
                                 <View style={{flex:1,flexDirection:'row',marginTop:0,width:Dimensions.get('window').width}}>
-                                    <TouchableOpacity style={{marginTop:-84,marginStart:210,width:80,height:35}}>
+                                    <TouchableOpacity style={{marginTop:-102,marginStart:210,width:80,height:35}}>
                                         <Text style={{marginTop:6,marginStart:30,fontSize:16,color:'#47DCEF'}}>導航</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={{marginTop:-84,marginStart:5,width:80,height:35}}>
+                                    <TouchableOpacity style={{marginTop:-102,marginStart:5,width:80,height:35}}>
                                         <Text style={{marginTop:6,marginStart:35,fontSize:16,color:'#47DCEF'}}>電話</Text>
                                     </TouchableOpacity>
                                 </View>
-                                <Text style={{marginTop:-30,marginStart:170,color:'#00606C',fontSize:20}}>{this.state.locationName}</Text>
-                                <Image source={require('../assets/locationMark.png')}
-                                        style={{resizeMode:'contain',marginStart:170,marginTop:10,width:17,height:17}}>
-                                </Image>
-                                <Text style={{marginTop:-18,marginStart:190,color:'#00606C'}}>{this.state.detailAddress}</Text>
-                                <Text style={{marginTop:30,marginStart:225,color:'#00606C',fontSize:15,width:Dimensions.get('window').width,height:20}}>{this.state.opentime}</Text>
-                                <Text style={{marginTop:-17,marginStart:170,color:'white',fontSize:15}}>{this.state.status}</Text>
+                                <Text style={{marginTop:-40,
+                                    marginStart:190,
+                                    height:50,
+                                    width:210,
+                                    color:'#00606C',
+                                    fontSize:20}}>{this.state.title}</Text>
+                                <Text style={{marginTop:33,
+                                    marginStart:210,
+                                    width:180,
+                                    height:60,
+                                    fontSize:15,
+                                    color:'#00606C'}}>{this.state.detailAddress}</Text>
                             </View>
                             <TouchableOpacity style={{
                                     height: 450,
@@ -164,83 +148,81 @@ class OverviewMap extends Component {
                         marginTop:45,
                         zIndex:0
                         }}>
-                    
-
                     <MapView 
                         provider="google"
                         customMapStyle={mapStyle}
-                        region={{
+                        initialRegion={{
                             latitude: 25.034934,
                             longitude: 121.522222,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421
+                            latitudeDelta: 0.04,
+                            longitudeDelta: 0.05
                         }}
                         style={{
                             flexDirection: 'column', 
                             height: Dimensions.get('screen').height,
                             width:Dimensions.get('window').width}}>
-                        {this.state.markers.map(marker => (
+                        {this.state.markers.map((marker,index) => (
                             <View>
-                                <Marker coordinate={marker.coordinates}
+                                <Marker coordinate={marker.coordinates} 
+                                    key={index}
                                     title={marker.title}
                                     onPress={() => this.setState({ showDetail: true,
-                                                                    locationName : marker.locationName,
-                                                                    detailAddress : marker.detailAddress,
+                                                                    title : marker.title,
                                                                     opentime : marker.opentime,
-                                                                    status : marker.status}) }
+                                                                    detailAddress : marker.detailAddress}) }
                                     >
-                                    <Image
-                                        source={marker.image}
-                                        style={{width:marker.size.width,height:marker.size.height,zIndex:1}}
+                                    {marker.education == "北醫" ? ( <Image
+                                        source={require('../assets/Marker_TaipeiGroup.png')}
+                                        style={{width:this.state.TaipeiGroupMarkerSize.width,height:this.state.TaipeiGroupMarkerSize.height,zIndex:1}}
                                         resizeMode="contain"
-                                    />
+                                    />):(<Image
+                                        source={require('../assets/otherStore.png')}
+                                        style={{width:this.state.normalMarkerSize.width,height:this.state.normalMarkerSize.height,zIndex:1}}
+                                        resizeMode="contain"
+                                    />)}
                                 </Marker> 
                             </View>
-                           
                             ))}
                     </MapView>
-                    
-                </View>
-                <View styles={{flex:1,width:Dimensions.get('window').width,borderWidth:1,borderColor:'black'}}>
                     
                 </View>
                 <View style={{flex: 0.01,zIndex:3, flexDirection: 'column'}}>
                     <Image source={footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
                 </View>
-                <View style={{flex: 0.5, flexDirection: 'row'}}>
+                <View style={{flex: 0.5,zIndex:3, flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         marginStart: 30,
-                        marginTop:0,
+                        marginTop:10,
                     }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
                     </TouchableOpacity> 
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         marginStart: 21,
-                        marginTop:0,
+                        marginTop:10,
                     }} onPress={()=>this.props.navigation.navigate('Search')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         marginStart: 39,
-                        marginTop:0,
+                        marginTop:10,
                     }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         marginStart: 35,
-                        marginTop:0,
+                        marginTop:10,
                     }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         marginStart: 20,
-                        marginTop:0,
+                        marginTop:10,
                     }} onPress={()=>this.props.navigation.navigate('Profile')}>
                     </TouchableOpacity>
                 </View>

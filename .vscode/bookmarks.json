@@ -3,13 +3,18 @@
 		"path": "$ROOTPATH$/screens/OverviewMap.js",
 		"bookmarks": [
 			{
-				"line": 16,
-				"column": 29,
+				"line": 19,
+				"column": 28,
 				"label": ""
 			},
 			{
-				"line": 151,
-				"column": 56,
+				"line": 119,
+				"column": 60,
+				"label": ""
+			},
+			{
+				"line": 124,
+				"column": 54,
 				"label": ""
 			}
 		]
