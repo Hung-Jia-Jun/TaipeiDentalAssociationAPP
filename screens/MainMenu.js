@@ -3,6 +3,21 @@ import {Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackgr
 
 const image = require('../assets/b-主選單.png');
 const item_image = require('../assets/b-主選單.png');
+
+
+const overviewMapTopper_image = require('../assets/overviewMapTopper.png');
+const footer_image = require('../assets/Footer.png');
+
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
+
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
+
+
 class Page extends Component {
   render() {
 	const renderItem = ({ item }) => (
@@ -11,66 +26,78 @@ class Page extends Component {
 
 	return (
 		<View style={styles.container,{flex: 4, flexDirection: 'column'}}>
-			<ImageBackground source={image} style={styles.image}>
-				<View style={{flex: 1.63, flexDirection: 'column'}}>
-
-				</View>
-				<View style={{flex: 8.9, flexDirection: 'column'}}>
-					<FlatList
-						contentContainerStyle={{ marginTop: 0}}
-						data={DATA}
-						renderItem={renderItem}
-						keyExtractor={item => item.id}
-					/>
-				</View>
-				<View style={{flex: 1, flexDirection: 'row'}}>
-					<TouchableOpacity style={styles.button,{
-						height: 50,
-						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 24,
-						marginTop:10,
-					}} onPress={()=>this.props.navigation.navigate('MainMenu')}>
-					</TouchableOpacity> 
-					<TouchableOpacity style={styles.button,{
-						height: 50,
-						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 11,
-						marginTop:10,
-					}} onPress={()=>this.props.navigation.navigate('Search')}>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.button,{
-						height: 50,
-						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 28,
-						marginTop:10,
-					}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.button,{
-						height: 50,
-						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 24,
-						marginTop:10,
-					}} onPress={()=>this.props.navigation.navigate('Notifycation')}>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.button,{
-						height: 50,
-						width:50,
-						borderWidth:1,
-						borderColor:'black',
-						marginStart: 15,
-						marginTop:10,
-					}} onPress={()=>this.props.navigation.navigate('Profile')}>
-					</TouchableOpacity>
-				</View>
-			</ImageBackground>
+			<View style={{flexDirection: 'column',zIndex: 1}}>
+                    <Image source={overviewMapTopper_image} style={
+                                        {marginTop: height < guidelineBaseHeight ? HeightScale(-140) : HeightScale(-85),
+                                        resizeMode:'stretch',
+                                        width:width}}></Image>
+			</View>
+			<View style={{flex: 0.01,zIndex:2, flexDirection: 'column',
+								marginTop:HeightScale(20)}}>
+					<Text style={{
+								color:'black',
+								fontSize:20,
+								textAlign:'center',
+								marginTop:height < guidelineBaseHeight ? HeightScale(-180) : HeightScale(-140),
+							}}>主選單</Text>
+			</View>
+			<View style={{marginTop:HeightScale(-250),flex: 8.9, flexDirection: 'column'}}>
+				<FlatList
+					contentContainerStyle={{ marginTop: 100}}
+					data={DATA}
+					backgroundColor={'#43D1E3'}
+					renderItem={renderItem}
+					keyExtractor={item => item.id}
+				/>
+			</View>
+			<View style={styles.borderBlackLine,{flex: 0.01,zIndex:3, flexDirection: 'column'}}>
+                    <Image source={footer_image} style={styles.borderBlackLine,
+                                                        {marginStart:WidthScale(0),
+                                                        marginTop:height < guidelineBaseHeight ? HeightScale(-10) : HeightScale(0),
+                                                        width:width}}></Image>
+			</View>
+			<View style={styles.borderBlackLine,{flex: 0.5,zIndex:3, flexDirection: 'row'}}>
+				<TouchableOpacity style={styles.button,{
+					height: height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
+					width:WidthScale(50),
+					marginStart:WidthScale(30),
+					marginTop:HeightScale(10),
+					
+				}} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+				</TouchableOpacity> 
+				<TouchableOpacity style={styles.button,{
+					height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
+					width:WidthScale(50),
+					marginStart:WidthScale(21),
+					marginTop:HeightScale(10),
+					
+				}} onPress={()=>this.props.navigation.navigate('Search')}>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button,{
+					height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
+					width:WidthScale(50),
+					marginStart:WidthScale(39),
+					marginTop:HeightScale(10),
+					
+				}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button,{
+					height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
+					width:WidthScale(50),
+					marginStart:WidthScale(35),
+					marginTop:HeightScale(10),
+					
+				}} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button,{
+					height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
+					width:WidthScale(50),
+					marginStart:WidthScale(20),
+					marginTop:HeightScale(10),
+					
+				}} onPress={()=>this.props.navigation.navigate('Profile')}>
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
   }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group Copy 2</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="b-圖資-資訊" transform="translate(-174.000000, -660.000000)">
+            <g id="Group" transform="translate(174.000000, 660.000000)">
+                <polygon id="Shape" points="0 0 20 0 20 20 0 20"></polygon>
+                <path d="M14.4225,11.445 L12.5175,11.2275 C12.06,11.175 11.61,11.3325 11.2875,11.655 L9.9075,13.035 C7.785,11.955 6.045,10.2225 4.965,8.0925 L6.3525,6.705 C6.675,6.3825 6.8325,5.9325 6.78,5.475 L6.5625,3.585 C6.4725,2.8275 5.835,2.2575 5.07,2.2575 L3.7725,2.2575 C2.925,2.2575 2.22,2.9625 2.2725,3.81 C2.67,10.215 7.7925,15.33 14.19,15.7275 C15.0375,15.78 15.7425732,15.075 15.7425732,14.2275 L15.7425732,12.93 C15.75,12.1725 15.18,11.535 14.4225,11.445 Z" id="Shape" fill="#00606C" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
