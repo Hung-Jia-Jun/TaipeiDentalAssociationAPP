@@ -1,20 +1,15 @@
 [
 	{
-		"path": "$ROOTPATH$/screens/OverviewMap.js",
+		"path": "$ROOTPATH$/screens/MainMenu.js",
 		"bookmarks": [
 			{
-				"line": 133,
-				"column": 20,
+				"line": 305,
+				"column": 30,
 				"label": ""
 			},
 			{
-				"line": 194,
-				"column": 125,
-				"label": ""
-			},
-			{
-				"line": 279,
-				"column": 16,
+				"line": 312,
+				"column": 12,
 				"label": ""
 			}
 		]

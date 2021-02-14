@@ -277,7 +277,7 @@ class OverviewMap extends Component {
                         marginTop:HeightScale(-45),
                         zIndex:0
                         }}>
-                    <MapView 
+                    {/* <MapView 
                         provider="google"
                         customMapStyle={mapStyle}
                         initialRegion={{
@@ -309,7 +309,7 @@ class OverviewMap extends Component {
                                 </Marker> 
                             </View>
                             ))}
-                    </MapView>
+                    </MapView> */}
                     
                 </View>
                 <View style={styles.borderBlackLine,{flex: 0.01,zIndex:3, flexDirection: 'column'}}>
