@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from 'react-native';
 
+
 const image = require('../assets/b-個人資料.png');
 const item_image = require('../assets/b-個人資料.png');
 class Page extends Component {
