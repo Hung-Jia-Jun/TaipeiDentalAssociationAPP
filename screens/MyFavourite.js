@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
+
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
+
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
+
 const image = require('../assets/b-我的收藏（診所）.png');
 class page extends Component {
   render() {
@@ -9,45 +19,45 @@ class page extends Component {
             <ImageBackground source={image} style={styles.image}>
                 <View style={{flex: 0.17, flexDirection: 'row'}}>
                      <TouchableOpacity style={styles.button,{
-                            borderWidth: 1,
+                            
                             height: 50,
-                            marginLeft: 25,
-                            marginTop: 61,
-                            width: 50,
+                            marginLeft: WidthScale(30),
+                            marginTop: HeightScale(70),
+                            width: WidthScale(50),
                     }} onPress={()=>this.props.navigation.navigate('Profile')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.08, flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
-                        width: 104,   
+                        width: WidthScale(104),   
                         marginTop: 0,
-                        marginLeft: 22,
-                        borderWidth: 1,
+                        marginLeft: WidthScale(30),
+                        
                         borderColor:'black',
                     }} onPress={()=>this.props.navigation.navigate('MyFavourite')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        borderWidth: 1,
+                        
                         height: 50,
-                        width: 85,
-                        marginLeft: 5,
+                        width: WidthScale(95),
+                        marginLeft: WidthScale(15),
                         marginTop: 0,
                     }} onPress={()=>this.props.navigation.navigate('MyFavouriteFood')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        borderWidth: 1,
+                        
                         height: 50,
-                        width: 66,
-                        marginLeft: 5,
+                        width: WidthScale(66),
+                        marginLeft: WidthScale(12),
                         marginTop: 0,
                     }} onPress={()=>this.props.navigation.navigate('MyFavouriteSeminar')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        borderWidth: 1,
+                        
                         height: 50,
                         width: 63,
-                        marginLeft: 5,
+                        marginLeft: WidthScale(10),
                         marginTop: 0,
                     }} onPress={()=>this.props.navigation.navigate('MyFavouriteProduct')}>
                     </TouchableOpacity>
@@ -60,7 +70,7 @@ class page extends Component {
                         width:50,
                         borderWidth:1,
                         borderColor:'black',
-                        marginStart: 24,
+                        marginStart: WidthScale(30),
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
                     </TouchableOpacity> 
@@ -69,7 +79,7 @@ class page extends Component {
                         width:50,
                         borderWidth:1,
                         borderColor:'black',
-                        marginStart: 11,
+                        marginStart: WidthScale(21),
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('Search')}>
                     </TouchableOpacity>
@@ -78,7 +88,7 @@ class page extends Component {
                         width:50,
                         borderWidth:1,
                         borderColor:'black',
-                        marginStart: 28,
+                        marginStart: WidthScale(38),
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
                     </TouchableOpacity>
@@ -87,7 +97,7 @@ class page extends Component {
                         width:50,
                         borderWidth:1,
                         borderColor:'black',
-                        marginStart: 24,
+                        marginStart: WidthScale(35),
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
                     </TouchableOpacity>
@@ -96,7 +106,7 @@ class page extends Component {
                         width:50,
                         borderWidth:1,
                         borderColor:'black',
-                        marginStart: 15,
+                        marginStart: WidthScale(20),
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('Profile')}>
                     </TouchableOpacity>
@@ -129,7 +139,7 @@ const styles = StyleSheet.create({
         width:255,
         marginStart: 60,
         borderColor: '#ECF2F6',
-        borderWidth: 1,
+        
         borderRadius: 10 ,
         backgroundColor : "#ECF2F6"
         },
@@ -139,7 +149,7 @@ const styles = StyleSheet.create({
         marginStart: 60,
         marginBottom: 15,
         borderColor: '#ECF2F6',
-        borderWidth: 1,
+        
         borderRadius: 10 ,
         backgroundColor : "#ECF2F6",
     },

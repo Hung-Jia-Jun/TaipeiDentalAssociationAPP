@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
-const image = require('../assets/b-建立個人名片 .png');
+const image = require('../assets/b-建立個人名片.png');
 class Page extends Component {
   render() {
     return (

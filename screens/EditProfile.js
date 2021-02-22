@@ -1,6 +1,17 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
+
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
+
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
+
+
 const image = require('../assets/b-修改個人資訊.png');
 class Page extends Component {
   render() {
@@ -11,10 +22,8 @@ class Page extends Component {
                     <TouchableOpacity style={styles.button,{
                         height:50,
                         width: 50,
-                        marginLeft: 25,
-                        marginTop: 61,
-                        borderWidth:1,
-                        borderColor:'black',
+                        marginLeft: WidthScale(25),
+                        marginTop: HeightScale(61),
                     }} onPress={()=>this.props.navigation.navigate('Profile')}>
                     </TouchableOpacity>
                 </View>

@@ -36,8 +36,8 @@ class OverviewMap extends Component {
 
             DetailImage:require('../assets/DetailImage.png'),
             TaipeiGroupMarkerSize:{
-                width:82,
-                height:82
+                width:60,
+                height:60
             },
             normalMarkerSize:{
                 width:32,

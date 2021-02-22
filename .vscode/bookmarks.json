@@ -1,17 +1,24 @@
-[
-	{
-		"path": "$ROOTPATH$/screens/MainMenu.js",
-		"bookmarks": [
-			{
-				"line": 305,
-				"column": 30,
-				"label": ""
-			},
-			{
-				"line": 312,
-				"column": 12,
-				"label": ""
-			}
-		]
-	}
-]
+{
+	"files": [
+		{
+			"path": "screens/MainMenu.js",
+			"bookmarks": [
+				{
+					"line": 88,
+					"column": 3,
+					"label": ""
+				},
+				{
+					"line": 137,
+					"column": 8,
+					"label": ""
+				},
+				{
+					"line": 323,
+					"column": 30,
+					"label": ""
+				}
+			]
+		}
+	]
+}

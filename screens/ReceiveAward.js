@@ -13,8 +13,6 @@ class Page extends Component {
                         marginTop: 37,
                         height:50,
                         width: 50,
-                        borderWidth:1,
-                        borderColor:'black',
                     }} onPress={()=>this.props.navigation.navigate('Profile')}>
                     </TouchableOpacity>
                 </View>

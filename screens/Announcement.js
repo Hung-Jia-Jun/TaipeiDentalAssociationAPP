@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
+
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
+
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
+
 const image = require('../assets/b-校友會公告.png');
 class Page extends Component {
   render() {
@@ -9,21 +19,17 @@ class Page extends Component {
             <ImageBackground source={image} style={styles.image}>
                 <View style={{flex: 0.3, flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 23,
-                        marginTop:60,
+                        height: HeightScale(50),
+                        width:WidthScale(50),
+                        marginStart: WidthScale(34),
+                        marginTop:HeightScale(70),
                     }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 236,
-                        marginTop:60,
+                        height: HeightScale(50),
+                        width:WidthScale(50),
+                        marginStart: WidthScale(275),
+                        marginTop:HeightScale(70),
                     }} onPress={()=>this.props.navigation.navigate('Schedule')}>
                     </TouchableOpacity>
                 </View>
@@ -32,48 +38,38 @@ class Page extends Component {
                 </View>
                 <View style={{flex: 0.5, flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 24,
-                        marginTop:230,
+                        height: HeightScale(50),
+                        width:WidthScale(50),
+                        marginStart: WidthScale(30),
+                        marginTop:HeightScale(265),
                     }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
                     </TouchableOpacity> 
                     <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 11,
-                        marginTop:230,
+                        height: HeightScale(50),
+                        width:WidthScale(50),
+                        marginStart: WidthScale(20),
+                        marginTop:HeightScale(265),
                     }} onPress={()=>this.props.navigation.navigate('Search')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 28,
-                        marginTop:230,
+                         height: HeightScale(50),
+                        width:WidthScale(50),
+                        marginStart: WidthScale(40),
+                        marginTop:HeightScale(265),
                     }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 24,
-                        marginTop:230,
+                        height: HeightScale(50),
+                        width:WidthScale(50),
+                        marginStart: WidthScale(35),
+                        marginTop:HeightScale(265),
                     }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        height: 50,
-                        width:50,
-                        borderWidth:1,
-                        borderColor:'black',
-                        marginStart: 15,
-                        marginTop:230,
+                        height: HeightScale(50),
+                        width:WidthScale(50),
+                        marginStart: WidthScale(20),
+                        marginTop:HeightScale(265),
                     }} onPress={()=>this.props.navigation.navigate('Profile')}>
                     </TouchableOpacity>
                 </View>
