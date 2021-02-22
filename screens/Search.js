@@ -13,92 +13,124 @@ class Page extends Component {
         <Item _this={this} title={item.title} item_image={item.item_image} address = {item.address} status = {item.status} openTime = {item.openTime} />
     );
     return (
-        <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
-            <ImageBackground source={image} style={styles.image}>
-           
-            <View style={{flex: 0.01, flexDirection: 'column'}}>
-                <Image source={searchTopper_image} style={styles.image,{zIndex:1,width:Dimensions.get('window').width,marginTop:-73}}></Image>
-            </View>
-            <View style={{flex: 0.01, flexDirection: 'row'}}>
-                <TouchableOpacity style={{marginTop:115,
-                                            marginStart:30,
-                                            zIndex:0,
-                                            width:100,
-                                            height:40}}>
-                    <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>全部</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop:115,
-                                            marginStart:0,
-                                            zIndex:0,
-                                            width:100,
-                                            height:40}}>
-                    <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>診所/停車場</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop:115,
-                                            marginStart:3,
-                                            zIndex:0,
-                                            width:100,
-                                            height:40}}>
-                    <Text style={{marginTop:12,fontSize:15,color:'#3FEEEA',textAlign:'center',textAlignVertical:'auto'}}>食衣住行</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={{flex: 0.01, flexDirection: 'column'}}>
-                <TextInput style={{marginStart:90,marginTop:61,width:230,borderRadius:30,height:43,zIndex:2}}
-                        placeholder = '搜尋'
-                        class = 'placeholder'
-                />    
-            </View>                
-            <View style={{flex: 4.5, flexDirection: 'column',marginTop:155}}>
+        <View style={styles.container,{flex: 1, flexDirection: 'column'}}>
+            {/* <ImageBackground source={image} style={styles.image}> */}
+                <View style={{flex: 0.3, flexDirection: 'column'}}>
+                    <Image source={searchTopper_image} style={styles.image,
+                                                                {zIndex:1,
+                                                                    resizeMode:'stretch',
+                                                                    height:Dimensions.get('window').height*0.21,
+                                                                    width:Dimensions.get('window').width,
+                                                                    marginTop:0}}></Image>
+                </View>
+                <View style={{flex: 0.3,
+                                flexDirection: 'column'}}>
+                   
+                    <View style={{flex: 0.02,
+                                     flexDirection: 'row',}}>
+                        <TextInput style={{marginStart:30,
+                                            paddingHorizontal:30,
+                                            marginTop:0,
+                                            backgroundColor:'#ECF0F6',
+                                            borderRadius:30,
+                                            height:Dimensions.get('window').height*0.8,
+                                            width:Dimensions.get('window').width*0.70,
+                                            height:43,
+                                            zIndex:2}}
+                                placeholder = '搜尋'
+                                class = 'placeholder'
+                        />    
+                        <TouchableOpacity style={{marginTop:0,
+                                                    marginStart:20,
+                                                    zIndex:0,
+                                                    backgroundColor:'#ECF0F6',
+                                                    borderRadius:30,
+                                                    width:Dimensions.get('window').width*0.11,
+                                                    height:40}}>
+                            <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>取消</Text>
+                        </TouchableOpacity>
+                    </View>                
+                    
+                </View>
+                <View style={{flex: 0.05,
+                                flexDirection: 'column'}}>
+                    <View style={{flex: 0.01, flexDirection: 'row'}}>
+                        <TouchableOpacity style={{marginTop:0,
+                                                    marginStart:30,
+                                                    zIndex:0,
+                                                    width:100,
+                                                    height:40}}>
+                            <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>全部</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{marginTop:0,
+                                                    marginStart:0,
+                                                    zIndex:0,
+                                                    width:100,
+                                                    height:40}}>
+                            <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>診所/停車場</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{marginTop:0,
+                                                    marginStart:3,
+                                                    zIndex:0,
+                                                    width:100,
+                                                    height:40}}>
+                            <Text style={{marginTop:12,fontSize:15,color:'#3FEEEA',textAlign:'center',textAlignVertical:'auto'}}>食衣住行</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={{flex:4, 
+                                flexDirection: 'column',
+                                }}>
                     <FlatList
-                        style={{marginTop:45,width:405,marginStart:11,backgroundColor:'#EBF0F3'}}
-						contentContainerStyle={{ marginTop: 0}}
-						data={DATA}
-						renderItem={renderItem}
-						keyExtractor={item => item.id}
-					/>
+                        style={{marginTop:60,width:Dimensions.get('window').width,marginStart:0,backgroundColor:'#EBF0F3'}}
+                        contentContainerStyle={{ marginTop: 0}}
+                        data={DATA}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                        />
 
-            </View>
-            <View style={{flex: 0.01, flexDirection: 'column'}}>
-                <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
-            </View>
-            <View style={{flex: 0.5, flexDirection: 'row'}}>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,
-                    marginStart: 30,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
-                </TouchableOpacity> 
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,
-                    marginStart: 21,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Search')}>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,
-                    marginStart: 39,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,
-                    marginStart: 35,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,
-                    marginStart: 20,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Profile')}>
-                </TouchableOpacity>
-            </View>
-            </ImageBackground>
+                </View>
+                <View style={{flex: 0.01, flexDirection: 'column'}}>
+                    <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
+                </View>
+                <View style={{flex: 0.5, flexDirection: 'row'}}>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        marginStart: 30,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    </TouchableOpacity> 
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        marginStart: 21,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('Search')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        marginStart: 39,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        marginStart: 35,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,
+                        marginStart: 20,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                    </TouchableOpacity>
+                </View>
+            {/* </ImageBackground> */}
         </View>
     );
   }
