@@ -4,7 +4,7 @@ import {Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackgr
 const image = require('../assets/b-主選單.png');
 
 const mainmanuTopper_image = require('../assets/MainmanuTopper.png');
-const footer_image = require('../assets/Footer.png');
+const footer_image = require('../assets/Footer_blank.png');
 
 //iphone 12 pro max 
 const guidelineBaseWidth = 428
@@ -134,18 +134,6 @@ class Page extends Component {
 				)
 			})
 			textList.push(
-				// <View style={{
-				// 		shadowOffset:{  width:WidthScale(0),  height:HeightScale(3)},
-				// 		borderColor:'#00A6B8',
-				// 		shadowColor: 'black',
-				// 		shadowOpacity: 0.3,
-				// 		borderWidth:1,
-				// 		height:30,
-				// 		width:width + 50,
-				// 		marginTop:80,
-				// 		zIndex:3,
-				// 		marginStart : -90,
-				// }}></View>
 			)
 			return textList;
 	}
@@ -194,54 +182,71 @@ class Page extends Component {
 					// ListFooterComponent={() => <View style={{height:0}}></View>}
 				/>
 			</View>
-			<View style={styles.borderBlackLine,{flex: 0.01,zIndex:3, flexDirection: 'column'}}>
+			{/* <View style={styles.borderBlackLine,{flex: 0.01,zIndex:3, flexDirection: 'column'}}>
                     <Image source={footer_image} style={styles.borderBlackLine,
                                                         {marginStart:WidthScale(0),
                                                         marginTop:height < guidelineBaseHeight ? HeightScale(-50) : HeightScale(-20),
                                                         width:width}}></Image>
-			</View>
-			<View style={styles.borderBlackLine,{flex: 0.5,zIndex:3, flexDirection: 'row'}}>
-				<TouchableOpacity style={{
-					height: height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-					width:WidthScale(50),
-					marginStart:WidthScale(30),
-					marginTop:HeightScale(10),
-					
-				}} onPress={()=>this.props.navigation.navigate('MainMenu')}>
-				</TouchableOpacity> 
-				<TouchableOpacity style={{
-					height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-					width:WidthScale(50),
-					marginStart:WidthScale(21),
-					marginTop:HeightScale(10),
-					
-				}} onPress={()=>this.props.navigation.navigate('Search')}>
-				</TouchableOpacity>
-				<TouchableOpacity style={{
-					height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-					width:WidthScale(50),
-					marginStart:WidthScale(39),
-					marginTop:HeightScale(10),
-					
-				}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-				</TouchableOpacity>
-				<TouchableOpacity style={{
-					height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-					width:WidthScale(50),
-					marginStart:WidthScale(35),
-					marginTop:HeightScale(10),
-					
-				}} onPress={()=>this.props.navigation.navigate('Notifycation')}>
-				</TouchableOpacity>
-				<TouchableOpacity style={{
-					height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-					width:WidthScale(50),
-					marginStart:WidthScale(20),
-					marginTop:HeightScale(10),
-					
-				}} onPress={()=>this.props.navigation.navigate('Profile')}>
-				</TouchableOpacity>
-			</View>
+			</View> */}
+			<View style={{flex: 1,
+							flexDirection: 'row',
+							justifyContent:'space-between'}}>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.02,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                            <Image source={require('../assets/footerIcon/Home.png')}></Image>
+                    </TouchableOpacity> 
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.03,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('Search')}>
+                            <Image source={require('../assets/footerIcon/Search.png')}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.08,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                            <Image source={require('../assets/footerIcon/Map.png')} 
+                                    style={{resizeMode:'stretch',
+                                            marginTop:10,
+                                            width:80,
+                                            height:80
+                                            }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.07,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                            <Image source={require('../assets/footerIcon/Msg.png')}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button,{
+                        height: 50,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.03,
+                        marginEnd: Dimensions.get('window').width*0.01,
+                        marginTop:12,
+                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                            <Image style={{
+                                            marginTop:10,
+                                            marginStart:5,
+                                            }} 
+                                    source={require('../assets/footerIcon/Profile.png')}></Image>
+                    </TouchableOpacity>
+                </View>
 		</View>
 	);
   }

@@ -3,7 +3,7 @@ import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackg
 
 const image = require('../assets/b-搜尋.png');
 const searchTopper_image = require('../assets/searchTopper.png');
-const Footer_image = require('../assets/Footer.png');
+const Footer_image = require('../assets/Footer_blank.png');
 const addressIcon_image = require('../assets/addressIcon.png');
 
 
@@ -93,41 +93,61 @@ class Page extends Component {
                 <View style={{flex: 0.01, flexDirection: 'column'}}>
                     <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
                 </View>
-                <View style={{flex: 0.5, flexDirection: 'row'}}>
+                <View style={{flex: 0.5, flexDirection: 'row',justifyContent:'space-between'}}>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
-                        width:50,
-                        marginStart: 30,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.02,
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                            <Image source={require('../assets/footerIcon/Home.png')}></Image>
                     </TouchableOpacity> 
                     <TouchableOpacity style={styles.button,{
                         height: 50,
-                        width:50,
-                        marginStart: 21,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.03,
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('Search')}>
+                            <Image source={require('../assets/footerIcon/Search.png')}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
-                        width:50,
-                        marginStart: 39,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.08,
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                            <Image source={require('../assets/footerIcon/Map.png')} 
+                                    style={{resizeMode:'stretch',
+                                            marginTop:10,
+                                            width:80,
+                                            height:80
+                                            }}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
-                        width:50,
-                        marginStart: 35,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.07,
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                            <Image source={require('../assets/footerIcon/Msg.png')}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
-                        width:50,
-                        marginStart: 20,
+                        width:50,justifyContent:'center',
+                        alignItems:'center',
+                        marginStart: Dimensions.get('window').width*0.03,
+                        marginEnd: Dimensions.get('window').width*0.01,
                         marginTop:12,
                     }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                            <Image style={{
+                                            marginTop:10,
+                                            marginStart:5,
+                                            }} 
+                                    source={require('../assets/footerIcon/Profile.png')}></Image>
                     </TouchableOpacity>
                 </View>
             {/* </ImageBackground> */}

@@ -2,21 +2,57 @@ import React, { Component } from 'react';
 import {Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from 'react-native';
 
 
-const image = require('../assets/b-個人資料.png');
-const item_image = require('../assets/b-個人資料.png');
+const Topper_image = require('../assets/profile_topper.png');
+const Footer_image = require('../assets/Footer_blank.png')
 class Page extends Component {
   render() {
 	const renderItem = ({ item }) => (
-		<Item _this={this} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
+		<Item _this={this} title={item.title} sceneName={item.sceneName} />
 	);
 
 	return (
-		<View style={styles.container,{flex: 4, flexDirection: 'column'}}>
-			<ImageBackground source={image} style={styles.image}>
-				<View style={{flex: 4.7, flexDirection: 'column'}}>
-
+		<View style={{flex: 1, flexDirection: 'column'}}>
+				<View style={{flex:0.4,
+								flexDirection: 'column',
+								zIndex: 1}}>
+                    <Image source={Topper_image} style={
+                                        {marginTop: 0,
+										zIndex:0,
+										width:Dimensions.get('window').width,
+										height:Dimensions.get('window').height*0.2,
+                                        resizeMode:'stretch',
+                                        width:Dimensions.get('window').width}}></Image>
+                    
+                </View>
+				<View style={{flex:0.5,
+							flexDirection: 'column',
+							zIndex: 1}}>
+					<Text style={{marginStart:30,
+										color:'#47DCEF',
+										zIndex:1,
+										fontSize:28,
+										width:Dimensions.get('window').width,
+										height:Dimensions.get('window').height*0.05,
+										marginTop:0,
+										}}>Hi Ethan</Text>
+						
 				</View>
-				<View style={{flex: 5, flexDirection: 'column'}}>
+				<View style={{flex:1.5,
+								flexDirection: 'column',
+								zIndex: 1}}>
+                    <Image source={require('../assets/ProfileCard.png')} style={
+                                        {marginTop: 0,
+										zIndex:0,
+										width:Dimensions.get('window').width,
+										height:Dimensions.get('window').height*0.32,
+                                        resizeMode:'stretch',
+                                        width:Dimensions.get('window').width}}></Image>
+                    
+                </View>
+				<View style={{flex: 2,
+								flexDirection: 'column',
+								borderWidth:1,
+								}}>
 					<FlatList
 						contentContainerStyle={{ marginTop: 0}}
 						data={DATA}
@@ -25,44 +61,68 @@ class Page extends Component {
 						keyExtractor={item => item.id}
 					/>
 				</View>
-				<View style={{flex: 1, flexDirection: 'row'}}>
+				 <View style={{flex: 0.01, flexDirection: 'column'}}>
+					<Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
+				</View>
+				<View style={{flex: 0.5,
+								flexDirection: 'row',
+								justifyContent:'space-between'}}>
 					<TouchableOpacity style={styles.button,{
 						height: 50,
-						width:50,
-						marginStart:30,
-						marginTop:20,
+						width:50,justifyContent:'center',
+						alignItems:'center',
+						marginStart: Dimensions.get('window').width*0.02,
+						marginTop:12,
 					}} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+							<Image source={require('../assets/footerIcon/Home.png')}></Image>
 					</TouchableOpacity> 
 					<TouchableOpacity style={styles.button,{
 						height: 50,
-						width:50,
-						marginStart:20,
-						marginTop:20,
+						width:50,justifyContent:'center',
+						alignItems:'center',
+						marginStart: Dimensions.get('window').width*0.03,
+						marginTop:12,
 					}} onPress={()=>this.props.navigation.navigate('Search')}>
+							<Image source={require('../assets/footerIcon/Search.png')}></Image>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
 						height: 50,
-						width:50,
-						marginStart: 40,
-						marginTop:20,
+						width:50,justifyContent:'center',
+						alignItems:'center',
+						marginStart: Dimensions.get('window').width*0.08,
+						marginTop:12,
 					}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+							<Image source={require('../assets/footerIcon/Map.png')} 
+									style={{resizeMode:'stretch',
+											marginTop:10,
+											width:80,
+											height:80
+											}}></Image>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
 						height: 50,
-						width:50,
-						marginStart: 35,
-						marginTop:20,
+						width:50,justifyContent:'center',
+						alignItems:'center',
+						marginStart: Dimensions.get('window').width*0.07,
+						marginTop:12,
 					}} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+							<Image source={require('../assets/footerIcon/Msg.png')}></Image>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button,{
 						height: 50,
-						width:50,
-						marginStart: 20,
-						marginTop:20,
+						width:50,justifyContent:'center',
+						alignItems:'center',
+						marginStart: Dimensions.get('window').width*0.03,
+						marginEnd: Dimensions.get('window').width*0.01,
+						marginTop:12,
 					}} onPress={()=>this.props.navigation.navigate('Profile')}>
+							<Image style={{
+											marginTop:10,
+											marginStart:5,
+											}} 
+									source={require('../assets/footerIcon/Profile.png')}></Image>
 					</TouchableOpacity>
 				</View>
-			</ImageBackground>
 		</View>
 	);
   }
