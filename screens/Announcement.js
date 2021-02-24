@@ -64,7 +64,7 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
             </View>
-            <View style={{flex:1.5,
+            <View style={{flex:1.8,
                             alignItems:'center',
                                 }}>
                     <Image source={require('../assets/Announcement_icon/AnnouncementRawImage.png')}
@@ -73,7 +73,7 @@ class Page extends Component {
                                     marginTop: Dimensions.get('window').height*0.07,
                                     }}></Image>
             </View>
-            <View style={{flex: 2,
+            <View style={{flex: 2.5,
 								flexDirection: 'column',
 								}}>
 					<FlatList
