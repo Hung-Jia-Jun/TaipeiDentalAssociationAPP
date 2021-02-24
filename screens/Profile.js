@@ -51,7 +51,6 @@ class Page extends Component {
                 </View>
 				<View style={{flex: 2,
 								flexDirection: 'column',
-								borderWidth:1,
 								}}>
 					<FlatList
 						contentContainerStyle={{ marginTop: 0}}
