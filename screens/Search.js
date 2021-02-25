@@ -86,7 +86,7 @@ class Page extends Component {
                         contentContainerStyle={{ marginTop: 0}}
                         data={DATA}
                         renderItem={renderItem}
-                        keyExtractor={item => item.id}
+                        keyExtractor={item => item.key}
                         />
 
                 </View>
@@ -226,7 +226,7 @@ const Item = ({ _this,title,item_image,address, status, openTime }) => (
 
 const DATA = [
     {
-        id: '0',
+        key: '0',
         title: '泰泰茶餐廳 內湖店',
         item_image : require('../assets/Bitmap.png'),
         address:'台北市中山區內湖路一段99號',
@@ -234,7 +234,7 @@ const DATA = [
         openTime:'下午5:00-下午9:00',
     },
     {
-        id: '1',
+        key: '1',
         title: '好歡樂餐酒館 民生店',
         item_image : require('../assets/Bitmap2.png'),
         address:'台北市中山區民生東路五段68號',
@@ -242,7 +242,7 @@ const DATA = [
         openTime:'下午5:00-下午10:00',
     },
     {
-        id: '2',
+        key: '2',
         title: '情豆花開豆花店 圓環民生店',
         item_image : require('../assets/Bitmap3.png'),
         address:'台北市中山區民生東路五段40號',

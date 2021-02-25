@@ -81,7 +81,7 @@ class Page extends Component {
 						data={DATA}
 						style={{backgroundColor:'#EBF0F3'}}
 						renderItem={renderItem}
-						keyExtractor={item => item.id}
+						keyExtractor={item => item.key}
 					/>
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>
@@ -154,14 +154,14 @@ class Page extends Component {
 
 const DATA = [
 	{
-		id: '0',
+		key: '0',
 		title: '[校友會開會通知]',
 		item_image : require('../assets/Announcement_icon/listicon1.png'),
 		sceneName:'',
         description:'跨五屆北醫同學會邀請您',
 	},
     {
-		id: '1',
+		key: '1',
 		title: '[開會通知]',
 		item_image : require('../assets/Announcement_icon/listicon2.png'),
 		sceneName:'',

@@ -29,7 +29,7 @@ import ContactTheClinic from "./screens/ContactTheClinic";
 
 
 import Student from "./screens/Student";
-import StudenDepartmentAssociationAnnouncementDetail from "./screens/StudenDepartmentAssociationAnnouncementDetail";
+import StudentDepartmentAssociationAnnouncementDetail from "./screens/StudentDepartmentAssociationAnnouncementDetail";
 
 import HelpAndService from "./screens/HelpAndService";
 import HelpAndServiceAnonymous from "./screens/HelpAndServiceAnonymous";
@@ -53,11 +53,16 @@ import MyStore from "./screens/MyStore";
 import MyStoreHasBeenRemoved from "./screens/MyStoreHasBeenRemoved";
 import PersonalBusinessCard from "./screens/PersonalBusinessCard";
 
-
-
-
-
-
+import EventRegistration from "./screens/EventRegistration";
+import Questionnaire from "./screens/Questionnaire";
+import LimitedTimeGroupPurchase from "./screens/LimitedTimeGroupPurchase";
+import FleaMarket from "./screens/FleaMarket";
+import OpinionSubmission from "./screens/OpinionSubmission";
+import HealthInsurance from "./screens/HealthInsurance";
+import OpeningStoreProblems from "./screens/OpeningStoreProblems";
+import ActivityInformation from "./screens/ActivityInformation";
+import Chatroom from "./screens/Chatroom";
+import EventRegistrationDetail from "./screens/EventRegistrationDetail";
 
 
 
@@ -233,8 +238,8 @@ const AppNavigator = createStackNavigator({
 			headerShown: false
 		}
 	},
-	StudenDepartmentAssociationAnnouncementDetail: {
-		screen: StudenDepartmentAssociationAnnouncementDetail,
+	StudentDepartmentAssociationAnnouncementDetail: {
+		screen: StudentDepartmentAssociationAnnouncementDetail,
 		navigationOptions: {
 			animationEnabled: true,
 			headerShown: false
@@ -381,6 +386,76 @@ const AppNavigator = createStackNavigator({
 		}
 	},
    
+	EventRegistration : {
+		screen: EventRegistration,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	Questionnaire : {
+		screen: Questionnaire,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	LimitedTimeGroupPurchase : {
+		screen: LimitedTimeGroupPurchase,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	FleaMarket : {
+		screen: FleaMarket,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	OpinionSubmission : {
+		screen: OpinionSubmission,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	HealthInsurance : {
+		screen: HealthInsurance,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	OpeningStoreProblems : {
+		screen: OpeningStoreProblems,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	ActivityInformation : {
+		screen: ActivityInformation,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	Chatroom : {
+		screen: Chatroom,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	EventRegistrationDetail : {
+		screen: EventRegistrationDetail,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
 });
 
 export default createAppContainer(AppNavigator);

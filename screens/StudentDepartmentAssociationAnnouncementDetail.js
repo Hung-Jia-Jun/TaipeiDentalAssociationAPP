@@ -5,7 +5,7 @@ import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackg
 
 
 const Topper_image = require('../assets/NotifycationTopper.png');
-const Footer_image = require('../assets/AcademicEvents_icon/Footer.png')
+const Footer_image = require('../assets/Footer_blank.png')
 const Back_image = require('../assets/Announcement_icon/Back.png')
 const Schedule_image = require('../assets/Announcement_icon/Schedule.png')
 
@@ -42,7 +42,7 @@ class Page extends Component {
                             marginStart: 0,
                             marginTop:0,
                             marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('AcademicEvents')}>
+                        }} onPress={()=>this.props.navigation.navigate('Student')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
@@ -50,13 +50,13 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
                         <Text style={{fontSize:18,
-                                        color:'white'}}>研討會詳細資訊</Text>
+                                        color:'white'}}>系學會公告詳細資訊</Text>
                         <TouchableOpacity style={styles.button,{
                             height: 50,
                             width:50,
                             marginTop:0,
                             marginEnd: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('Schedule')}>
+                        }} onPress={()=>this.props.navigation.navigate('')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
@@ -67,7 +67,7 @@ class Page extends Component {
             <View style={{flex:1.8,
                             alignItems:'center',
                                 }}>
-                    <Image source={require('../assets/AcademicEvents_icon/RawImage.png')}
+                    <Image source={require('../assets/EventRegistration_icon/EventImage.png')}
                             style={{
                                     flex:0.9,
                                     resizeMode:'contain',
@@ -95,27 +95,56 @@ class Page extends Component {
                     height: 50,
                     width:50,justifyContent:'center',
                     alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.051,
-                    marginTop:Dimensions.get('window').height*0.01,
-                }} onPress={()=>alert("已加入我的最愛")}>
+                    marginStart: Dimensions.get('window').width*0.02,
+                    marginTop:12,
+                }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                        <Image source={require('../assets/footerIcon/Home.png')}></Image>
                 </TouchableOpacity> 
                 <TouchableOpacity style={styles.button,{
-                    width: Dimensions.get('window').width*0.77,
-                    height: Dimensions.get('window').height*0.08,
-                    justifyContent:'center',
+                    height: 50,
+                    width:50,justifyContent:'center',
                     alignItems:'center',
                     marginStart: Dimensions.get('window').width*0.03,
-                }} onPress={()=>alert("報名成功")}>
-                    <Text style={{
-                                position: 'absolute',
-                                justifyContent:'center',
-                                // marginTop: Dimensions.get('window').height*0,
-                                // marginStart: Dimensions.get('window').width*0,
-                                fontSize:18,
-                                color:'white'
-                                }}>
-                                    立即報名
-                    </Text>
+                    marginTop:12,
+                }} onPress={()=>this.props.navigation.navigate('Search')}>
+                        <Image source={require('../assets/footerIcon/Search.png')}></Image>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button,{
+                    height: 50,
+                    width:50,justifyContent:'center',
+                    alignItems:'center',
+                    marginStart: Dimensions.get('window').width*0.08,
+                    marginTop:12,
+                }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                        <Image source={require('../assets/footerIcon/Map.png')} 
+                                style={{resizeMode:'stretch',
+                                        marginTop:10,
+                                        width:80,
+                                        height:80
+                                        }}></Image>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button,{
+                    height: 50,
+                    width:50,justifyContent:'center',
+                    alignItems:'center',
+                    marginStart: Dimensions.get('window').width*0.07,
+                    marginTop:12,
+                }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                        <Image source={require('../assets/footerIcon/Msg.png')}></Image>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button,{
+                    height: 50,
+                    width:50,justifyContent:'center',
+                    alignItems:'center',
+                    marginStart: Dimensions.get('window').width*0.03,
+                    marginEnd: Dimensions.get('window').width*0.01,
+                    marginTop:12,
+                }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                        <Image style={{
+                                        marginTop:10,
+                                        marginStart:5,
+                                        }} 
+                                source={require('../assets/footerIcon/Profile.png')}></Image>
                 </TouchableOpacity>
             </View>
         </View>
@@ -127,13 +156,13 @@ class Page extends Component {
 const DATA = [
 	{
 		key: '0',
-		title: '2020牙醫學術研討會',
-		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
+		title: '【 管樂社 】2020年度公演',
+		item_image : require('../assets/EventRegistration_icon/EventImage.png'),
 		sceneName:'',
         date:'2020.12.30 10:00-12:00',
         endDate : '2020.12.25',
-        location : '南港展覽館',
-        description:'1. 與會人：ＯＯＯ\n2. 講者：ＯＯＯ\n3. 會議前參考資料：ＯＯＯ\n4.主題：ＯＯＯＯＯＯ\n 2020大台北國際牙展暨學術年會論文貼示. \n參展競賽辦法. \n◇論述範圍： 牙醫新視界. \n一、主旨：為提昇國內牙科學術風氣，促進臨床治療品質，特舉辦牙科學術論文.',
+        location : '國父紀念館',
+        description:'2020音樂之夜Music Night浮世情深\n─向曼紐因致敬\n信念是江海上的恆星，\n讓人在隨波漂流時，\n有了安定，有了慰藉，也有了繼續往\n前的勇氣。',
 	}
 ];
 

@@ -1,11 +1,11 @@
 {
 	"files": [
 		{
-			"path": "screens/MainMenu.js",
+			"path": "screens/EventRegistrationDetail.js",
 			"bookmarks": [
 				{
-					"line": 258,
-					"column": 16,
+					"line": 69,
+					"column": 73,
 					"label": ""
 				}
 			]

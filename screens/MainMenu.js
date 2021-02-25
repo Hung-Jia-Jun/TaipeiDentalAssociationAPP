@@ -142,7 +142,7 @@ class Page extends Component {
 	const renderItem = ({ item }) => (
 		<Item 	_this={this}
 				item={item}
-				id={item.id}
+				key={item.key}
 				subTitle={item.subTitle}
 				title={item.title}
 				item_image={item.item_image}
@@ -177,7 +177,7 @@ class Page extends Component {
 					renderItem={renderItem}
 					ListHeaderComponentStyle={{height:100}}
 					ListHeaderComponent={() => <View style={{height:180}}></View>}
-					keyExtractor={item => item.id}
+					keyExtractor={item => item.key}
 				/>
 			</View>
 			<View style={{flex: 1,
@@ -246,7 +246,7 @@ class Page extends Component {
 
 const DATA = [
 	{
-		id: '0',
+		key: 0,
 		title: '校友會公告',
 		haveDetail : false,
 		showDetail : false,
@@ -255,7 +255,7 @@ const DATA = [
 		sceneName:'Announcement',
 	},
 	{
-		id: '1',
+		key: 1,
 		title: '學術活動',
 		haveDetail : true,
 		showDetail : false,
@@ -266,7 +266,7 @@ const DATA = [
 		sceneName:'',
 	},
 	{
-		id: '2',
+		key: 2,
 		title: '牙材採購',
 		haveDetail : true,
 		showDetail : false,
@@ -276,7 +276,7 @@ const DATA = [
 		sceneName:'',
 	},
 	{
-		id: '3',
+		key: 3,
 		title: '人力交流',
 		haveDetail : false,
 		showDetail : false,
@@ -285,7 +285,7 @@ const DATA = [
 		sceneName:'ClinicRecruitmentHumanSupport',
   	},
 	  {
-		id: '5',
+		key: 5,
 		title: '校友服務',
 		haveDetail : true,
 		showDetail : false,
@@ -297,7 +297,7 @@ const DATA = [
 		sceneName:'',
 	},
 	{
-		id: '4',
+		key: 4,
 		title: '牙醫學生專區',
 		haveDetail : true,
 		showDetail : false,
@@ -309,7 +309,7 @@ const DATA = [
 	},
 	
 	{
-		id: '6',
+		key: 6,
 		title: 'APP問題回報',
 		haveDetail : false,
 		showDetail : false,

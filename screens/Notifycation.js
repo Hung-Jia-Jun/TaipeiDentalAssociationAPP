@@ -105,7 +105,7 @@ class Message extends Component {
 						contentContainerStyle={{ marginTop: 0}}
 						data={DATA}
 						renderItem={renderItem}
-						keyExtractor={item => item.id}
+						keyExtractor={item => item.key}
 					/>
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>
@@ -222,25 +222,25 @@ const Item = ({ _this,title,item_image,discription}) => (
 
 const DATA = [
     {
-        id: '0',
+        key: '0',
         title: '好美麗診所',
         item_image : require('../assets/MessageIcon.png'),
         discription:'oo精密齒模公司公司簡介：數十年牙科齒模製作經驗的我們,秉持勤懇秉持勤...',
     },
      {
-        id: '1',
+        key: '1',
         title: '好美麗診所',
         item_image : require('../assets/MessageIcon.png'),
         discription:'oo精密齒模公司公司簡介：數十年牙科齒模製作經驗的我們,秉持勤懇秉持勤...',
     },
      {
-        id: '2',
+        key: '2',
         title: '好美麗診所',
         item_image : require('../assets/MessageIcon.png'),
         discription:'oo精密齒模公司公司簡介：數十年牙科齒模製作經驗的我們,秉持勤懇秉持勤...',
     },
      {
-        id: '3',
+        key: '3',
         title: '好美麗診所',
         item_image : require('../assets/MessageIcon.png'),
         discription:'oo精密齒模公司公司簡介：數十年牙科齒模製作經驗的我們,秉持勤懇秉持勤...',

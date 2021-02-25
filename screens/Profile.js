@@ -57,7 +57,7 @@ class Page extends Component {
 						data={DATA}
 						style={{backgroundColor:'white'}}
 						renderItem={renderItem}
-						keyExtractor={item => item.id}
+						keyExtractor={item => item.key}
 					/>
 				</View>
 				 <View style={{flex: 0.01, flexDirection: 'column'}}>
@@ -129,37 +129,37 @@ class Page extends Component {
 
 const DATA = [
 	{
-		id: '0',
+		key: '0',
 		title: '購買清單',
 		item_image : require('../assets/profileIcon/Profile_0.png'),
 		sceneName:'ShoppingCart',
 	},
 	{
-		id: '1',
+		key: '1',
 		title: '領取獎勵',
 		item_image : require('../assets/profileIcon/Profile_1.png'),
         sceneName:'ReceiveAward',
 	},
 	{
-		id: '2',
+		key: '2',
 		title: '修改個人資訊',
 		item_image : require('../assets/profileIcon/Profile_2.png'),
         sceneName:'EditProfile',
 	},
 	{
-		id: '3',
+		key: '3',
 		title: '個人名片',
 		item_image : require('../assets/profileIcon/Profile_3.png'),
         sceneName:'PersonalBusinessCard',
   	},
 	{
-		id: '4',
+		key: '4',
 		title: '我的收藏',
 		item_image : require('../assets/profileIcon/Profile_4.png'),
         sceneName:'MyFavourite',
 	},
 	{
-		id: '5',
+		key: '5',
 		title: '我的商場',
 		item_image : require('../assets/profileIcon/Profile_5.png'),
         sceneName:'MyStore',

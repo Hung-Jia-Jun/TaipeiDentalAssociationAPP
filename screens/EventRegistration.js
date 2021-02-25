@@ -13,7 +13,7 @@ const image = require('../assets/b-校友會公告.png');
 class Page extends Component {
    render() {
 	const renderItem = ({ item }) => (
-		<Item _this={this} description={item.description} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
+		<Item _this={this} Date={item.Date} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
 	);
     return (
         <View style={{flex: 3, flexDirection: 'column'}}>
@@ -50,26 +50,27 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
                         <Text style={{fontSize:18,
-                                        color:'white'}}>學生系學會</Text>
+                                        color:'white'}}>活動報名區</Text>
                         <TouchableOpacity style={styles.button,{
                             height: 50,
                             width:50,
                             marginTop:0,
                             marginEnd: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('Schedule')}>
+                        }} onPress={()=>this.props.navigation.navigate('')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
-                                <Image source={Schedule_image}></Image>
+                                <Image></Image>
                             </View>
                         </TouchableOpacity>
             </View>
             <View style={{flex:1.8,
                             alignItems:'center',
                                 }}>
-                    <Image source={require('../assets/Announcement_icon/AnnouncementRawImage.png')}
+                    <Image source={require('../assets/EventRegistration_icon/adaptiveIcon.png')}
                             style={{
                                     flex:0.9,
+                                    resizeMode:'contain',
                                     marginTop: Dimensions.get('window').height*0.07,
                                     }}></Image>
             </View>
@@ -154,22 +155,22 @@ class Page extends Component {
 
 const DATA = [
 	{
-		key: '0',
-		title: '【 公告 】',
-		item_image : require('../assets/Announcement_icon/listicon1.png'),
-		sceneName:'StudentDepartmentAssociationAnnouncementDetail',
-        description:'12/30牙醫診所院長分享實際經驗',
+		key: 0,
+		title: '【 管樂社 】2020年度公演，敬邀大家參與',
+		item_image : require('../assets/EventRegistration_icon/Bitmap.png'),
+		sceneName:'',
+        Date:'2020.12.30',
 	},
     {
-		key: '1',
-		title: '【 公告 】',
-		item_image : require('../assets/Announcement_icon/listicon2.png'),
-		sceneName:'StudentDepartmentAssociationAnnouncementDetail',
-        description:'11/29雕塑齒模工作營',
+		key: 1,
+		title: '【 校友會 】聖誕節祈福',
+		item_image : require('../assets/EventRegistration_icon/Bitmap.png'),
+		sceneName:'',
+        Date:'2020.12.24',
 	},
 ];
 
-const Item = ({ _this,title,description,item_image,sceneName }) => (
+const Item = ({ _this,title,Date,item_image,sceneName }) => (
          <View style={{flex: 5,
             marginStart:Dimensions.get('window').width*0.02,
             width:Dimensions.get('window').width*0.95,
@@ -188,30 +189,60 @@ const Item = ({ _this,title,description,item_image,sceneName }) => (
                 
             }} onPress={() => _this.props.navigation.navigate(sceneName)}>
                 <Image source={ item_image } style={{
-                        flex:0.8,
+                        width: Dimensions.get('window').width*0.3,
+                        height: Dimensions.get('window').height*0.1,
                         marginTop: Dimensions.get('window').height*0.02,
                         marginStart: Dimensions.get('window').width*0.04,
+                        resizeMode:'contain',
                 }}></Image>
                 <Text style={{
                             position: 'absolute',
                             marginTop: Dimensions.get('window').height*0.02,
-                            marginStart: Dimensions.get('window').width*0.32,
+                            marginStart: Dimensions.get('window').width*0.36,
                             fontSize:16,
-                            color:'#47DCEF'
+                            color:'black'
                             }}>
                                 {title}
                 </Text>
                 <Text style={{
-                            position: 'absolute',
-                            marginTop: Dimensions.get('window').height*0.048,
-                            marginStart: Dimensions.get('window').width*0.32,
-                            fontSize:16,
-                            width: Dimensions.get('window').width*0.6,
-                            height: Dimensions.get('window').height*0.07,
-                            color:'black'
-                            }}>
-                                {description}
+                    position: 'absolute',
+                    marginTop: Dimensions.get('window').height*0.08,
+                    marginStart: Dimensions.get('window').width*0.43,
+                    fontSize:16,
+                    width: Dimensions.get('window').width*0.3,
+                    height: Dimensions.get('window').height*0.04,
+                    color:'#47DCEF'
+                }}>
+                                {Date}
                 </Text>
+                <Image source={require('../assets/AcademicEvents_icon/meeting.png')}
+                        style={{
+                            marginTop: Dimensions.get('window').height*0.042*-1,
+                            marginStart: Dimensions.get('window').width*0.36,
+                            width: Dimensions.get('window').width*0.05,
+                            height: Dimensions.get('window').height*0.03,
+                            resizeMode:'contain',
+                        }}
+                        ></Image>
+                <TouchableOpacity style={styles.button,{
+                            height: 50,
+                        width:50,
+                        marginStart: 0,
+                        marginTop: Dimensions.get('window').height*0.04 * -1,
+                        marginStart: Dimensions.get('window').width*0.76,
+                    }} onPress={()=>_this.props.navigation.navigate('EventRegistrationDetail')}>
+                        <View style={{flex:0.6,
+                                        justifyContent:'center',
+                                        borderRadius:30,
+                                        width:Dimensions.get('window').width*0.15,
+                                        backgroundColor:'#43D1E3',
+                                        alignItems:'center',}}>
+                            <Text style={{
+                                fontSize:16,
+                                color:'white'
+                                }}>報名</Text>
+                        </View>
+                </TouchableOpacity>
             </TouchableOpacity>
         </View>
 
