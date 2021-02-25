@@ -70,6 +70,7 @@ class Page extends Component {
                     <Image source={require('../assets/AcademicEvents_icon/RawImage.png')}
                             style={{
                                     flex:0.9,
+                                    resizeMode:'contain',
                                     marginTop: Dimensions.get('window').height*0.07,
                                     }}></Image>
             </View>
@@ -192,6 +193,7 @@ const Item = ({ _this,title,Date,item_image,sceneName }) => (
                         height: Dimensions.get('window').height*0.1,
                         marginTop: Dimensions.get('window').height*0.02,
                         marginStart: Dimensions.get('window').width*0.04,
+                        resizeMode:'contain',
                 }}></Image>
                 <Text style={{
                             position: 'absolute',

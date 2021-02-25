@@ -44,7 +44,7 @@ const checkHaveDetailAndShow = (_this,item,isOnTopItem) => {
 			if (_this.state.studentShowDetail)
 			{
 				item.showDetail = true
-				return 185
+				return 200
 			}
 			else
 			{
@@ -112,7 +112,8 @@ class Page extends Component {
 	}
 	showSubtitle = (_this,item) => {
 			const textList = [];
-			item.subTitle.forEach(element => {
+			for (const [subTitle, subscene] of Object.entries(item.subTitle)) {
+				console.log(subTitle, subscene)
 				textList.push(
 					<TouchableOpacity style={{
 							zIndex:2,
@@ -120,7 +121,7 @@ class Page extends Component {
 							width:400,
 							marginStart: 0,
 							top:60,
-						}} onPress={() =>_this.props.navigation.navigate(item.sceneName)}>
+						}} onPress={() =>_this.props.navigation.navigate(subscene)}>
 						<Text style={{
 							position: 'absolute',
 							marginTop: HeightScale(7),
@@ -128,11 +129,11 @@ class Page extends Component {
 							fontSize:18,
 							height:25,
 							color:'#F7F7F7'}}>
-								{element}
+								{subTitle}
 						</Text>
 					</TouchableOpacity>
 				)
-			})
+			}
 			textList.push(
 			)
 			return textList;
@@ -177,17 +178,8 @@ class Page extends Component {
 					ListHeaderComponentStyle={{height:100}}
 					ListHeaderComponent={() => <View style={{height:180}}></View>}
 					keyExtractor={item => item.id}
-					// ListFooterComponentstyle={{height:0}}
-					// style={{flex: 1}}
-					// ListFooterComponent={() => <View style={{height:0}}></View>}
 				/>
 			</View>
-			{/* <View style={styles.borderBlackLine,{flex: 0.01,zIndex:3, flexDirection: 'column'}}>
-                    <Image source={footer_image} style={styles.borderBlackLine,
-                                                        {marginStart:WidthScale(0),
-                                                        marginTop:height < guidelineBaseHeight ? HeightScale(-50) : HeightScale(-20),
-                                                        width:width}}></Image>
-			</View> */}
 			<View style={{flex: 1,
 							flexDirection: 'row',
 							justifyContent:'space-between'}}>
@@ -267,21 +259,21 @@ const DATA = [
 		title: '學術活動',
 		haveDetail : true,
 		showDetail : false,
-		subTitle : ['活動資訊\n',
-					'活動報名\n',
-					'問卷調查\n'],
+		subTitle : {'活動資訊':'AcademicEvents',
+					'活動報名':'EventRegistration',
+					'問卷調查':'Questionnaire'},
 		item_image : require('../assets/MainManu11.png'),
-		sceneName:'AcademicEvents',
+		sceneName:'',
 	},
 	{
 		id: '2',
 		title: '牙材採購',
 		haveDetail : true,
 		showDetail : false,
-		subTitle : ['限時團購\n',
-					'跳蚤市場\n'],
+		subTitle : {'限時團購':'LimitedTimeGroupPurchase',
+					'跳蚤市場':'FleaMarket'},
 		item_image : require('../assets/MainManu10.png'),
-		sceneName:'DentalGroupPurchase',
+		sceneName:'',
 	},
 	{
 		id: '3',
@@ -297,21 +289,23 @@ const DATA = [
 		title: '校友服務',
 		haveDetail : true,
 		showDetail : false,
-		subTitle : ['意見投書\n',
-				'健保問題\n',
-				'開業問題\n'],
-				// '民代服務區\n'],
+		subTitle : {'意見投書':'OpinionSubmission',
+				'健保問題':'HealthInsurance',
+				'開業問題':'OpeningStoreProblems'},
+				// '民代服務區':'PublicOpinionRepresentativeService'],
 		item_image : require('../assets/MainManu8.png'),
-		sceneName:'HelpAndService',
+		sceneName:'',
 	},
 	{
 		id: '4',
 		title: '牙醫學生專區',
 		haveDetail : true,
 		showDetail : false,
-		subTitle : ['系學會公告','活動資訊','聊天室'],
+		subTitle : {'系學會公告':'Student',
+					'活動資訊':'ActivityInformation',
+					'聊天室':'Chatroom'},
 		item_image : require('../assets/MainManu9.png'),
-		sceneName:'Student',
+		sceneName:'',
 	},
 	
 	{

@@ -1,11 +1,11 @@
 {
 	"files": [
 		{
-			"path": "screens/Announcement.js",
+			"path": "screens/MainMenu.js",
 			"bookmarks": [
 				{
-					"line": 173,
-					"column": 23,
+					"line": 258,
+					"column": 16,
 					"label": ""
 				}
 			]
