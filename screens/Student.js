@@ -56,11 +56,11 @@ class Page extends Component {
                             width:50,
                             marginTop:0,
                             marginEnd: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('Schedule')}>
+                        }} onPress={()=>this.props.navigation.navigate('')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
-                                <Image source={Schedule_image}></Image>
+                                <Image></Image>
                             </View>
                         </TouchableOpacity>
             </View>

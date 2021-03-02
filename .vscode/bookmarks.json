@@ -1,11 +1,16 @@
 {
 	"files": [
 		{
-			"path": "screens/EventRegistrationDetail.js",
+			"path": "screens/ClinicRecruitmentHumanSupport.js",
 			"bookmarks": [
 				{
-					"line": 69,
-					"column": 73,
+					"line": 20,
+					"column": 58,
+					"label": ""
+				},
+				{
+					"line": 274,
+					"column": 42,
 					"label": ""
 				}
 			]
