@@ -156,13 +156,13 @@ class Page extends Component {
 const DATA = [
 	{
 		key: '0',
-		title: '【 管樂社 】2020年度公演',
+		title: '院長分享會',
 		item_image : require('../assets/EventRegistration_icon/EventImage.png'),
 		sceneName:'',
         date:'2020.12.30 10:00-12:00',
         endDate : '2020.12.25',
         location : '國父紀念館',
-        description:'2020音樂之夜Music Night浮世情深\n─向曼紐因致敬\n信念是江海上的恆星，\n讓人在隨波漂流時，\n有了安定，有了慰藉，也有了繼續往\n前的勇氣。',
+        description:'依據此分享會，學習未來發展方向的規劃',
 	}
 ];
 

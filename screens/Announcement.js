@@ -157,14 +157,14 @@ const DATA = [
 		key: '0',
 		title: '[校友會開會通知]',
 		item_image : require('../assets/Announcement_icon/listicon1.png'),
-		sceneName:'',
+		sceneName:'AnnouncementDetail',
         description:'跨五屆北醫同學會邀請您',
 	},
     {
 		key: '1',
 		title: '[開會通知]',
 		item_image : require('../assets/Announcement_icon/listicon2.png'),
-		sceneName:'',
+		sceneName:'AnnouncementDetail',
         description:'11/5.6 中午12點 至晚上9點舉辦票選校友會會長',
 	},
 ];

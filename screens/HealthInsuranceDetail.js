@@ -42,7 +42,7 @@ class Page extends Component {
                             marginStart: 0,
                             marginTop:0,
                             marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('AcademicEvents')}>
+                        }} onPress={()=>this.props.navigation.navigate('HealthInsurance')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
@@ -50,7 +50,7 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
                         <Text style={{fontSize:18,
-                                        color:'white'}}>開業問題詳情</Text>
+                                        color:'white'}}>健保問題詳情</Text>
                         <TouchableOpacity style={styles.button,{
                             height: 50,
                             width:50,
@@ -99,13 +99,13 @@ class Page extends Component {
 const DATA = [
 	{
 		key: '0',
-		title: '牙醫學術研討會',
+		title: '被保險人及眷屬分那六類？\n各應在那裡辦理投保手續？',
 		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
 		sceneName:'',
         date:'2020.12.30 10:00-12:00',
         endDate : '2020.12.25',
         location : '南港展覽館',
-        description:'探討關於學術問題的議題',
+        description:'被保險人分為6種類別及其所屬的投保單位，規定如下列表格。保險對象要按照自己的投保身分和資格，在自己所屬的投保單位辦理投保手續。具有被保險人身分（例如有工作或參加職業工會），就不可用眷屬的身分投保。眷屬要跟著被保險人一起投保，假如被保險人換工作，眷屬也要跟著換投保單位。',
 	}
 ];
 
@@ -124,7 +124,7 @@ const Item = ({ _this,title,date,item_image,sceneName,endDate,location,descripti
                             position: 'absolute',
                             marginTop: Dimensions.get('window').height*0.01,
                             marginStart: Dimensions.get('window').width*0.05,
-                            fontSize:20,
+                            fontSize:25,
                             color:'black'
                             }}>
                                 {title}

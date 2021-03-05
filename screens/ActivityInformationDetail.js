@@ -42,7 +42,7 @@ class Page extends Component {
                             marginStart: 0,
                             marginTop:0,
                             marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('AcademicEvents')}>
+                        }} onPress={()=>this.props.navigation.navigate('ActivityInformation')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
@@ -50,7 +50,7 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
                         <Text style={{fontSize:18,
-                                        color:'white'}}>開業問題詳情</Text>
+                                        color:'white'}}>牙醫系學生活動詳情</Text>
                         <TouchableOpacity style={styles.button,{
                             height: 50,
                             width:50,
@@ -99,13 +99,13 @@ class Page extends Component {
 const DATA = [
 	{
 		key: '0',
-		title: '牙醫學術研討會',
+		title: '迎新活動開始了，有需要請洽系學會報名',
 		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
 		sceneName:'',
         date:'2020.12.30 10:00-12:00',
         endDate : '2020.12.25',
         location : '南港展覽館',
-        description:'探討關於學術問題的議題',
+        description:'牙醫系系學會舉辦迎新活動',
 	}
 ];
 
@@ -125,6 +125,7 @@ const Item = ({ _this,title,date,item_image,sceneName,endDate,location,descripti
                             marginTop: Dimensions.get('window').height*0.01,
                             marginStart: Dimensions.get('window').width*0.05,
                             fontSize:20,
+                            width:Dimensions.get('window').width*0.9,
                             color:'black'
                             }}>
                                 {title}
@@ -136,7 +137,7 @@ const Item = ({ _this,title,date,item_image,sceneName,endDate,location,descripti
                                 }}>
                     <Text style={{
                         position: 'absolute',
-                        marginTop: Dimensions.get('window').height*0.08,
+                        marginTop: Dimensions.get('window').height*0.1,
                         marginStart: Dimensions.get('window').width*2,
                         fontSize:14,
                         width: Dimensions.get('window').width*0.76,

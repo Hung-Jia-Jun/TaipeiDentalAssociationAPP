@@ -63,7 +63,10 @@ import OpeningStoreProblems from "./screens/OpeningStoreProblems";
 import ActivityInformation from "./screens/ActivityInformation";
 import Chatroom from "./screens/Chatroom";
 import EventRegistrationDetail from "./screens/EventRegistrationDetail";
-
+import HealthInsuranceDetail from "./screens/HealthInsuranceDetail";
+import OpeningStoreProblemsDetail from "./screens/OpeningStoreProblemsDetail";
+import ActivityInformationDetail from "./screens/ActivityInformationDetail";
+import AnnouncementDetail from "./screens/AnnouncementDetail";
 
 
 
@@ -456,6 +459,35 @@ const AppNavigator = createStackNavigator({
 			headerShown: false
 		}
 	},
+	HealthInsuranceDetail : {
+		screen: HealthInsuranceDetail,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	OpeningStoreProblemsDetail : {
+		screen: OpeningStoreProblemsDetail,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	ActivityInformationDetail : {
+		screen: ActivityInformationDetail,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	AnnouncementDetail : {
+		screen: AnnouncementDetail,
+		navigationOptions: {
+			animationEnabled: true,
+			headerShown: false
+		}
+	},
+	
 });
 
 export default createAppContainer(AppNavigator);

@@ -1,16 +1,16 @@
 {
 	"files": [
 		{
-			"path": "screens/ClinicRecruitmentHumanSupport.js",
+			"path": "screens/OverviewMap.js",
 			"bookmarks": [
 				{
-					"line": 20,
-					"column": 58,
+					"line": 50,
+					"column": 18,
 					"label": ""
 				},
 				{
-					"line": 274,
-					"column": 42,
+					"line": 286,
+					"column": 43,
 					"label": ""
 				}
 			]

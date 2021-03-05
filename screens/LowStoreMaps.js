@@ -51,7 +51,6 @@ class HightStoreMaps extends Component {
                                 <TouchableOpacity style={styles.button,{
                                     height: 38,
                                     width:86,
-                                    borderWidth:1,
                                     borderColor:'black',
                                 }} onPress={()=>this.props.navigation.navigate('LowStoreMaps')}>
                                 </TouchableOpacity>
@@ -65,7 +64,6 @@ class HightStoreMaps extends Component {
                                 <TouchableOpacity style={styles.button,{
                                     height: 38,
                                     width:86,
-                                    borderWidth:1,
                                     borderColor:'black',
                                 }} onPress={()=>this.props.navigation.navigate('MediumStoreMaps')}>
                                 </TouchableOpacity>
@@ -79,7 +77,6 @@ class HightStoreMaps extends Component {
                                 <TouchableOpacity style={styles.button,{
                                     height: 38,
                                     width:86,
-                                    borderWidth:1,
                                     borderColor:'black',
                                 }} onPress={()=>this.props.navigation.navigate('HightStoreMaps')}>
                                 </TouchableOpacity>
@@ -99,7 +96,6 @@ class HightStoreMaps extends Component {
 						width:300,
                         marginStart: 60,
                         marginTop:68,
-                        borderWidth:1,
                         borderColor:'black',    
                     }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
                     </TouchableOpacity>

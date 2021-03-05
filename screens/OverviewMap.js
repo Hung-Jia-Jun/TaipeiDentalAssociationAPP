@@ -48,6 +48,10 @@ class OverviewMap extends Component {
         }
         
     }
+   onRegionChangeComplete(region) {
+        console.log(region);
+    }
+
     callTELToClinic = () =>{
         let tel = 'tel:' + this.state.phone;
         Linking.canOpenURL(tel).then((supported) => {
@@ -277,9 +281,10 @@ class OverviewMap extends Component {
                         marginTop:HeightScale(-45),
                         zIndex:0
                         }}>
-                    {/* <MapView 
+                    <MapView 
                         provider="google"
                         customMapStyle={mapStyle}
+                        onRegionChangeComplete={this.onRegionChangeComplete.bind(this)}
                         initialRegion={{
                             latitude: 25.034934,
                             longitude: 121.522222,
@@ -309,7 +314,7 @@ class OverviewMap extends Component {
                                 </Marker> 
                             </View>
                             ))}
-                    </MapView> */}
+                    </MapView>
                     
                 </View>
                 <View style={styles.borderBlackLine,{flex: 0.01,zIndex:3, flexDirection: 'column'}}>

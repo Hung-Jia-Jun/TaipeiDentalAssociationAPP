@@ -14,22 +14,22 @@ class Message extends Component {
         const textList = [];
         jobCategory.forEach(element => {
             textList.push(
-                 <View style={styles.container,{flex: 0.5,
+                 <View style={styles.container,{flex: 0.2,
                                             height:Dimensions.get('window').height*0.035,
-                                            width:Dimensions.get('window').width*1,
-                                            marginStart: 50,
-                                            borderWidth:1,
+                                            marginEnd:10,
                                             borderRadius:100,
                                             backgroundColor:'rgba(1, 197, 222,0.15)',
                                             flexDirection: 'column'}}>
-                    <Text style={{
-                        width:230,
-                        height:40,
-                        marginTop: 3,
-                        fontSize:12,
-                        color:'#01C5DE'}}>
-                            {element}
-                    </Text>
+                    <View style={{flex: 1,
+                                    justifyContent:'center',
+                                    flexDirection: 'column'}}>
+                                        <Text style={{
+                                            fontSize:12,
+                                            textAlign:'center',
+                                            color:'#01C5DE'}}>
+                                                {element}
+                                        </Text>
+                            </View>
                 </View>
             )
         });
@@ -115,14 +115,19 @@ class Message extends Component {
                                                 marginEnd: Dimensions.get('window').width*0.12,
                                                 zIndex:0,
                                                 width:100,
-                                                height:40}}>
+                                                height:40}} 
+                                                onPress={()=>this.props.navigation.navigate('ClinicRecruitment')}>
                         <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>求才</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.1,
                                 flexDirection: 'row',
                                 }}>
-                    <View style={{flex: 1,
+                    <View style={{flex: 0.2,
+                                alignContent:'center',
+                                }}>
+                    </View>
+                    <View style={{flex: 0.5,
                                 width:Dimensions.get('window').width*0.1,
                                 alignContent:'center',
                                 height:Dimensions.get('window').height*0.004,
@@ -232,11 +237,13 @@ const Item = ({ _this,title,jobCategory,skill,item_image,discription}) => (
                 marginTop:0,
                 marginBottom:Dimensions.get('window').height*0.02,
             }} onPress={() => _this.props.navigation.navigate('')}>
-        <View style={{width:Dimensions.get('window').width,
+        <View style={{
                         height:Dimensions.get('window').height*0.15,
                         backgroundColor:'white',
+                        flex:1,
+                        flexDirection:'row',
                         }}>
-            <View style={styles.container,{flex: 1,
+            <View style={styles.container,{flex: 0.35,
                             flexDirection: 'column',
                             justifyContent:'center',
                             }}>
@@ -247,30 +254,33 @@ const Item = ({ _this,title,jobCategory,skill,item_image,discription}) => (
                                                         borderRadius:100,
                                                         resizeMode:'cover',}}></Image>
             </View>
-            <View style={styles.container,{flex: 0.01, flexDirection: 'column'}}>
-                <Text style={{
-                    width:230,
-                    height:Dimensions.get('window').height*0.04,
-                    borderWidth:1,
-                    marginTop: -Dimensions.get('window').height*0.13,
-                    marginLeft: 125,
-                    fontSize:17,
-                    color:'black'}}>
-                        {title}
-                </Text>
-                <Text style={{
-                    width:230,
-                    borderWidth:1,
-                    height:Dimensions.get('window').height*0.04,
-                    // marginTop: 0,
-                    marginLeft: 125,
-                    fontSize:12,
-                    color:'gray'}}>
-                        {skill}
-                </Text>
-                <View style={{flex: 1,
+            <View style={styles.container,{flex: 1, flexDirection: 'column'}}>
+                <View style={{flex: 0.1}}></View>
+                <View style={{flex: 0.3}}>
+                    <Text style={{
+                        width:230,
+                        height:Dimensions.get('window').height*0.04,
+                        // marginTop: -Dimensions.get('window').height*0.13,
+                        marginLeft: 0,
+                        fontSize:17,
+                        color:'black'}}>
+                            {title}
+                    </Text>
+                </View>
+                <View style={{flex: 0.2}}>
+                    <Text style={{
+                        width:230,
+                        height:Dimensions.get('window').height*0.04,
+                        // marginTop: 0,
+                        marginLeft: 0,
+                        fontSize:12,
+                        color:'gray'}}>
+                            {skill}
+                    </Text>
+                </View>
+                
+                <View style={{flex: 0.1,
                                 flexDirection:'row',
-                                marginStart: 150,
                                 }}>
                     {
                         _this.showJobCategory(_this,jobCategory)
@@ -293,8 +303,8 @@ const DATA = [
     },  
     {
         key: '1',
-        title: 'Ethan',
-        jobCategory:['全職','PGY'],
+        title: 'John',
+        jobCategory:['兼職','PGY'],
         skill:'兒童口腔外科',
         item_image : require('../assets/HumanResources/AccountPhoto.png'),
         discription:'oo精密齒模公司公司簡介：數十年牙科齒模製作經驗的我們,秉持勤懇秉持勤...',

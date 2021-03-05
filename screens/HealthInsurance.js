@@ -50,7 +50,7 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
                         <Text style={{fontSize:18,
-                                        color:'white'}}>學術活動區</Text>
+                                        color:'white'}}>健保問題</Text>
                         <TouchableOpacity style={styles.button,{
                             height: 50,
                             width:50,
@@ -156,18 +156,26 @@ class Page extends Component {
 const DATA = [
 	{
 		key: '0',
-		title: '2020牙醫學術研討會',
+		title: '承保問題',
 		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
 		sceneName:'',
         Date:'2020.12.30',
 	},
     {
 		key: '1',
-		title: '牙醫最新技術研討會',
+		title: '保險費問題',
 		item_image : require('../assets/AcademicEvents_icon/Bitmap2.png'),
 		sceneName:'',
         Date:'2020.12.24',
 	},
+    {
+		key: '1',
+		title: '保險憑證問題',
+		item_image : require('../assets/AcademicEvents_icon/Bitmap2.png'),
+		sceneName:'',
+        Date:'2020.12.24',
+	},
+    
 ];
 
 const Item = ({ _this,title,Date,item_image,sceneName }) => (
@@ -204,43 +212,23 @@ const Item = ({ _this,title,Date,item_image,sceneName }) => (
                             }}>
                                 {title}
                 </Text>
-                <Text style={{
-                    position: 'absolute',
-                    marginTop: Dimensions.get('window').height*0.08,
-                    marginStart: Dimensions.get('window').width*0.43,
-                    fontSize:16,
-                    width: Dimensions.get('window').width*0.3,
-                    height: Dimensions.get('window').height*0.04,
-                    color:'#47DCEF'
-                }}>
-                                {Date}
-                </Text>
-                <Image source={require('../assets/AcademicEvents_icon/meeting.png')}
-                        style={{
-                            marginTop: Dimensions.get('window').height*0.042*-1,
-                            marginStart: Dimensions.get('window').width*0.36,
-                            width: Dimensions.get('window').width*0.05,
-                            height: Dimensions.get('window').height*0.03,
-                            resizeMode:'contain',
-                        }}
-                        ></Image>
                 <TouchableOpacity style={styles.button,{
                             height: 50,
                         width:50,
                         marginStart: 0,
                         marginTop: Dimensions.get('window').height*0.04 * -1,
                         marginStart: Dimensions.get('window').width*0.76,
-                    }} onPress={()=>_this.props.navigation.navigate('AcademicEventsDetail')}>
+                    }} onPress={()=>_this.props.navigation.navigate('HealthInsuranceDetail')}>
                         <View style={{flex:0.6,
                                         justifyContent:'center',
                                         borderRadius:30,
-                                        width:Dimensions.get('window').width*0.15,
+                                        width:Dimensions.get('window').width*0.17,
                                         backgroundColor:'#43D1E3',
                                         alignItems:'center',}}>
                             <Text style={{
                                 fontSize:16,
                                 color:'white'
-                                }}>報名</Text>
+                                }}>查看詳情</Text>
                         </View>
                 </TouchableOpacity>
             </TouchableOpacity>

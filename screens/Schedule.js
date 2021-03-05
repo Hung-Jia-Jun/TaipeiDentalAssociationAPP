@@ -39,7 +39,7 @@ class Page extends Component {
                             marginStart: 0,
                             marginTop:0,
                             marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                        }} onPress={()=>this.props.navigation.navigate('Announcement')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>

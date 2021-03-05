@@ -42,7 +42,7 @@ class Page extends Component {
                             marginStart: 0,
                             marginTop:0,
                             marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('AcademicEvents')}>
+                        }} onPress={()=>this.props.navigation.navigate('OpeningStoreProblems')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
@@ -99,13 +99,13 @@ class Page extends Component {
 const DATA = [
 	{
 		key: '0',
-		title: '牙醫學術研討會',
+		title: '剛開業不久的新店，\n做哪些方面的營銷宣傳更有效果？',
 		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
 		sceneName:'',
         date:'2020.12.30 10:00-12:00',
         endDate : '2020.12.25',
         location : '南港展覽館',
-        description:'探討關於學術問題的議題',
+        description:'開店目的決定營銷方法，做營銷的目的無非是要增加品牌曝光率、\n吸引顧客進店刺激消費、提升在行業內的口碑。\n開業後營銷宣傳是為了刺激消費，所以餐廳可以考慮從以下三方面入手：\na.通過當地最有影響力的媒體做宣傳；\n b.確定定位人群，選擇最直接有效的廣告投放方式；\nc.營銷不僅要吸引顧客，更要獲得好的口碑，因此要保證開業營銷期間進店客人可以得到百分百的專台服務，讓顧客對產品和服務滿意。',
 	}
 ];
 

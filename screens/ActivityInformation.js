@@ -50,7 +50,7 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
                         <Text style={{fontSize:18,
-                                        color:'white'}}>學術活動區</Text>
+                                        color:'white'}}>學生活動區</Text>
                         <TouchableOpacity style={styles.button,{
                             height: 50,
                             width:50,
@@ -156,14 +156,14 @@ class Page extends Component {
 const DATA = [
 	{
 		key: '0',
-		title: '2020牙醫學術研討會',
+		title: '牙醫系迎新活動',
 		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
 		sceneName:'',
         Date:'2020.12.30',
 	},
     {
 		key: '1',
-		title: '牙醫最新技術研討會',
+		title: '註冊選課注意事項',
 		item_image : require('../assets/AcademicEvents_icon/Bitmap2.png'),
 		sceneName:'',
         Date:'2020.12.24',
@@ -230,7 +230,7 @@ const Item = ({ _this,title,Date,item_image,sceneName }) => (
                         marginStart: 0,
                         marginTop: Dimensions.get('window').height*0.04 * -1,
                         marginStart: Dimensions.get('window').width*0.76,
-                    }} onPress={()=>_this.props.navigation.navigate('AcademicEventsDetail')}>
+                    }} onPress={()=>_this.props.navigation.navigate('ActivityInformationDetail')}>
                         <View style={{flex:0.6,
                                         justifyContent:'center',
                                         borderRadius:30,

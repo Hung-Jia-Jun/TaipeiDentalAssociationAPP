@@ -1,20 +1,19 @@
-import React, { Component } from "react";
+import React, { Component,useState } from "react";
+import { ToggleButton } from 'react-native-paper';
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
 
 
-
 const Topper_image = require('../assets/NotifycationTopper.png');
-const Footer_image = require('../assets/Footer_blank.png')
+const Footer_image = require('../assets/AcademicEvents_icon/Footer.png')
 const Back_image = require('../assets/Announcement_icon/Back.png')
 const Schedule_image = require('../assets/Announcement_icon/Schedule.png')
 
 const image = require('../assets/b-校友會公告.png');
+
 class Page extends Component {
-   render() {
-	const renderItem = ({ item }) => (
-		<Item _this={this} Date={item.Date} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
-	);
+
+    render() {
     return (
         <View style={{flex: 3, flexDirection: 'column'}}>
             <View style={{flex:0.4,
@@ -50,7 +49,7 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
                         <Text style={{fontSize:18,
-                                        color:'white'}}>學術活動區</Text>
+                                        color:'white'}}>意見投書</Text>
                         <TouchableOpacity style={styles.button,{
                             height: 50,
                             width:50,
@@ -64,189 +63,136 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
             </View>
-            <View style={{flex:1.8,
+            <View style={{flex:0.00001,
                             alignItems:'center',
                                 }}>
-                    <Image source={require('../assets/AcademicEvents_icon/RawImage.png')}
-                            style={{
-                                    flex:0.9,
-                                    resizeMode:'contain',
-                                    marginTop: Dimensions.get('window').height*0.07,
-                                    }}></Image>
+                  
             </View>
-            <View style={{flex: 2.5,
+            <View style={{flex: 4.5,
 								flexDirection: 'column',
 								}}>
-					<FlatList
-						contentContainerStyle={{ marginTop: 0}}
-						data={DATA}
-						style={{backgroundColor:'#EBF0F3'}}
-						renderItem={renderItem}
-						keyExtractor={item => item.key}
-					/>
+				<View style={{flex: 1, flexDirection: 'column',
+                             }}>
+                    <View style={{flex: 0.15,
+                                flexDirection: 'column',
+                                        }}>
+                    </View>
+                    <View style={{flex: 1,
+                                flexDirection: 'column',
+                                        }}>
+                        <View style={{flex: 0.08,
+                                flexDirection: 'row',
+                                        }}>
+                            <View style={{flex: 0.11,
+                                flexDirection: 'row',
+                                        }}>
+
+                            </View>
+                            <View style={{flex: 0.2,
+                                            flexDirection: 'row',
+                                            justifyContent:'flex-start',
+                                            alignItems:'center',
+                                        }}>
+                                <Text style={{fontSize:18,
+                                                textAlign:'center',
+                                                        color:'black'}}>姓名 : </Text>
+
+                            </View>
+                            <View style={{flex: 0.8,
+                                            flexDirection: 'row',
+                                        }}>
+                                <View style={{flex: 0.6,
+                                    flexDirection: 'column',
+                                }}>
+                                    <TextInput style={{
+                                                        flex:1,
+                                                        borderColor: '#B9C2CC',
+                                                        borderRadius: 1 ,
+                                                        backgroundColor : "#FFF",
+                                                        }}
+                                        placeholder = '    username'
+                                        class = 'placeholder'
+                                        />
+                                </View>
+                            </View>
+                        </View>
+                        <View style={{flex: 0.2,
+                                flexDirection: 'row',
+                                        }}>
+                            <View style={{flex: 0.1,
+                                flexDirection: 'row',
+                                        }}>
+
+                            </View>
+                            <View style={{flex: 0.8,
+                                                flexDirection: 'row',
+                                                justifyContent:'flex-start',
+                                                alignItems:'center',
+                                        }}>
+                                <Text style={{fontSize:18,
+                                                textAlign:'center',
+                                                        color:'black'}}>問題描述 : </Text>
+
+                            </View>
+                           
+                        </View>
+                        <View style={{flex: 0.3,
+                                flexDirection: 'row',
+                                        }}>
+                            <View style={{flex: 0.13,
+                                flexDirection: 'row',
+                                        }}>
+
+                            </View>
+                            <View style={{flex: 1.2,
+                                            flexDirection: 'row',
+                                        }}>
+                                <View style={{flex: 0.8,
+                                    flexDirection: 'column',
+                                }}>
+                                    <TextInput style={{
+                                                        flex:1,
+                                                        borderColor: '#B9C2CC',
+                                                        borderRadius: 1 ,
+                                                        backgroundColor : "#FFF",
+                                                        }}
+                                        multiline = {true}
+                                        placeholder = '請輸入您想表達的意見'
+                                        class = 'placeholder'
+                                        />
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </View>
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>
-                <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
             </View>
             <View style={{flex: 0.5,
-                            flexDirection: 'row',
-                            justifyContent:'space-between'}}>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.02,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
-                        <Image source={require('../assets/footerIcon/Home.png')}></Image>
-                </TouchableOpacity> 
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.03,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Search')}>
-                        <Image source={require('../assets/footerIcon/Search.png')}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.08,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-                        <Image source={require('../assets/footerIcon/Map.png')} 
-                                style={{resizeMode:'stretch',
-                                        marginTop:10,
-                                        width:80,
-                                        height:80
-                                        }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.07,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
-                        <Image source={require('../assets/footerIcon/Msg.png')}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.03,
-                    marginEnd: Dimensions.get('window').width*0.01,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Profile')}>
-                        <Image style={{
-                                        marginTop:10,
-                                        marginStart:5,
-                                        }} 
-                                source={require('../assets/footerIcon/Profile.png')}></Image>
-                </TouchableOpacity>
+                        backgroundColor:'#43D1E3',
+                            flexDirection: 'column'}}>
+                <View style={{flex: 0.8, flexDirection: 'column',
+                    }}>
+                    <TouchableOpacity style={styles.button,{
+                        justifyContent:'center',
+                        flex:1,
+                    }} 
+                     onPress={()=>alert("您的意見已送出")}>
+                       
+                        <Text style={{
+                            fontSize:18,
+                            textAlign:'center',
+                            color:'white'
+                        }}>
+                                    送出意見回饋
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
   }
 }
-
-
-const DATA = [
-	{
-		key: '0',
-		title: '2020牙醫學術研討會',
-		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
-		sceneName:'',
-        Date:'2020.12.30',
-	},
-    {
-		key: '1',
-		title: '牙醫最新技術研討會',
-		item_image : require('../assets/AcademicEvents_icon/Bitmap2.png'),
-		sceneName:'',
-        Date:'2020.12.24',
-	},
-];
-
-const Item = ({ _this,title,Date,item_image,sceneName }) => (
-         <View style={{flex: 5,
-            marginStart:Dimensions.get('window').width*0.02,
-            width:Dimensions.get('window').width*0.95,
-            backgroundColor : '#FFFFFF',
-            flexDirection: 'row',
-            marginBottom:Dimensions.get('window').height*0.02,
-            shadowOffset:{  width:0,  height:5},
-            shadowColor: 'black',
-            shadowOpacity: 0.1,
-            justifyContent:'space-between'}}>
-            <TouchableOpacity style={styles.button,{
-                height: Dimensions.get('window').height*0.13,
-                width:Dimensions.get('window').width*0.8,
-                marginStart: 0,
-                marginTop:0,
-                
-            }} onPress={() => _this.props.navigation.navigate(sceneName)}>
-                <Image source={ item_image } style={{
-                        width: Dimensions.get('window').width*0.3,
-                        height: Dimensions.get('window').height*0.1,
-                        marginTop: Dimensions.get('window').height*0.02,
-                        marginStart: Dimensions.get('window').width*0.04,
-                        resizeMode:'contain',
-                }}></Image>
-                <Text style={{
-                            position: 'absolute',
-                            marginTop: Dimensions.get('window').height*0.02,
-                            marginStart: Dimensions.get('window').width*0.36,
-                            fontSize:16,
-                            color:'black'
-                            }}>
-                                {title}
-                </Text>
-                <Text style={{
-                    position: 'absolute',
-                    marginTop: Dimensions.get('window').height*0.08,
-                    marginStart: Dimensions.get('window').width*0.43,
-                    fontSize:16,
-                    width: Dimensions.get('window').width*0.3,
-                    height: Dimensions.get('window').height*0.04,
-                    color:'#47DCEF'
-                }}>
-                                {Date}
-                </Text>
-                <Image source={require('../assets/AcademicEvents_icon/meeting.png')}
-                        style={{
-                            marginTop: Dimensions.get('window').height*0.042*-1,
-                            marginStart: Dimensions.get('window').width*0.36,
-                            width: Dimensions.get('window').width*0.05,
-                            height: Dimensions.get('window').height*0.03,
-                            resizeMode:'contain',
-                        }}
-                        ></Image>
-                <TouchableOpacity style={styles.button,{
-                            height: 50,
-                        width:50,
-                        marginStart: 0,
-                        marginTop: Dimensions.get('window').height*0.04 * -1,
-                        marginStart: Dimensions.get('window').width*0.76,
-                    }} onPress={()=>_this.props.navigation.navigate('AcademicEventsDetail')}>
-                        <View style={{flex:0.6,
-                                        justifyContent:'center',
-                                        borderRadius:30,
-                                        width:Dimensions.get('window').width*0.15,
-                                        backgroundColor:'#43D1E3',
-                                        alignItems:'center',}}>
-                            <Text style={{
-                                fontSize:16,
-                                color:'white'
-                                }}>報名</Text>
-                        </View>
-                </TouchableOpacity>
-            </TouchableOpacity>
-        </View>
-
-);
 
 
 const styles = StyleSheet.create({

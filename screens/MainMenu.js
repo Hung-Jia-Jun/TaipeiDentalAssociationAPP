@@ -20,7 +20,8 @@ const checkHaveDetailAndShow = (_this,item,isOnTopItem) => {
 			if (_this.state.academicEventsShowDetail)
 			{
 				item.showDetail = true
-				return 200
+				return 160
+				// return 200
 			}
 			else
 			{
@@ -260,8 +261,8 @@ const DATA = [
 		haveDetail : true,
 		showDetail : false,
 		subTitle : {'活動資訊':'AcademicEvents',
-					'活動報名':'EventRegistration',
-					'問卷調查':'Questionnaire'},
+					'活動報名':'EventRegistration',},
+					// '問卷調查':'Questionnaire'},
 		item_image : require('../assets/MainManu11.png'),
 		sceneName:'',
 	},
@@ -303,7 +304,8 @@ const DATA = [
 		showDetail : false,
 		subTitle : {'系學會公告':'Student',
 					'活動資訊':'ActivityInformation',
-					'聊天室':'Chatroom'},
+					'聊天室':''},
+					// '聊天室':'Chatroom'},
 		item_image : require('../assets/MainManu9.png'),
 		sceneName:'',
 	},
