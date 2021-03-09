@@ -71,7 +71,6 @@ import AnnouncementDetail from "./screens/AnnouncementDetail";
 
 
 
-
 const AppNavigator = createStackNavigator({
 	Index: {
 		screen: Index,

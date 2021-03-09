@@ -27,6 +27,7 @@ class OverviewMap extends Component {
         const ClinicTEL_List = require('../ClinicTEL_List.json');
 
         this.state = {
+            region:null,
             showDetail: false,
             detailAddress: "台北市中山區",
             phone : "0225356756",
@@ -43,13 +44,68 @@ class OverviewMap extends Component {
                 width:32,
                 height:40
             },
-            markers: MemberStoreList,
+            baseMarkers: MemberStoreList,
+            markers: [],
             ClinicTELs : ClinicTEL_List,
         }
         
     }
-   onRegionChangeComplete(region) {
-        console.log(region);
+    onRegionChange(region){
+        this.setState({region:region,markers:[]})
+    } 
+        
+    RegionChangeComplete(region) {
+        this.state.markers = []
+        
+        //要做最近距離估算的排序
+        var markDistance = {}
+        this.setState({markers:[]})
+        //最初始值是14左右，隨著放大會到18
+        try {
+            var zoomLevel = Math.log2(360 * (Dimensions.get('window').width/ 256 / region.longitudeDelta)) + 1
+        } catch (error) {
+            return
+        }
+        var showKM = (zoomLevel*(-0.5))+10
+        showKM = showKM > 3 ? 3 : showKM
+
+        this.state.baseMarkers.map((marker,index) => {
+            // √ (a1 - b1)^2 + (a2-b2)^2
+            var distance = Math.sqrt(Math.pow((marker.coordinates.latitude - region.latitude),2) + Math.pow((marker.coordinates.longitude - region.longitude),2))*100
+            //依照動態zoom調整顯示範圍
+            //y=-0.5x+10
+            // 在zoom level 14時，要顯示3公里內的mark
+            // 在zoom level 18時，要顯示1公里內的mark
+            if (distance < showKM )
+            {
+                markDistance[index] = distance;
+            }
+        })
+        // Create items array
+        var items = Object.keys(markDistance).map(function(key) {
+            return [key, markDistance[key]];
+        });
+
+        // Sort the array based on the second element
+        items.sort(function(first, second) {
+            return second[1] - first[1];
+        });
+        items.reverse();
+        //顯示附近診所數量的限制值
+        showLimit = 100
+        markDistance = items.slice(0, showLimit);
+        console.log(markDistance);
+        console.log(markDistance.length);
+        markDistance.map((marker,index) => {
+            console.log(marker[0]);
+            var marker = this.state.baseMarkers[parseInt(marker[0])]
+            this.state.markers.push(marker);
+        })
+        console.log("showKM : " + showKM , region);
+        console.log("Zoom : " + zoomLevel);
+        this.setState({markers:this.state.markers})
+        console.log("marker count : " + this.state.markers.length)
+        return;
     }
 
     callTELToClinic = () =>{
@@ -90,6 +146,7 @@ class OverviewMap extends Component {
                         education : marker.education,
                         phone : phone,
                     });
+                    
     }
     render() {
 
@@ -284,7 +341,9 @@ class OverviewMap extends Component {
                     <MapView 
                         provider="google"
                         customMapStyle={mapStyle}
-                        onRegionChangeComplete={this.onRegionChangeComplete.bind(this)}
+                        onRegionChange = {this.onRegionChange.bind(this)}
+                        onRegionChangeComplete={this.RegionChangeComplete.bind(this)}
+
                         initialRegion={{
                             latitude: 25.034934,
                             longitude: 121.522222,
@@ -295,8 +354,15 @@ class OverviewMap extends Component {
                             flexDirection: 'column', 
                             height:Dimensions.get('screen').height,
                             width:width}}>
-                        {this.state.markers.map((marker,index) => (
-                            <View>
+                        {/* {this.state.region == null ? null : <MapView.Circle
+                                key = { (this.state.region.longitude + this.state.region.longitude).toString() }
+                                center = { this.state.region }
+                                radius = { 3000 }
+                                strokeWidth = { 1 }
+                                strokeColor = { '#1a66ff' }
+                                fillColor = { 'rgba(230,238,255,0.5)' }
+                        />} */}
+                        {this.state.markers.map((marker,index) => (<View>
                                 <Marker coordinate={marker.coordinates} 
                                     key={marker.生年月日}
                                     title={marker.title}
