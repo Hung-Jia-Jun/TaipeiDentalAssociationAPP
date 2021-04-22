@@ -17,7 +17,7 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.TaipeiDental.Association",
+      "bundleIdentifier": "com.taipeidental.associationss",
       "buildNumber": "1.0.0",
       "supportsTablet": false,
       "config": {

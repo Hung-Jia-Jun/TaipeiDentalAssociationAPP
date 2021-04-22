@@ -13,3 +13,8 @@ web-build/
 .DS_Store
 ClinicTEL_List.json
 MemberStoreList.json
+CarParkList.json
+.vscode/bookmarks.json
+Server/.vscode/launch.json
+20210412-ShareBuilding.xlsx
+~$20210412-ShareBuilding.xlsx

@@ -27,7 +27,9 @@ class OverviewMap extends Component {
         const ClinicTEL_List = require('../ClinicTEL_List.json');
 
         this.state = {
+            outline:false,
             region:null,
+            zoomLevel:null,
             showDetail: false,
             detailAddress: "台北市中山區",
             phone : "0225356756",
@@ -46,29 +48,82 @@ class OverviewMap extends Component {
             },
             baseMarkers: MemberStoreList,
             markers: [],
+            markerRadius: null,
             ClinicTELs : ClinicTEL_List,
         }
         
     }
     onRegionChange(region){
+        
         this.setState({region:region,markers:[]})
-    } 
-        
-    RegionChangeComplete(region) {
-        this.state.markers = []
-        
-        //要做最近距離估算的排序
-        var markDistance = {}
-        this.setState({markers:[]})
         //最初始值是14左右，隨著放大會到18
         try {
-            var zoomLevel = Math.log2(360 * (Dimensions.get('window').width/ 256 / region.longitudeDelta)) + 1
+            this.state.zoomLevel = Math.log2(360 * (Dimensions.get('window').width/ 256 / region.longitudeDelta)) + 1
         } catch (error) {
             return
         }
-        var showKM = (zoomLevel*(-0.5))+10
+    } 
+    getRandomRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+    RegionChangeComplete(region) {
+        //要做最近距離估算的排序
+        var markDistance = {}
+        var showKM = (this.state.zoomLevel*(-0.5))+10
         showKM = showKM > 3 ? 3 : showKM
+        //顯示附近診所數量的限制值
+        var showLimit = 100
+        var randomIndex;
+        //如果他拉很遠
+        if (this.state.zoomLevel < 15.5)
+        {
+            //那就只顯示北醫的Point
+            this.state.outline = true;
 
+            //顯示所有台北市的診所
+            showKM = 100;
+            showLimit = this.state.zoomLevel * 25
+            this.state.markerRadius = 20;
+            //地圖的上下邊界
+            var marginTopLat = region.latitude + region.latitudeDelta
+            var marginBottomLat = region.latitude - region.latitudeDelta
+
+            //地圖的左右邊界
+            var marginRightLng = region.longitude + region.longitudeDelta
+            var marginLeftLng = region.longitude - region.longitudeDelta
+            
+            console.log("marginTopLat : " + marginTopLat);
+            console.log("marginBottomLat : " + marginBottomLat);
+            console.log("marginRightLng : " + marginRightLng);
+            console.log("marginLeftLng : " + marginLeftLng);
+            this.state.baseMarkers.map((marker,index) => {
+                if (marker.latitude > marginTopLat & marker.latitude < marginBottomLat)
+                {
+                    console.log("Add marker : ",marker)
+                    if (this.state.markers.length < showLimit)
+                    {
+                        this.state.markers.push(marker);          
+                    }
+                    if (marker.longitude < marginRightLng & marker.latitude > marginLeftLng)
+                    {
+                    }
+                }
+            });
+            
+            randomIndex = this.getRandomRange(0,this.state.baseMarkers.length-1)
+            for (let index = 0; index < showLimit; index++) {
+                const element = this.state.baseMarkers[index];
+                this.state.markers.push(element);                
+            }
+            console.log("showKM : " + showKM , region);
+            console.log("Zoom : " + this.state.zoomLevel);
+            this.setState({markers:this.state.markers})
+            console.log("marker count : " + this.state.markers.length)
+            return;
+        }
+        //近距離的顯示要多一點內容
+        //顯示詳細資訊
+        this.state.outline = false;
         this.state.baseMarkers.map((marker,index) => {
             // √ (a1 - b1)^2 + (a2-b2)^2
             var distance = Math.sqrt(Math.pow((marker.coordinates.latitude - region.latitude),2) + Math.pow((marker.coordinates.longitude - region.longitude),2))*100
@@ -91,21 +146,18 @@ class OverviewMap extends Component {
             return second[1] - first[1];
         });
         items.reverse();
-        //顯示附近診所數量的限制值
-        showLimit = 100
+    
         markDistance = items.slice(0, showLimit);
-        console.log(markDistance);
-        console.log(markDistance.length);
         markDistance.map((marker,index) => {
-            console.log(marker[0]);
             var marker = this.state.baseMarkers[parseInt(marker[0])]
             this.state.markers.push(marker);
         })
         console.log("showKM : " + showKM , region);
-        console.log("Zoom : " + zoomLevel);
+        console.log("Zoom : " + this.state.zoomLevel);
         this.setState({markers:this.state.markers})
         console.log("marker count : " + this.state.markers.length)
         return;
+        
     }
 
     callTELToClinic = () =>{
@@ -365,18 +417,26 @@ class OverviewMap extends Component {
                         {this.state.markers.map((marker,index) => (<View>
                                 <Marker coordinate={marker.coordinates} 
                                     key={marker.生年月日}
-                                    title={marker.title}
-                                    onPress={() => {this.ClinicOnClick(marker);}}
+                                    title={this.state.outline == false ? marker.title : null}
+                                    onPress={() => {this.state.outline == false ? this.ClinicOnClick(marker) : null}}
                                     >
                                     {marker.education == "北醫" ? ( <Image
-                                        source={require('../assets/Marker_TaipeiGroup.png')}
-                                        style={styles.borderBlackLine,{width:this.state.TaipeiGroupMarkerSize.width,height:this.state.TaipeiGroupMarkerSize.height,zIndex:1}}
+                                        source={this.state.outline == false ? require('../assets/Marker_TaipeiGroup.png') : null}
+                                        style={styles.borderBlackLine,{width:this.state.outline == false ? this.state.TaipeiGroupMarkerSize.width : this.state.markerRadius,
+                                                                        height:this.state.outline == false ? this.state.TaipeiGroupMarkerSize.height : this.state.markerRadius,
+                                                                        zIndex:1,
+                                                                        borderRadius: this.state.outline == true ?  200 : null,
+                                                                        backgroundColor: this.state.outline == true ? '#01C5DE' : null,
+                                                                        borderWidth: this.state.outline == true ? 3 : null,
+                                                                        borderColor: this.state.outline == true ? '#FFFF' : null,
+                                                                        }}
                                         resizeMode="contain"
                                     />):(<Image
-                                        source={require('../assets/otherStore.png')}
+                                        source={this.state.outline == false ? require('../assets/otherStore.png') : null}
                                         style={styles.borderBlackLine,{width:this.state.normalMarkerSize.width,height:this.state.normalMarkerSize.height,zIndex:1}}
                                         resizeMode="contain"
-                                    />)}
+                                    />)
+                                }
                                 </Marker> 
                             </View>
                             ))}
