@@ -139,16 +139,16 @@ class Page extends Component {
 			)
 			return textList;
 	}
-  render() {
-	const renderItem = ({ item }) => (
-		<Item 	_this={this}
-				item={item}
-				key={item.key}
-				subTitle={item.subTitle}
-				title={item.title}
-				item_image={item.item_image}
-				sceneName={item.sceneName} />
-	);
+  	render() {
+		const renderItem = ({ item }) => (
+			<Item 	_this={this}
+					item={item}
+					key={item.key}
+					subTitle={item.subTitle}
+					title={item.title}
+					item_image={item.item_image}
+					sceneName={item.sceneName} />
+		);
 
 	return (
 		<View style={styles.container,{flex: 4, flexDirection: 'column'}}>
