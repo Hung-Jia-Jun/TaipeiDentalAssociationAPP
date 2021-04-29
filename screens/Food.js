@@ -25,6 +25,7 @@ class OverviewMap extends Component {
         super(props);
         const MemberStoreList = require('../MemberStoreList.json');
         const ClinicTEL_List = require('../ClinicTEL_List.json');
+        const CarParkList = require('../CarParkList.json');
 
         this.state = {
             showDetail: false,
@@ -45,6 +46,7 @@ class OverviewMap extends Component {
             },
             markers: MemberStoreList,
             ClinicTELs : ClinicTEL_List,
+            CarParkMarkers : CarParkList,
         }
         
     }

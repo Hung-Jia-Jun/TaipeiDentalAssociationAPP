@@ -1,16 +1,11 @@
 {
 	"files": [
 		{
-			"path": "screens/OverviewMap.js",
+			"path": "screens/FilterStroe.js",
 			"bookmarks": [
 				{
-					"line": 71,
-					"column": 41,
-					"label": ""
-				},
-				{
-					"line": 423,
-					"column": 40,
+					"line": 159,
+					"column": 51,
 					"label": ""
 				}
 			]

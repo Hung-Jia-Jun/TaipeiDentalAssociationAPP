@@ -25,6 +25,7 @@ class OverviewMap extends Component {
         super(props);
         const MemberStoreList = require('../MemberStoreList.json');
         const ClinicTEL_List = require('../ClinicTEL_List.json');
+        const CarParkList = require('../CarParkList.json');
 
         this.state = {
             outline:false,
@@ -50,6 +51,7 @@ class OverviewMap extends Component {
             markers: [],
             markerRadius: null,
             ClinicTELs : ClinicTEL_List,
+            CarParkMark : CarParkList,
         }
         
     }
@@ -96,20 +98,7 @@ class OverviewMap extends Component {
             console.log("marginBottomLat : " + marginBottomLat);
             console.log("marginRightLng : " + marginRightLng);
             console.log("marginLeftLng : " + marginLeftLng);
-            this.state.baseMarkers.map((marker,index) => {
-                if (marker.latitude > marginTopLat & marker.latitude < marginBottomLat)
-                {
-                    console.log("Add marker : ",marker)
-                    if (this.state.markers.length < showLimit)
-                    {
-                        this.state.markers.push(marker);          
-                    }
-                    if (marker.longitude < marginRightLng & marker.latitude > marginLeftLng)
-                    {
-                    }
-                }
-            });
-            
+            // 用於測試用，隨機撒一些點到地圖上
             randomIndex = this.getRandomRange(0,this.state.baseMarkers.length-1)
             for (let index = 0; index < showLimit; index++) {
                 const element = this.state.baseMarkers[index];
