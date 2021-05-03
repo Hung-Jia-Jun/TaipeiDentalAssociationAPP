@@ -56,8 +56,15 @@ class OverviewMap extends Component {
         
     }
     onRegionChange(region){
-        
-        this.setState({region:region,markers:[]})
+        try
+        {
+            this.setState({mapParameter : this.props.navigation.state.params.mapParameter});
+        }
+        catch (error)
+        {
+
+        }
+        this.setState({region:region,markers:[]});
         //最初始值是14左右，隨著放大會到18
         try {
             this.state.zoomLevel = Math.log2(360 * (Dimensions.get('window').width/ 256 / region.longitudeDelta)) + 1
@@ -76,40 +83,40 @@ class OverviewMap extends Component {
         //顯示附近診所數量的限制值
         var showLimit = 100
         var randomIndex;
-        //如果他拉很遠
-        if (this.state.zoomLevel < 15.5)
-        {
-            //那就只顯示北醫的Point
-            this.state.outline = true;
+        // //如果他拉很遠
+        // if (this.state.zoomLevel < 15.5)
+        // {
+        //     //那就只顯示北醫的Point
+        //     this.state.outline = true;
 
-            //顯示所有台北市的診所
-            showKM = 100;
-            showLimit = this.state.zoomLevel * 25
-            this.state.markerRadius = 20;
-            //地圖的上下邊界
-            var marginTopLat = region.latitude + region.latitudeDelta
-            var marginBottomLat = region.latitude - region.latitudeDelta
+        //     //顯示所有台北市的診所
+        //     showKM = 100;
+        //     showLimit = this.state.zoomLevel * 25
+        //     this.state.markerRadius = 20;
+        //     //地圖的上下邊界
+        //     var marginTopLat = region.latitude + region.latitudeDelta
+        //     var marginBottomLat = region.latitude - region.latitudeDelta
 
-            //地圖的左右邊界
-            var marginRightLng = region.longitude + region.longitudeDelta
-            var marginLeftLng = region.longitude - region.longitudeDelta
+        //     //地圖的左右邊界
+        //     var marginRightLng = region.longitude + region.longitudeDelta
+        //     var marginLeftLng = region.longitude - region.longitudeDelta
             
-            console.log("marginTopLat : " + marginTopLat);
-            console.log("marginBottomLat : " + marginBottomLat);
-            console.log("marginRightLng : " + marginRightLng);
-            console.log("marginLeftLng : " + marginLeftLng);
-            // 用於測試用，隨機撒一些點到地圖上
-            randomIndex = this.getRandomRange(0,this.state.baseMarkers.length-1)
-            for (let index = 0; index < showLimit; index++) {
-                const element = this.state.baseMarkers[index];
-                this.state.markers.push(element);                
-            }
-            console.log("showKM : " + showKM , region);
-            console.log("Zoom : " + this.state.zoomLevel);
-            this.setState({markers:this.state.markers})
-            console.log("marker count : " + this.state.markers.length)
-            return;
-        }
+        //     console.log("marginTopLat : " + marginTopLat);
+        //     console.log("marginBottomLat : " + marginBottomLat);
+        //     console.log("marginRightLng : " + marginRightLng);
+        //     console.log("marginLeftLng : " + marginLeftLng);
+        //     //隨機撒一些點到地圖上
+        //     randomIndex = this.getRandomRange(0,this.state.baseMarkers.length-1)
+        //     for (let index = 0; index < showLimit; index++) {
+        //         const element = this.state.baseMarkers[index];
+        //         this.state.markers.push(element);                
+        //     }
+        //     console.log("showKM : " + showKM , region);
+        //     console.log("Zoom : " + this.state.zoomLevel);
+        //     this.setState({markers:this.state.markers})
+        //     console.log("marker count : " + this.state.markers.length)
+        //     return;
+        // }
         //近距離的顯示要多一點內容
         //顯示詳細資訊
         this.state.outline = false;
@@ -138,8 +145,28 @@ class OverviewMap extends Component {
     
         markDistance = items.slice(0, showLimit);
         markDistance.map((marker,index) => {
-            var marker = this.state.baseMarkers[parseInt(marker[0])]
-            this.state.markers.push(marker);
+            var marker = this.state.baseMarkers[parseInt(marker[0])];
+            //使用List篩選是否為要出現的區域
+            var InArea = false
+            console.log(this.state.mapParameter[0].text);
+                for (var i = 0; i < this.state.mapParameter.length; i++) 
+                {
+                    console.log(this.state.mapParameter[i].text);
+                    console.log(this.state.mapParameter[i].toggle);
+                    if (marker.Area == this.state.mapParameter[i].text)
+                    {
+                        console.log(marker.Area);
+                        console.log("add marker : " + marker);
+                        InArea = true
+                    }
+                }
+                
+                if (InArea)
+                {
+                    console.log("add marker : " + marker);
+                    this.state.markers.push(marker);
+                }
+            
         })
         console.log("showKM : " + showKM , region);
         console.log("Zoom : " + this.state.zoomLevel);
