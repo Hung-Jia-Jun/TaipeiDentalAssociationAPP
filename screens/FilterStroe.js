@@ -20,7 +20,7 @@ class FilterStroe extends Component {
         this.state = {
             ToggleBtn : [
                 //地區
-                {key : 0 , text : "中正區" , toggled : false},
+                {key : 0 , text : "中正區" , toggled : true},
                 {key : 1 , text : "大同區" , toggled : false},
                 {key : 2 , text : "中山區" , toggled : false},
                 {key : 3 , text : "松山區" , toggled : false},
@@ -91,7 +91,7 @@ class FilterStroe extends Component {
                     <Text style={{marginTop:HeightScale(10),alignSelf:'center',color:'#43D1E3'}}>篩選地圖</Text>
                 </View>
                 <View style={{flex: 0.8, flexDirection: 'column'}}>
-                    <Text style={{marginTop:HeightScale(0),marginLeft:WidthScale(25),fontSize:13,marginTop:HeightScale(5),alignSelf:'left',color:'black'}}>依地區</Text>
+                    <Text style={{marginTop:HeightScale(0),marginLeft:WidthScale(25),fontSize:13,marginTop:HeightScale(5),color:'black'}}>依地區</Text>
                 </View>
 
                 <View style={{marginTop:HeightScale(0),
@@ -108,11 +108,11 @@ class FilterStroe extends Component {
                         renderItem={renderItem}
                         // ListHeaderComponentStyle={{height:100}}
                         ListHeaderComponent={() => <View style={{height:30}}></View>}
-                        keyExtractor={item => item.key}
+                        keyExtractor={item => item.key.toString()}
                     />
                 </View>
                 <View style={{flex: 0.8, flexDirection: 'column'}}>
-                    <Text style={{marginTop:HeightScale(0),marginLeft:WidthScale(25),fontSize:13,marginTop:HeightScale(5),alignSelf:'left',color:'black'}}>依診所職缺</Text>
+                    <Text style={{marginTop:HeightScale(0),marginLeft:WidthScale(25),fontSize:13,marginTop:HeightScale(5),color:'black'}}>依診所職缺</Text>
                 </View>
                 <View style={{marginTop:HeightScale(0),
                                     flex: 1.2,
@@ -128,11 +128,11 @@ class FilterStroe extends Component {
                         renderItem={renderItem}
                         // ListHeaderComponentStyle={{height:100}}
                         ListHeaderComponent={() => <View style={{height:30}}></View>}
-                        keyExtractor={item => item.key}
+                        keyExtractor={item => item.key.toString()}
                     />
                 </View>
                 <View style={{flex: 0.8, flexDirection: 'column'}}>
-                    <Text style={{marginTop:HeightScale(0),marginLeft:WidthScale(25),fontSize:13,marginTop:HeightScale(5),alignSelf:'left',color:'black'}}>搜尋類型</Text>
+                    <Text style={{marginTop:HeightScale(0),marginLeft:WidthScale(25),fontSize:13,marginTop:HeightScale(5),color:'black'}}>搜尋類型</Text>
                 </View>
                  <View style={{marginTop:HeightScale(0),
                                     flex: 1.2,
@@ -148,11 +148,11 @@ class FilterStroe extends Component {
                         renderItem={renderItem}
                         // ListHeaderComponentStyle={{height:100}}
                         ListHeaderComponent={() => <View style={{height:30}}></View>}
-                        keyExtractor={item => item.key}
+                        keyExtractor={item => item.key.toString()}
                     />
                 </View>
                 <View style={{flex: 0.8, flexDirection: 'column'}}>
-                    <Text style={{marginTop:HeightScale(0),marginLeft:WidthScale(25),fontSize:13,marginTop:HeightScale(5),alignSelf:'left',color:'black'}}>Uspace車位</Text>
+                    <Text style={{marginTop:HeightScale(0),marginLeft:WidthScale(25),fontSize:13,marginTop:HeightScale(5),color:'black'}}>Uspace車位</Text>
                 </View> 
                 <View style={{marginTop:HeightScale(0),
                                     flex: 1.2,
@@ -168,7 +168,7 @@ class FilterStroe extends Component {
                         renderItem={renderItem}
                         // ListHeaderComponentStyle={{height:100}}
                         ListHeaderComponent={() => <View style={{height:30}}></View>}
-                        keyExtractor={item => item.key}
+                        keyExtractor={item => item.key.toString()}
                     />
                 </View>
                 <View style={{flex: 0.5, flexDirection: 'column'}}>

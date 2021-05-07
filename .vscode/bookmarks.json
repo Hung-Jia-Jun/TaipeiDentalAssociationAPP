@@ -4,7 +4,12 @@
 			"path": "screens/OverviewMap.js",
 			"bookmarks": [
 				{
-					"line": 155,
+					"line": 94,
+					"column": 49,
+					"label": ""
+				},
+				{
+					"line": 200,
 					"column": 1,
 					"label": ""
 				}
