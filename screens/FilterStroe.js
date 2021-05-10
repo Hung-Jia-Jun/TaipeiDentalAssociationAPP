@@ -20,7 +20,7 @@ class FilterStroe extends Component {
         this.state = {
             ToggleBtn : [
                 //地區
-                {key : 0 , text : "中正區" , toggled : true},
+                {key : 0 , text : "中正區" , toggled : false},
                 {key : 1 , text : "大同區" , toggled : false},
                 {key : 2 , text : "中山區" , toggled : false},
                 {key : 3 , text : "松山區" , toggled : false},
