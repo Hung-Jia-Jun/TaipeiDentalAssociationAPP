@@ -12,6 +12,8 @@ import FilterStroe from "./screens/FilterStroe";
 import MainMenu from "./screens/MainMenu";
 import Search from "./screens/Search";
 import Message from "./screens/Message";
+import InviteGroupChat from "./screens/InviteGroupChat";
+
 import Profile from "./screens/Profile";
 import Notifycation from "./screens/Notifycation";
 
@@ -69,13 +71,14 @@ import ActivityInformationDetail from "./screens/ActivityInformationDetail";
 import AnnouncementDetail from "./screens/AnnouncementDetail";
 
 
+import Register from "./screens/Register";
 
 
 const AppNavigator = createStackNavigator({
 	Index: {
 		screen: Index,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 			}
 	},
@@ -138,7 +141,7 @@ const AppNavigator = createStackNavigator({
 	Message: {
 		screen: Message,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
@@ -152,7 +155,7 @@ const AppNavigator = createStackNavigator({
 	Notifycation: {
 		screen: Notifycation,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
@@ -486,6 +489,21 @@ const AppNavigator = createStackNavigator({
 			headerShown: false
 		}
 	},
+	Register : {
+		screen: Register,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
+	InviteGroupChat : {
+		screen: InviteGroupChat,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
+	
 	
 });
 

@@ -1,4 +1,5 @@
 {
+  "databaseURL" : "https://taipeidentalclinic-f834a-default-rtdb.firebaseio.com/",
   "expo": {
     "name": "TaipeiDentalAssociationAPP",
     "slug": "TaipeiDentalAssociationAPP",

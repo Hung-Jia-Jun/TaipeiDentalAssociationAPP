@@ -1,0 +1,1 @@
+open "rndebugger://set-debugger-loc?host=192.168.0.14&port=19000"

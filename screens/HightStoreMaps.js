@@ -1,102 +1,91 @@
 import React, { Component } from "react";
-import { StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
-const image = require('../assets/b-高密度.png');
+const image = require('../assets/b-圖資-大地圖.png');
 const LineImage = require('../assets/高密度Selection.png');
+const overviewMapTopper_image = require('../assets/overviewMapTopper.png');
+
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
+
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
 
 class HightStoreMaps extends Component {
   render() {
     return (
         <View style={styles.container,{flex: 3, flexDirection: 'column'}}>
-            <ImageBackground source={image} style={styles.image}>
-                <View style={{flex: 0.25, flexDirection: 'row',
-                                        alignItems: 'center',
-                                        }}>
-                    <Text style={{fontSize:26,color:'#051E2D',
-                                    marginTop:23,
-                                    marginLeft:36}}>歡迎, Welcome!</Text>
-                </View>
-                <View style={{flex: 0.06, flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent:'center'
-                                        }}>
-                    <Text style={{fontSize:24,color:'#fff'}}>請選擇您想查詢的區域</Text>
-                </View>
-                <View style={{flex: 0.1, flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent:'center'
-                                        }}>
-                    <Text style={{fontSize:13,color:'#fff'}}>醫療密集度一覽</Text>
-                </View>
-                <View style={{flex: 0.1,
-                                flexDirection: 'row',
-                                marginTop:22,
-                                justifyContent: 'center',
-                                flexDirection:'row'}}>
-                        <View style={{flex: 1,flexDirection:'row',justifyContent: 'center',}}>
-                            <View style={{
-                            flex: 1,
-                            width: 288,
-                            height: 29,
-                            position: 'absolute',
-                            }} >
-                            <Image source={LineImage} style={{width:288,height:29}}></Image>
-                        </View>
-                        <View style={{
-                                    flex: 1,
-                                    width: 86,
-                                    height: 100,
-                                    marginLeft:44,
-                                    }}>
-                                <TouchableOpacity style={styles.button,{
-                                    height: 38,
-                                    width:86,
-                                }} onPress={()=>this.props.navigation.navigate('LowStoreMaps')}>
-                                </TouchableOpacity>
-                        </View>
-                        <View style={{
-                                flex: 1,
-                                width: 86,
-                                height: 100,
-                                marginLeft:31,
-                                }}>
-                                <TouchableOpacity style={styles.button,{
-                                    height: 38,
-                                    width:86,
-                                }} onPress={()=>this.props.navigation.navigate('MediumStoreMaps')}>
-                                </TouchableOpacity>
-                        </View>
-                        <View style={{
-                                flex: 1,
-                                width: 86,
-                                height: 100,
-                                marginLeft:27,
-                                }}>
-                                <TouchableOpacity style={styles.button,{
-                                    height: 38,
-                                    width:86,
-                                }} onPress={()=>this.props.navigation.navigate('HightStoreMaps')}>
-                                </TouchableOpacity>
-                        </View>
-                        <View style={{
-                                flex: 1,
-                                width: 86,
-                                height: 100,
-                                marginLeft:0,
-                                }}>
-                        </View>
-                </View>
-                </View>
-                <View style={{flex: 1, flexDirection: 'column'}}>
+            <View style={{flexDirection: 'column',
+                            zIndex:1,}}>
                     <TouchableOpacity style={styles.button,{
-                        height: 300,
-						width:300,
-                        marginStart: 60,
-                        marginTop:68,
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                            height: 40,
+                            width:70,
+                            alignSelf:'flex-end',
+                            marginStart: WidthScale(-120),
+                            marginTop:HeightScale(50),
+                            borderWidth:1,
+                            justifyContent:'center',
+                            borderRadius:10,
+                        }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                            <Text style={{
+                                // marginStart:WidthScale(50),
+                                        color:'black',
+                                        fontSize:15,
+                                                        textAlign:'center',
+                                        // marginTop: HeightScale(-155),
+                                        }}>主選單</Text>
                     </TouchableOpacity>
-                </View>
-            </ImageBackground>
+            </View>
+            <View style={{flexDirection: 'column',
+                            flex:0.05,
+                            zIndex: 0,
+                            marginTop:HeightScale(-100)
+                            }}>
+                <Image source={overviewMapTopper_image} style={
+                                    {marginTop: HeightScale(-85),
+                                    resizeMode:'stretch',
+                                    width:width}}></Image>
+                
+                <Text style={{marginStart:WidthScale(50),
+                                color:'#47DCEF',
+                                fontSize:18,
+                                marginTop: HeightScale(-140),
+                                }}>台北市</Text>
+            </View>
+            
+            <View style={{flex: 0.05, flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginStart:WidthScale(52),
+                                    marginTop : HeightScale(50),
+                                    zIndex:1,
+                                    }}>
+                <Text style={{fontSize:18,
+                                color:'black',
+                                textAlign:'left',
+                                }}>診所1000 醫院 1000 醫病比 1:2000</Text>
+            </View>
+            <View style={{flex: 0.01,
+                            flexDirection: 'row',
+                            // marginTop:22,
+                            justifyContent: 'center',
+                            flexDirection:'row'}}>
+                     <Image source={image} style={
+                                    {
+                                    marginTop: HeightScale(150),
+                                    resizeMode:'contain',
+                                    width:width}}></Image>
+            </View>
+            <View style={{flex: 0.01, flexDirection: 'column'}}>
+                <TouchableOpacity style={styles.button,{
+                    height: 650,
+                    width:Dimensions.get('window').width,
+                    marginTop:HeightScale(68),
+                }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                </TouchableOpacity>
+            </View>
         </View>
     );
   }

@@ -116,9 +116,6 @@ class OverviewMap extends Component {
             return
         }
     } 
-    getRandomRange(min, max) {
-        return Math.random() * (max - min) + min;
-    }
     RegionChangeComplete(region) {
         //要做最近距離估算的排序
         var markDistance = {}
@@ -145,8 +142,6 @@ class OverviewMap extends Component {
             var marginRightLng = region.longitude + region.longitudeDelta
             var marginLeftLng = region.longitude - region.longitudeDelta
             
-            //隨機撒一些點到地圖上
-            // randomIndex = this.getRandomRange(0,this.state.baseMarkers.length-1)
             for (let index = 0; index < showLimit; index++) {
                 const element = this.state.baseMarkers[index];
                 for (var i = 0; i < this.state.mapParameter.length - 1; i++) 
@@ -556,7 +551,7 @@ class OverviewMap extends Component {
                             width:width}}>
                         {this.state.markers.map((marker,index) => (<View>
                                 <Marker coordinate={marker.coordinates} 
-                                    key={marker.birthday}
+                                    key={index}
                                     title={this.state.outline == false ? marker.title : null}
                                     onPress={() => {this.state.outline == false ? this.ClinicOnClick(marker) : null}}
                                     >
