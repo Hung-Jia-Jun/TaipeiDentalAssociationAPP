@@ -13,6 +13,7 @@ import MainMenu from "./screens/MainMenu";
 import Search from "./screens/Search";
 import Message from "./screens/Message";
 import InviteGroupChat from "./screens/InviteGroupChat";
+import CreateChatRoom from "./screens/CreateChatRoom";
 
 import Profile from "./screens/Profile";
 import Notifycation from "./screens/Notifycation";
@@ -498,6 +499,13 @@ const AppNavigator = createStackNavigator({
 	},
 	InviteGroupChat : {
 		screen: InviteGroupChat,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
+	CreateChatRoom : {
+		screen: CreateChatRoom,
 		navigationOptions: {
 			animationEnabled: false,
 			headerShown: false

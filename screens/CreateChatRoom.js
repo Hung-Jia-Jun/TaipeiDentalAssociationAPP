@@ -32,10 +32,6 @@ class Message extends Component {
         super(props);
         this.state = {
             ToggleBtn : [
-                // {key : 0 , text : "吳智蘭" , toggled : false},
-                // {key : 1 , text : "邰阿民" , toggled : false},
-                // {key : 2 , text : "吳鎮宇" , toggled : false},
-                // {key : 3 , text : "王冠孝" , toggled : false},
             ],
             showSelectList:false,
         }
@@ -80,10 +76,20 @@ class Message extends Component {
         })
         this.setState({showSelectList:_showGroupList});
     }
-    
+    componentDidMount()
+    {
+        try
+        {
+            this.setState({ToggleBtn : JSON.parse(this.props.navigation.state.params.ToggleBtn)});
+        }
+        catch (error)
+        {
+            // console.log(error);
+        }
+    }
     onSelectMemberToGroup()
     {
-        this.props.navigation.navigate('CreateChatRoom',{ToggleBtn : JSON.stringify(this.state.ToggleBtn)});
+        this.props.navigation.navigate('CreateChatRoom',{GroupUser : JSON.stringify(this.state.ToggleBtn)});
     }
   render() {
     const renderItem = ({ item }) => (
@@ -131,7 +137,7 @@ class Message extends Component {
                                     marginStart:WidthScale(165),
                                     // textAlign:'center',
                                     zIndex:0,
-                                color:'white'}}>選擇人員</Text>
+                                color:'white'}}>群組設定</Text>
                 </View>
                 <View style={{
                         justifyContent:'center',
@@ -177,35 +183,41 @@ class Message extends Component {
                             zIndex:0,
                             flexDirection: 'column',
                             marginTop:18}}>
-                    <FlatList
-                        style={{marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-						contentContainerStyle={{ marginTop: 0}}
-						data={this.state.ToggleBtn}
-						renderItem={renderItem}
-						keyExtractor={item => item.key}
-					/>
-                    
-                    
+                                
+                {/* <Image source={require('../assets/asdGroup4.png')} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image> */}
+                <TextInput style={{marginStart:30,
+                                            paddingHorizontal:30,
+                                            marginTop:0,
+                                            backgroundColor:'white',
+                                            borderRadius:10,
+                                            borderWidth:1,
+                                            borderColor:'gray',
+                                            height:Dimensions.get('window').height*0.8,
+                                            width:Dimensions.get('window').width*0.70,
+                                            height:43,
+                                            zIndex:2}}
+                                placeholder = '群組名稱'
+                                class = 'placeholder'
+                        />  
             </View>
-            {this.state.showSelectList==true?
-                <View style={{
-                    flex:0.5,
-                    borderWidth:1,
-                    backgroundColor:'#D8F4FB',
-                    borderColor:'#01C5DE'
-                }}>
-                    <FlatList
-                            horizontal
-                            contentContainerstyle={{ 
-                                flexDirection: 'row',
-                                                    marginStart:150,}}
-                                                    style={{marginTop:0,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-                                                    data={this.state.ToggleBtn}
-                                                    renderItem={renderOnSelectItem}
-                                                    keyExtractor={item => item.key}
-                                                    />
-                </View>
-            :null}
+        
+            <View style={{
+                flex:0.5,
+                borderWidth:1,
+                backgroundColor:'#D8F4FB',
+                borderColor:'#01C5DE'
+            }}>
+                <FlatList
+                        horizontal
+                        contentContainerstyle={{ 
+                            flexDirection: 'row',
+                                                marginStart:150,}}
+                                                style={{marginTop:0,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                                                data={this.state.ToggleBtn}
+                                                renderItem={renderOnSelectItem}
+                                                keyExtractor={item => item.key}
+                                                />
+            </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>
                 <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
             </View>

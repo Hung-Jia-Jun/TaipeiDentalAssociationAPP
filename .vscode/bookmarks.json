@@ -1,16 +1,11 @@
 {
 	"files": [
 		{
-			"path": "screens/InviteGroupChat.js",
+			"path": "screens/CreateChatRoom.js",
 			"bookmarks": [
 				{
-					"line": 94,
-					"column": 29,
-					"label": ""
-				},
-				{
-					"line": 180,
-					"column": 95,
+					"line": 185,
+					"column": 45,
 					"label": ""
 				}
 			]

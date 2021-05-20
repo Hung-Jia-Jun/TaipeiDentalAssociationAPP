@@ -45,13 +45,13 @@ class Message extends Component {
                             }}>
             </View>
             
-            <View style={{flex: 0.4,
+            <View style={{flex: 0.5,
                             flexDirection: 'column',
                             }}>
                 <View style={{flex: 1,
                                 flexDirection: 'row',
                                 }}>
-                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.03,
+                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.05,
                                                 marginStart:Dimensions.get('window').width*0.12,
                                                 zIndex:0,
                                                 alignContent:'flex-start',
@@ -59,7 +59,7 @@ class Message extends Component {
                                                 height:40}}>
                         <Text style={{marginTop:12,fontSize:15,color:'#3FEEEA',textAlign:'center'}}>通知</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.03,
+                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.05,
                                                 marginStart:Dimensions.get('window').width*0.2,
                                                 zIndex:0,
                                                 alignItems:'flex-end',
@@ -69,7 +69,7 @@ class Message extends Component {
                         <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>聊天室</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{flex: 0.1,
+                <View style={{flex: 0.05,
                                 flexDirection: 'row',
                                 }}>
                     <View style={{flex: 1,
@@ -90,7 +90,7 @@ class Message extends Component {
                 </View>
             </View>
             
-            <View style={{flex: 3,
+            <View style={{flex: 3.7,
                             flexDirection: 'column',
                             marginTop:0}}>
                     <FlatList
