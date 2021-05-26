@@ -34,6 +34,7 @@ class Index extends Component {
 	}
 	
 	signin() {
+		global.username="test";
 		this.props.navigation.navigate('OverviewMap');
 		return;
 		// if (this.state.username=='' || this.state.birthday_str=='密碼（出生年月日）')

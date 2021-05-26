@@ -33,33 +33,10 @@ class Message extends Component {
         this.state = {
             ToggleBtn : [
             ],
-            showSelectList:false,
+            GroupName:'',
         }
     }
-    componentDidMount()
-    {
-        var dbRef = database.ref();
-        dbRef.child("user").once('value').then((result) => {
-		if (result.exists()) {
-			var user = result.val();
-            var i = 0;
-            Object.keys(user).forEach(element=>{
-                this.state.ToggleBtn.push({key:i.toString(),
-                                            title : user[element].username,
-                                            toggled:false,
-                                            item_image : require('../assets/MessageIcon.png'),//user[element].userIcon,
-                                    });
-                i += 1;
-            });
-            this.setState({ToggleBtn:this.state.ToggleBtn});
-			console.log(this.state.ToggleBtn);
-            
-		} else {
-		}
-		}).catch((error) => {
-			console.error(error);
-		});
-    }
+    
     onclickFilterItem = (_this,item)=>
     {
         _this.state.ToggleBtn[item.key].toggled = !_this.state.ToggleBtn[item.key].toggled;
@@ -67,7 +44,6 @@ class Message extends Component {
 
         var _showGroupList = false;
         this.state.ToggleBtn.forEach((e)=>{
-            console.log(e);
             if (e.toggled == true)
             {
                 _showGroupList = true;
@@ -80,16 +56,67 @@ class Message extends Component {
     {
         try
         {
-            this.setState({ToggleBtn : JSON.parse(this.props.navigation.state.params.ToggleBtn)});
+            var ToggleBtnJs = JSON.parse(this.props.navigation.state.params.ToggleBtn);
+            ToggleBtnJs.push({key:ToggleBtnJs.length.toString(),
+                title : 'Append user',
+                toggled:true,
+                item_image : require('../assets/adfasdfsdf.png'),
+                });
+                
+                // this.setState({ToggleBtn : JSON.parse(this.props.navigation.state.params.ToggleBtn)});
+            this.setState({ToggleBtn : ToggleBtnJs});
         }
         catch (error)
         {
-            // console.log(error);
+            console.log(error);
         }
     }
     onSelectMemberToGroup()
     {
-        this.props.navigation.navigate('CreateChatRoom',{GroupUser : JSON.stringify(this.state.ToggleBtn)});
+        var dbRef = database.ref();
+        //TODO this.state.GroupName 是群組名稱,要在下個頁面顯示
+        //TODO 加入到聊天那個頁面，那個頁面有個查看所屬群組的功能
+
+        //將時間戳當作ＩＤ
+        var timeStamp = new Date().getTime().toString();
+        var GroupID = this.state.GroupName+'_' + timeStamp;
+        GroupUser = []
+        this.state.ToggleBtn.forEach(user=>{
+            //只把用戶選擇的客戶加進群組裡
+            if (user.toggled & user.title!='Append user')
+            {
+                var dbRef = database.ref();
+                
+                //加入該用戶的所屬群組列表
+                dbRef.child("user").child(user.title).get().then((result) => {
+                if (result.exists()) {
+                    var user = result.val();
+                    if (user.belongGroups==undefined)
+                    {
+                        user.belongGroups = []
+                    }
+                    user.belongGroups.push(this.state.GroupName)
+                    var GroupListRef = database.ref('/user'+"/" + user.username);
+                    GroupListRef.update({
+                        belongGroups : user.belongGroups
+                    });
+                }
+                });
+                
+                GroupUser.push(user);
+            }
+        })
+        database.ref('/group'+"/" + GroupID).set({	
+            GroupUser : GroupUser
+        });
+        //groupName是要顯示到下個頁面用的，所以不能帶上Timestamp不然用戶會覺得他的群組名稱怎麼會有一串亂碼
+        this.props.navigation.navigate('GroupChat',{GroupID : GroupID , GroupName : this.state.GroupName});
+        
+    }
+    //追加好友到群組內
+    appendMember()
+    {
+        this.props.navigation.navigate('InviteGroupChat',{ToggleBtn : JSON.stringify(this.state.ToggleBtn)});
     }
   render() {
     const renderItem = ({ item }) => (
@@ -104,6 +131,7 @@ class Message extends Component {
                 item={item}
                 key={item.key}
                 toggled={item.toggled}
+                visible={item.visible}
                 item_image={item.item_image}/>
     );
     
@@ -178,45 +206,60 @@ class Message extends Component {
                             zIndex:0,
                             }}>
             </View>
-            
+            <View style={{flex: 0.01, flexDirection: 'column'}}>
+                <Image source={require('../assets/asdGroup4.png')} style={{marginStart:20,marginTop:30}}></Image>
+            </View>
             <View style={{flex: 3.5,
                             zIndex:0,
                             flexDirection: 'column',
                             marginTop:18}}>
                                 
-                {/* <Image source={require('../assets/asdGroup4.png')} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image> */}
-                <TextInput style={{marginStart:30,
+                <TextInput style={{marginStart:100,
+                                            marginTop:20,
                                             paddingHorizontal:30,
-                                            marginTop:0,
                                             backgroundColor:'white',
                                             borderRadius:10,
                                             borderWidth:1,
                                             borderColor:'gray',
                                             height:Dimensions.get('window').height*0.8,
-                                            width:Dimensions.get('window').width*0.70,
+                                            width:Dimensions.get('window').width*0.50,
                                             height:43,
                                             zIndex:2}}
                                 placeholder = '群組名稱'
+                                onChangeText={(text) => this.setState({GroupName: text})}
                                 class = 'placeholder'
+                                value={this.state.GroupName}
                         />  
-            </View>
-        
-            <View style={{
-                flex:0.5,
-                borderWidth:1,
-                backgroundColor:'#D8F4FB',
-                borderColor:'#01C5DE'
-            }}>
-                <FlatList
-                        horizontal
-                        contentContainerstyle={{ 
-                            flexDirection: 'row',
-                                                marginStart:150,}}
-                                                style={{marginTop:0,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-                                                data={this.state.ToggleBtn}
-                                                renderItem={renderOnSelectItem}
-                                                keyExtractor={item => item.key}
-                                                />
+                <View style={{  flex: 0.005,
+                                marginTop:30,
+                                alignSelf:'center',
+                                width:Dimensions.get('window').width*0.80,
+                                flexDirection: 'column',
+                                backgroundColor:'#B9C2CC',}}>
+                </View>
+                <View style={{flex:0.07,
+                                }}></View>
+                <View style={{flex:0.1,
+                                }}>
+                    <Text style={{fontSize:14,
+                                    marginStart:WidthScale(40),
+                                    color:'black'}}>
+                                            群組成員
+                    </Text>
+                </View>
+                <View style={{
+                    flex:0.9,
+                }}>
+                    <FlatList
+                            horizontal
+                            contentContainerstyle={{ 
+                                                    flexDirection: 'row'}}
+                                                    style={{marginTop:0,marginStart:30}}//backgroundColor:'#EBF0F3'}}
+                                                    data={this.state.ToggleBtn}
+                                                    renderItem={renderOnSelectItem}
+                                                    keyExtractor={item => item.key}
+                                                    />
+                </View>
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>
                 <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
@@ -286,58 +329,25 @@ class Message extends Component {
 
 
 
-const Item = ({ _this,item,title,item_image}) => (
-    <View style={styles.container,{flex: 1,flexDirection: 'row',height:70}}>
-        <ImageBackground style={{marginTop:0,
-                                width:Dimensions.get('window').width,height:70}}> 
-            <View style={{height:70,
-                        justifyContent:'center',
-                        flexDirection:"row",}}>
-                <View style={{flex:0.1,}}>
-                </View>
-                <View style={{backgroundColor:_this.state.ToggleBtn[item.key].toggled==true? '#43D1E3':'white',
-                                borderWidth:1,
-                                borderColor:_this.state.ToggleBtn[item.key].toggled==true? 'white':'black',
-                                flex:0.04,
-                                marginTop:HeightScale(35),
-                                width: WidthScale(14),
-                                height: HeightScale(14),
-                                borderRadius: 10000
-                                }}></View>
-                <Image source={item_image}style={{marginStart:27,marginTop:11,width:70,
-                    height:70}}></Image>
-                <TouchableOpacity style={styles.button,{
-                        height: 70,
-                        shadowOffset:{  width: 5,  height: 5},
-                        shadowColor: 'black',
-                        shadowOpacity: 0.01,
-                        width:Dimensions.get('window').width,
-                        borderColor:'black',
-                        marginStart: 0,
-                        alignItems:'center',
-                        justifyContent:'center',
-                        zIndex:0,
-                        marginTop:0,
-                        flex:1,
-                    }} onPress={() => _this.onclickFilterItem(_this,item)}>
-                            <View style={{flex:1,justifyContent: "center",marginStart:30,marginTop:10, alignSelf: 'flex-start'}}>
-                                <Text style={{
-                                    fontSize:19,
-                                    color:'black'}}>
-                                        {title}
-                                </Text>
-                            </View>
-                    </TouchableOpacity>
-            </View> 
-        </ImageBackground>
-    </View>
-);
-
-
-const OnSelectItem = ({ _this,item,item_image,toggled}) => (
+const OnSelectItem = ({ _this,item,item_image,toggled,visible}) => (
     
-        <View style={styles.container,{flex: 1,flexDirection: 'row'}}>
-            {toggled==true?
+    <View style={styles.container,{flex: 1,flexDirection: 'row'}}>
+        {item.title=="Append user" ? 
+            <TouchableOpacity
+                    style={{marginStart:10,marginTop:10,height:65}}
+                    onPress={()=>_this.appendMember(_this,item)}>
+                <Image source={item_image} style={{marginTop:3,width:55,height:55}}>
+                </Image>
+                        
+                    <Text style={{
+                        alignSelf:'center',
+                        marginTop:11
+                    }}>
+                    追加
+                </Text>
+            </TouchableOpacity>
+        :
+            toggled==true && visible==true?
                 <View>
                     <Image source={item_image} style={{marginStart:0,marginTop:10,width:70,height:70}}>
                     </Image>
@@ -349,9 +359,16 @@ const OnSelectItem = ({ _this,item,item_image,toggled}) => (
                                                                                 marginEnd:0,
                                                                                 height:20}}></Image>
                     </TouchableOpacity>
+                    <Text style={{
+                                    alignSelf:'center',
+                                    marginEnd:10
+                                }}>
+                        {item.title}
+                    </Text>
                 </View>
-            :null}
-        </View>
+            :null
+        }
+    </View>
 );
 
 const styles = StyleSheet.create({

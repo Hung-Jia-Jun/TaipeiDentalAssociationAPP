@@ -32,10 +32,6 @@ class Message extends Component {
         super(props);
         this.state = {
             ToggleBtn : [
-                // {key : 0 , text : "吳智蘭" , toggled : false},
-                // {key : 1 , text : "邰阿民" , toggled : false},
-                // {key : 2 , text : "吳鎮宇" , toggled : false},
-                // {key : 3 , text : "王冠孝" , toggled : false},
             ],
             showSelectList:false,
         }
@@ -43,16 +39,28 @@ class Message extends Component {
     componentDidMount()
     {
         var dbRef = database.ref();
+        var selfName = global.username;
         dbRef.child("user").once('value').then((result) => {
 		if (result.exists()) {
 			var user = result.val();
             var i = 0;
             Object.keys(user).forEach(element=>{
-                this.state.ToggleBtn.push({key:i.toString(),
-                                            title : user[element].username,
-                                            toggled:false,
-                                            item_image : require('../assets/MessageIcon.png'),//user[element].userIcon,
-                                    });
+                var u = {   key:i.toString(),
+                            title : user[element].username,
+                            toggled:false,
+                            //可以在好友列表內出現，因為自己的帳號一定要在群組裡面，但又不用出現在好友列表防止選錯
+                            visible:true,
+                            item_image : require('../assets/MessageIcon.png'),//user[element].userIcon,
+                        };
+                if (selfName == user[element].username)
+                {
+                    //自己一定要在群組裡面，所以預設勾選
+                    u.toggled = true;
+
+                    //但因為列表可以被取消勾選，為了防止使用者誤觸，就先隱藏起來
+                    u.visible = false;
+                }
+                this.state.ToggleBtn.push(u);
                 i += 1;
             });
             this.setState({ToggleBtn:this.state.ToggleBtn});
@@ -275,71 +283,80 @@ class Message extends Component {
 
 
 const Item = ({ _this,item,title,item_image}) => (
-    <View style={styles.container,{flex: 1,flexDirection: 'row',height:70}}>
-        <ImageBackground style={{marginTop:0,
-                                width:Dimensions.get('window').width,height:70}}> 
-            <View style={{height:70,
-                        justifyContent:'center',
-                        flexDirection:"row",}}>
-                <View style={{flex:0.1,}}>
-                </View>
-                <View style={{backgroundColor:_this.state.ToggleBtn[item.key].toggled==true? '#43D1E3':'white',
-                                borderWidth:1,
-                                borderColor:_this.state.ToggleBtn[item.key].toggled==true? 'white':'black',
-                                flex:0.04,
-                                marginTop:HeightScale(35),
-                                width: WidthScale(14),
-                                height: HeightScale(14),
-                                borderRadius: 10000
-                                }}></View>
-                <Image source={item_image}style={{marginStart:27,marginTop:11,width:70,
-                    height:70}}></Image>
-                <TouchableOpacity style={styles.button,{
-                        height: 70,
-                        shadowOffset:{  width: 5,  height: 5},
-                        shadowColor: 'black',
-                        shadowOpacity: 0.01,
-                        width:Dimensions.get('window').width,
-                        borderColor:'black',
-                        marginStart: 0,
-                        alignItems:'center',
-                        justifyContent:'center',
-                        zIndex:0,
-                        marginTop:0,
-                        flex:1,
-                    }} onPress={() => _this.onclickFilterItem(_this,item)}>
-                            <View style={{flex:1,justifyContent: "center",marginStart:30,marginTop:10, alignSelf: 'flex-start'}}>
-                                <Text style={{
-                                    fontSize:19,
-                                    color:'black'}}>
-                                        {title}
-                                </Text>
-                            </View>
-                    </TouchableOpacity>
-            </View> 
-        </ImageBackground>
-    </View>
+    <View>
+        {_this.state.ToggleBtn[item.key].visible==true?
+            <View style={styles.container,{flex: 1,flexDirection: 'row',height:70}}>
+                <ImageBackground style={{marginTop:0,
+                                        width:Dimensions.get('window').width,height:70}}> 
+                    <View style={{height:70,
+                                justifyContent:'center',
+                                flexDirection:"row",}}>
+                        <View style={{flex:0.1,}}>
+                        </View>
+                        <View style={{backgroundColor:_this.state.ToggleBtn[item.key].toggled==true? '#43D1E3':'white',
+                                        borderWidth:1,
+                                        borderColor:_this.state.ToggleBtn[item.key].toggled==true? 'white':'black',
+                                        flex:0.04,
+                                        marginTop:HeightScale(35),
+                                        width: WidthScale(14),
+                                        height: HeightScale(14),
+                                        borderRadius: 10000
+                                        }}></View>
+                        <Image source={item_image}style={{marginStart:27,marginTop:11,width:70,
+                            height:70}}></Image>
+                        <TouchableOpacity style={styles.button,{
+                                height: 70,
+                                shadowOffset:{  width: 5,  height: 5},
+                                shadowColor: 'black',
+                                shadowOpacity: 0.01,
+                                width:Dimensions.get('window').width,
+                                borderColor:'black',
+                                marginStart: 0,
+                                alignItems:'center',
+                                justifyContent:'center',
+                                zIndex:0,
+                                marginTop:0,
+                                flex:1,
+                            }} onPress={() => _this.onclickFilterItem(_this,item)}>
+                                    <View style={{flex:1,justifyContent: "center",marginStart:30,marginTop:10, alignSelf: 'flex-start'}}>
+                                        <Text style={{
+                                            fontSize:19,
+                                            color:'black'}}>
+                                                {title}
+                                        </Text>
+                                    </View>
+                            </TouchableOpacity>
+                    </View> 
+                </ImageBackground>
+            </View>
+        :
+        null}
+        </View>
 );
 
 
 const OnSelectItem = ({ _this,item,item_image,toggled}) => (
-    
-        <View style={styles.container,{flex: 1,flexDirection: 'row'}}>
-            {toggled==true?
-                <View>
-                    <Image source={item_image} style={{marginStart:0,marginTop:10,width:70,height:70}}>
-                    </Image>
-                    <TouchableOpacity
-                        onPress={()=>_this.onclickFilterItem(_this,item)}>
-                        <Image source={require('../assets/Group4.png')} style={{marginStart:WidthScale(40),
-                                                                                marginTop:HeightScale(-72),
-                                                                                width:20,
-                                                                                marginEnd:0,
-                                                                                height:20}}></Image>
-                    </TouchableOpacity>
-                </View>
-            :null}
-        </View>
+    <View>
+        {_this.state.ToggleBtn[item.key].visible==true?
+            <View style={styles.container,{flex: 1,flexDirection: 'row'}}>
+                {toggled==true?
+                    <View>
+                        <Image source={item_image} style={{marginStart:0,marginTop:10,width:70,height:70}}>
+                        </Image>
+                        <TouchableOpacity
+                            onPress={()=>_this.onclickFilterItem(_this,item)}>
+                            <Image source={require('../assets/Group4.png')} style={{marginStart:WidthScale(40),
+                                                                                    marginTop:HeightScale(-72),
+                                                                                    width:20,
+                                                                                    marginEnd:0,
+                                                                                    height:20}}></Image>
+                        </TouchableOpacity>
+                    </View>
+                :null}
+            </View>
+        :
+        null}
+    </View>
 );
 
 const styles = StyleSheet.create({

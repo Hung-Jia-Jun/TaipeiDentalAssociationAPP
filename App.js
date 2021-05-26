@@ -70,6 +70,7 @@ import HealthInsuranceDetail from "./screens/HealthInsuranceDetail";
 import OpeningStoreProblemsDetail from "./screens/OpeningStoreProblemsDetail";
 import ActivityInformationDetail from "./screens/ActivityInformationDetail";
 import AnnouncementDetail from "./screens/AnnouncementDetail";
+import GroupChat from "./screens/GroupChat";
 
 
 import Register from "./screens/Register";
@@ -506,6 +507,13 @@ const AppNavigator = createStackNavigator({
 	},
 	CreateChatRoom : {
 		screen: CreateChatRoom,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
+	GroupChat : {
+		screen: GroupChat,
 		navigationOptions: {
 			animationEnabled: false,
 			headerShown: false

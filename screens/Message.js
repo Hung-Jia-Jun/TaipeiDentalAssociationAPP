@@ -1,5 +1,15 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import * as firebase from 'firebase';
+
+const appConfig = require('../app.json');
+const config = {
+	databaseURL : appConfig.databaseURL,
+}
+if (!firebase.apps.length) {
+	firebase.initializeApp(config);
+}
+const database = firebase.database();
 
 //NotifycationTopper.png
 const image = require('../assets/b-訊息中心（聊天室）.png');
@@ -22,17 +32,40 @@ class Message extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showGroupList:false
+            showGroupList:false,
+            GroupList : [
+                // {
+                //     key: '0',
+                //     title: '500期',
+                //     item_image : require('../assets/NotifyItem.png'),
+                // },
+                
+            ]
         }
     }
-
-  render() {
-    const renderItem = ({ item }) => (
-        <Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription}/>
-    );
-    const Group_renderItem = ({ item }) => (
-        <Group_Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription}/>
-    );
+    componentDidMount()
+    {
+        var _GroupList=[]
+        var ref = firebase.database().ref('/user'+"/" + global.username+ '/belongGroups');
+        ref.on('value', function (snapshot) {
+            var i=0;
+            snapshot.forEach((childSnapshot) => {
+                _GroupList.push({   key:i.toString(),
+                                    title:childSnapshot.val().toString(),
+                                    item_image : require('../assets/NotifyItem.png'),
+                                    })
+                i+=1;
+              });
+        })
+        this.setState({GroupList:_GroupList});
+    }
+    render() {
+        const renderItem = ({ item }) => (
+            <Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription}/>
+        );
+        const Group_renderItem = ({ item }) => (
+            <Group_Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription}/>
+        );
     return (
         <View style={styles.container,{flex: 1,
                                         flexDirection: 'column',
@@ -142,7 +175,7 @@ class Message extends Component {
                     <FlatList
                     style={{zIndex:0,marginTop:200,height:200,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
                     contentContainerStyle={{ marginTop: 0}}
-                    data={GroupList}
+                    data={this.state.GroupList}
                     renderItem={Group_renderItem}
                     keyExtractor={item => item.key}
                     />
@@ -312,28 +345,7 @@ const Item = ({ _this,title,item_image,discription}) => (
         </ImageBackground>
     </View>
 );
-const GroupList = [
-    {
-        key: '0',
-        title: '500期',
-        item_image : require('../assets/NotifyItem.png'),
-    },
-    {
-        key: '1',
-        title: '501期',
-        item_image : require('../assets/NotifyItem.png'),
-    },
-    {
-        key: '2',
-        title: '502期',
-        item_image : require('../assets/NotifyItem.png'),
-    },
-    {
-        key: '3',
-        title: '503期',
-        item_image : require('../assets/NotifyItem.png'),
-    },
-]
+
 
 const DATA = [
     {

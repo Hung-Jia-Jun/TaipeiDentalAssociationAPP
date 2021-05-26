@@ -73,6 +73,7 @@ class Index extends Component {
 									enrollmentYear:this.state.enrollmentYear,
 									userIcon : '../assets/MessageIcon.png',
 									validation : false,
+									belongGroups : [],
 								});
 				Alert.alert("申請成功，等待審核中");
 			} 
