@@ -27,6 +27,8 @@ if (!firebase.apps.length) {
 }
 const database = firebase.database();
 
+//TODO 新增搜尋功能
+
 class Message extends Component {
     constructor(props) {
         super(props);

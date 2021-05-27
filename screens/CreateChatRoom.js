@@ -74,9 +74,6 @@ class Message extends Component {
     onSelectMemberToGroup()
     {
         var dbRef = database.ref();
-        //TODO this.state.GroupName 是群組名稱,要在下個頁面顯示
-        //TODO 加入到聊天那個頁面，那個頁面有個查看所屬群組的功能
-
         //將時間戳當作ＩＤ
         var timeStamp = new Date().getTime().toString();
         var GroupID = this.state.GroupName+'_' + timeStamp;
@@ -95,7 +92,10 @@ class Message extends Component {
                     {
                         user.belongGroups = []
                     }
-                    user.belongGroups.push(this.state.GroupName)
+                    user.belongGroups.push({
+                                                key : this.state.GroupName,
+                                                value : GroupID,
+                                            })
                     var GroupListRef = database.ref('/user'+"/" + user.username);
                     GroupListRef.update({
                         belongGroups : user.belongGroups

@@ -158,7 +158,7 @@ class Index extends Component {
 												backgroundColor:'#ECF2F6'}}
 										onPress={()=>this.setState({showBirthDay:!this.state.showBirthDay,
 																		})}>	
-										<Text style={{color:this.state.birthday_str=="密碼（出生年月日）"?'#A4B9CC' : 'black'}}>{this.state.birthday_str}</Text>
+										<Text style={{paddingHorizontal:20,color:this.state.birthday_str=="密碼（出生年月日）"?'#A4B9CC' : 'black'}}>{this.state.birthday_str}</Text>
 								</TouchableOpacity>
 							</View>
 						</View>
@@ -228,6 +228,7 @@ const styles = StyleSheet.create({
 		height: 50,
 		width:255,
 		marginTop:15,
+		paddingHorizontal:20,
 		// marginStart: 60,
 		borderColor: '#ECF2F6',
 		borderWidth: 1,
@@ -236,6 +237,7 @@ const styles = StyleSheet.create({
 		},
 	UsernameTextInputclass:{
 		height: 50,
+		paddingHorizontal:20,
 		width:255,
 		// marginStart: 60,
 		// marginBottom: 15,

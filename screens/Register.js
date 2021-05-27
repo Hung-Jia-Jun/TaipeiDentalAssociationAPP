@@ -179,6 +179,7 @@ class Index extends Component {
 													borderColor: '#ECF2F6',
 													borderWidth: 1,
 													borderRadius: 10 ,
+													paddingHorizontal:20,
 													marginTop:HeightScale(10),
 													backgroundColor : "#ECF2F6",
 													}	
@@ -199,7 +200,7 @@ class Index extends Component {
 																	showEnrollmentYear:false,
 																	showBirthDay:false,
 																		})}>
-										<Text style={{color:this.state.memberType=="身份"?'#A4B9CC' : 'black'}}>{this.state.memberType}</Text>
+										<Text style={{paddingHorizontal:20,color:this.state.memberType=="身份"?'#A4B9CC' : 'black'}}>{this.state.memberType}</Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{borderRadius:10,
 												height: 50,		
@@ -211,7 +212,7 @@ class Index extends Component {
 																	showMemberType:false,
 																	showBirthDay:false,
 																		})}>	
-										<Text style={{color:this.state.enrollmentYear=="入學年"?'#A4B9CC' : 'black'}}>{this.state.enrollmentYear}</Text>
+										<Text style={{paddingHorizontal:20,color:this.state.enrollmentYear=="入學年"?'#A4B9CC' : 'black'}}>{this.state.enrollmentYear}</Text>
 								</TouchableOpacity>
 								
 								<TouchableOpacity style={{borderRadius:10,
@@ -224,7 +225,7 @@ class Index extends Component {
 																	showEnrollmentYear:false,
 																	showMemberType:false,
 																		})}>	
-										<Text style={{color:this.state.birthDay_str=="生日"?'#A4B9CC' : 'black'}}>{this.state.birthDay_str}</Text>
+										<Text style={{paddingHorizontal:20,color:this.state.birthDay_str=="生日"?'#A4B9CC' : 'black'}}>{this.state.birthDay_str}</Text>
 								</TouchableOpacity>
 							</View>
 						</View>

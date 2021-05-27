@@ -51,7 +51,8 @@ class Message extends Component {
             var i=0;
             snapshot.forEach((childSnapshot) => {
                 _GroupList.push({   key:i.toString(),
-                                    title:childSnapshot.val().toString(),
+                                    title:childSnapshot.val().key,
+                                    groupID:childSnapshot.val().value,
                                     item_image : require('../assets/NotifyItem.png'),
                                     })
                 i+=1;
@@ -64,7 +65,7 @@ class Message extends Component {
             <Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription}/>
         );
         const Group_renderItem = ({ item }) => (
-            <Group_Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription}/>
+            <Group_Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription} groupID={item.groupID}/>
         );
     return (
         <View style={styles.container,{flex: 1,
@@ -262,7 +263,7 @@ class Message extends Component {
 
 
 
-const Group_Item = ({ _this,title,item_image,discription}) => (
+const Group_Item = ({ _this,title,item_image,discription,groupID}) => (
     <View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:45,backgroundColor:'#D8F4FB'}}>
         <View style={{zIndex:0,width:Dimensions.get('window').width,height:50}}>
             <TouchableOpacity style={styles.button,{
@@ -276,7 +277,9 @@ const Group_Item = ({ _this,title,item_image,discription}) => (
                     zIndex:1,
                     flexDirection:'row',
                     marginTop:0,
-                }} onPress={() => _this.props.navigation.navigate('')}>
+                }} onPress={() => _this.props.navigation.navigate('GroupChat',{ GroupName : title,
+                                                                                GroupID : groupID
+                                                                                })}>
                     <Image source={ item_image } style={{zIndex:0,
                                                         marginTop:0,
                                                         marginStart:50,
