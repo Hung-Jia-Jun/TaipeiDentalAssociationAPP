@@ -77,7 +77,7 @@ class Message extends Component {
         //將時間戳當作ＩＤ
         var timeStamp = new Date().getTime().toString();
         var GroupID = this.state.GroupName+'_' + timeStamp;
-        GroupUser = []
+        var GroupUser = []
         this.state.ToggleBtn.forEach(user=>{
             //只把用戶選擇的客戶加進群組裡
             if (user.toggled & user.title!='Append user')
@@ -116,7 +116,8 @@ class Message extends Component {
     //追加好友到群組內
     appendMember()
     {
-        this.props.navigation.navigate('InviteGroupChat',{ToggleBtn : JSON.stringify(this.state.ToggleBtn)});
+        
+        this.props.navigation.navigate('InviteGroupChat',{ToggleBtn : JSON.stringify(this.state.ToggleBtn),LastPage:"CreateChatRoom"});
     }
   render() {
     const renderItem = ({ item }) => (
@@ -152,35 +153,48 @@ class Message extends Component {
                                                                             }}></Image>
             </View>
             <View style={{flex: 0.25,
-                            justifyContent:'center',
-                            alignItems:'center',
-                            zIndex:0,
-                            flexDirection: 'row',
-                            }}>
-                <View style={{
-                        flex:8,
-                    }}>
-                    <Text style={{
+							justifyContent:'center',
+							alignItems:'center',
+							zIndex:0,
+							flexDirection: 'row',
+							}}>
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-start',
+					}}>
+					<TouchableOpacity style={{
+							alignItems:'center',
+							justifyContent:'center',
+							height:50,
+							width:50,
+						}} 
+						onPress={()=>this.props.navigation.navigate("Message")}
+						>
+						<Image source={require('../assets/sdfghkjlgfd.png')}></Image>
+					</TouchableOpacity>
+				</View>
+				<View style={{
+						flex:0.3,
+					}}>
+					<Text style={{
                                     fontSize:18,
-                                    marginStart:WidthScale(165),
-                                    // textAlign:'center',
+                                    // marginStart:WidthScale(165),
+                                    textAlign:'center',
                                     zIndex:0,
                                 color:'white'}}>群組設定</Text>
-                </View>
-                <View style={{
-                        justifyContent:'center',
-                        alignItems:'center',
-                        zIndex:1,
-                        flex:1,
-                }}>
-                    <TouchableOpacity style={{
-                        height: 50,
-                        width:50,
-                        justifyContent:'center',
-                        alignItems:'center',
-                        zIndex:1,
-                        }}
-                        onPress={()=>this.onSelectMemberToGroup()}
+				</View>
+				
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-end',
+					}}>
+					<TouchableOpacity style={{
+							alignItems:'center',
+							justifyContent:'center',
+							height:50,
+							width:50,
+						}} 
+						onPress={()=>this.onSelectMemberToGroup()}
                         >
                         <View style={{flex:1,justifyContent: "center",
                                             zIndex:0,
@@ -192,13 +206,9 @@ class Message extends Component {
                                     確認
                             </Text>
                         </View>
-                    </TouchableOpacity> 
-                </View>
-                <View style={{
-                        flex:0.5,
-                }}></View>
-            </View>
-            
+					</TouchableOpacity>
+				</View>
+			</View>
             <View style={{flex: 0.25,
                             justifyContent:'top',
                             alignItems:'flex-end',
