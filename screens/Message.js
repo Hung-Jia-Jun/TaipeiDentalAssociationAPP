@@ -82,40 +82,50 @@ class Message extends Component {
                                                                             marginTop:0
                                                                             }}></Image>
             </View>
-            <View style={{flex: 0.25,
-                            justifyContent:'center',
-                            alignItems:'center',
-                            flexDirection: 'column',
-                            }}>
-                    <Text style={{marginTop:Dimensions.get('window').height*0.03,
-                                    fontSize:18,
-                                    color:'white'}}>訊息中心</Text>
-            </View>
-            <View style={{flex: 0.25,
-                            justifyContent:'top',
-                            alignItems:'flex-end',
-                            flexDirection: 'column',
-                            marginTop:-30,
-                            }}>
-                    <TouchableOpacity style={{marginTop:0,
-                                marginStart:0,
-                                justifyContent:'center',
-                                alignItems:'center',
-                                zIndex:0,
-                                width:50,      
-                                height:50}}
-                                onPress={()=>this.props.navigation.navigate('InviteGroupChat')}>
-                        <Image source={require('../assets/MessageBtn.png')}></Image>
-                    </TouchableOpacity>
-            </View>
-            
             <View style={{flex: 0.55,
+							justifyContent:'center',
+							alignItems:'center',
+							zIndex:0,
+							flexDirection: 'row',
+							}}>
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-start',
+					}}>
+				</View>
+				<View style={{
+						flex:0.3,
+					}}>
+					<Text style={{
+                                    fontSize:18,
+                                    // marginStart:WidthScale(165),
+                                    textAlign:'center',
+                                    zIndex:0,
+                                color:'white'}}>訊息中心</Text>
+				</View>
+				
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-end',
+					}}>
+					<TouchableOpacity style={{
+							alignItems:'center',
+							justifyContent:'center',
+							height:50,
+							width:50,
+						}} 
+                        onPress={()=>this.props.navigation.navigate('InviteGroupChat')}>
+                        <Image source={require('../assets/MessageBtn.png')}></Image>
+					</TouchableOpacity>
+				</View>
+			</View>
+            <View style={{flex: 0.35,
                             flexDirection: 'column',
                             }}>
                 <View style={{flex: 1,
                                 flexDirection: 'row',
                                 }}>
-                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.05,
+                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.01,
                                                 marginStart:Dimensions.get('window').width*0.12,
                                                 zIndex:0,
                                                 alignContent:'flex-start',
@@ -124,7 +134,7 @@ class Message extends Component {
                                                 onPress={()=>this.props.navigation.navigate('Notifycation')}>
                         <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>通知</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.05,
+                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.01,
                                                 marginStart:Dimensions.get('window').width*0.2,
                                                 zIndex:0,
                                                 alignItems:'flex-end',

@@ -1,18 +1,72 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import * as firebase from 'firebase';
+
+const appConfig = require('../app.json');
+const config = {
+	databaseURL : appConfig.databaseURL,
+}
+if (!firebase.apps.length) {
+	firebase.initializeApp(config);
+}
+const database = firebase.database();
 
 //NotifycationTopper.png
 const image = require('../assets/b-訊息中心（聊天室）.png');
 
 const NotifycationTopper_image = require('../assets/NotifycationTopper.png');
 const Footer_image = require('../assets/Footer_blank.png');
+const Friend_image = require('../assets/24px_friend.png');
 
+
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
+
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
 
 class Message extends Component {
-  render() {
-    const renderItem = ({ item }) => (
-        <Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription}/>
-    );
+    constructor(props) {
+        super(props);
+        this.state = {
+            showGroupList:false,
+            GroupList : [
+                // {
+                //     key: '0',
+                //     title: '500期',
+                //     item_image : require('../assets/NotifyItem.png'),
+                // },
+                
+            ]
+        }
+    }
+    componentDidMount()
+    {
+        var _GroupList=[]
+        var ref = firebase.database().ref('/user'+"/" + global.username+ '/belongGroups');
+        ref.on('value', function (snapshot) {
+            var i=0;
+            snapshot.forEach((childSnapshot) => {
+                _GroupList.push({   key:i.toString(),
+                                    title:childSnapshot.val().key,
+                                    groupID:childSnapshot.val().value,
+                                    item_image : require('../assets/NotifyItem.png'),
+                                    })
+                i+=1;
+              });
+        })
+        this.setState({GroupList:_GroupList});
+    }
+    render() {
+        const renderItem = ({ item }) => (
+            <Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription}/>
+        );
+        const Group_renderItem = ({ item }) => (
+            <Group_Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription} groupID={item.groupID}/>
+        );
     return (
         <View style={styles.container,{flex: 1,
                                         flexDirection: 'column',
@@ -28,38 +82,50 @@ class Message extends Component {
                                                                             marginTop:0
                                                                             }}></Image>
             </View>
-            <View style={{flex: 0.25,
-                            justifyContent:'center',
-                            alignItems:'center',
-                            flexDirection: 'column',
-                            }}>
-                    <Text style={{marginTop:Dimensions.get('window').height*0.03,
+            <View style={{flex: 0.55,
+							justifyContent:'center',
+							alignItems:'center',
+							zIndex:0,
+							flexDirection: 'row',
+							}}>
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-start',
+					}}>
+				</View>
+				<View style={{
+						flex:0.3,
+					}}>
+					<Text style={{
                                     fontSize:18,
-                                    color:'white'}}>訊息中心</Text>
-            </View>
-            <View style={{flex: 0.25,
-                            justifyContent:'top',
-                            alignItems:'flex-end',
-                            flexDirection: 'column',
-                            marginTop:-30,
-                            }}>
-            </View>
-            
-            <View style={{flex: 0.5,
+                                    // marginStart:WidthScale(165),
+                                    textAlign:'center',
+                                    zIndex:0,
+                                color:'white'}}>訊息中心</Text>
+				</View>
+				
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-end',
+					}}>
+				</View>
+			</View>
+            <View style={{flex: 0.35,
                             flexDirection: 'column',
                             }}>
                 <View style={{flex: 1,
                                 flexDirection: 'row',
                                 }}>
-                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.05,
+                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.01,
                                                 marginStart:Dimensions.get('window').width*0.12,
                                                 zIndex:0,
                                                 alignContent:'flex-start',
                                                 width:100,
-                                                height:40}}>
+                                                height:40}}
+                                                onPress={()=>this.props.navigation.navigate('Notifycation')}>
                         <Text style={{marginTop:12,fontSize:15,color:'#3FEEEA',textAlign:'center'}}>通知</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.05,
+                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.01,
                                                 marginStart:Dimensions.get('window').width*0.2,
                                                 zIndex:0,
                                                 alignItems:'flex-end',
@@ -89,12 +155,12 @@ class Message extends Component {
                     </View>
                 </View>
             </View>
-            
-            <View style={{flex: 3.7,
+            <View style={{flex: 3.95,
+                            zIndex:0,
                             flexDirection: 'column',
                             marginTop:0}}>
                     <FlatList
-                        style={{marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                        style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
 						contentContainerStyle={{ marginTop: 0}}
 						data={DATA}
 						renderItem={renderItem}
@@ -169,16 +235,56 @@ class Message extends Component {
 
 
 
-const Item = ({ _this,title,item_image,discription}) => (
-    <View style={styles.container,{flex: 1, flexDirection: 'row',height:105}}>
-        <ImageBackground style={{marginTop:0,width:Dimensions.get('window').width,height:100,backgroundColor:'#F2FAFF'}}> 
-            <View style={{width:Dimensions.get('window').width,height:100}}>
-                <View style={styles.container,{flex: 1, flexDirection: 'row'}}>
-                    <Image source={ item_image } style={{marginStart:27,marginTop:11,width:90,height:90}}></Image>
-                </View>
-                <View style={styles.container,{flex: 0.1, flexDirection: 'column'}}>
+const Group_Item = ({ _this,title,item_image,discription,groupID}) => (
+    <View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:45,backgroundColor:'#D8F4FB'}}>
+        <View style={{zIndex:0,width:Dimensions.get('window').width,height:50}}>
+            <TouchableOpacity style={styles.button,{
+                    height: 45,
+                    zIndex:0,
+                    shadowOffset:{  width: 5,  height: 5},
+                    shadowColor: 'black',
+                    shadowOpacity: 0.01,
+                    width:Dimensions.get('window').width,
+                    marginStart: 0,
+                    zIndex:1,
+                    flexDirection:'row',
+                    marginTop:0,
+                }} onPress={() => _this.props.navigation.navigate('GroupChat',{ GroupName : title,
+                                                                                GroupID : groupID
+                                                                                })}>
+                    <Image source={ item_image } style={{zIndex:0,
+                                                        marginTop:0,
+                                                        marginStart:50,
+                                                        width:30,
+                                                        height:30}}></Image>
                     <Text style={{
                         width:230,
+                        zIndex:0,
+                        height:30,
+                        marginLeft: 100,
+                        textAlign:'left',
+                        marginTop:3,
+                        fontSize:15,
+                        justifyContent:'center',
+                        color:'black'}}>
+                            {title}
+                    </Text>
+            </TouchableOpacity>
+        </View> 
+    </View>
+);
+
+const Item = ({ _this,title,item_image,discription}) => (
+    <View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:105}}>
+        <ImageBackground style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,height:100,backgroundColor:'#F2FAFF'}}> 
+            <View style={{zIndex:0,width:Dimensions.get('window').width,height:100}}>
+                <View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row'}}>
+                    <Image source={ item_image } style={{zIndex:0,marginStart:27,marginTop:11,width:90,height:90}}></Image>
+                </View>
+                <View style={styles.container,{zIndex:0,flex: 0.1, flexDirection: 'column'}}>
+                    <Text style={{
+                        width:230,
+                        zIndex:0,
                         height:30,
                         marginTop: 20,
                         marginLeft: 125,
@@ -189,6 +295,7 @@ const Item = ({ _this,title,item_image,discription}) => (
                     <Text style={{
                         width:230,
                         height:40,
+                        zIndex:0,
                         marginTop: 0,
                         marginLeft: 125,
                         fontSize:12,
@@ -198,6 +305,7 @@ const Item = ({ _this,title,item_image,discription}) => (
                 </View>
                 <TouchableOpacity style={styles.button,{
                         height: 100,
+                        zIndex:0,
                         shadowOffset:{  width: 5,  height: 5},
                         shadowColor: 'black',
                         shadowOpacity: 0.01,
@@ -212,6 +320,7 @@ const Item = ({ _this,title,item_image,discription}) => (
         </ImageBackground>
     </View>
 );
+
 
 const DATA = [
     {

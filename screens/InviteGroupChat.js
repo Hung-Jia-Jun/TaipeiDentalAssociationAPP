@@ -27,7 +27,7 @@ if (!firebase.apps.length) {
 }
 const database = firebase.database();
 
-//TODO 新增搜尋功能
+//TODO 新增搜尋好友的功能
 
 class Message extends Component {
     constructor(props) {
@@ -36,8 +36,10 @@ class Message extends Component {
             ToggleBtn : [
             ],
             showSelectList:false,
+            searchString:'',
         }
     }
+    
     componentDidMount()
     {
         var dbRef = database.ref();
@@ -52,6 +54,7 @@ class Message extends Component {
                             toggled:false,
                             //可以在好友列表內出現，因為自己的帳號一定要在群組裡面，但又不用出現在好友列表防止選錯
                             visible:true,
+                            //TODO 用戶大頭貼功能要是動態的
                             item_image : require('../assets/MessageIcon.png'),//user[element].userIcon,
                         };
                 if (selfName == user[element].username)
@@ -66,7 +69,6 @@ class Message extends Component {
                 i += 1;
             });
             this.setState({ToggleBtn:this.state.ToggleBtn});
-			console.log(this.state.ToggleBtn);
             
 		} else {
 		}
@@ -81,7 +83,6 @@ class Message extends Component {
 
         var _showGroupList = false;
         this.state.ToggleBtn.forEach((e)=>{
-            console.log(e);
             if (e.toggled == true)
             {
                 _showGroupList = true;
@@ -90,7 +91,10 @@ class Message extends Component {
         })
         this.setState({showSelectList:_showGroupList});
     }
-    
+    doSearch()
+    {
+        console.log(this.state.searchString);
+    }
     onSelectMemberToGroup()
     {
         this.props.navigation.navigate('CreateChatRoom',{ToggleBtn : JSON.stringify(this.state.ToggleBtn)});
@@ -128,65 +132,93 @@ class Message extends Component {
                                                                             }}></Image>
             </View>
             <View style={{flex: 0.25,
-                            justifyContent:'center',
-                            alignItems:'center',
-                            zIndex:0,
-                            flexDirection: 'row',
-                            }}>
-                <View style={{
-                        flex:8,
-                    }}>
-                    <Text style={{
+							justifyContent:'center',
+							alignItems:'center',
+							zIndex:0,
+							flexDirection: 'row',
+							}}>
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-start',
+					}}>
+                          
+                        {this.props.navigation.state.params!=undefined?null
+                        :
+                            <TouchableOpacity style={{
+                                alignItems:'center',
+                                justifyContent:'center',
+                                height:50,
+                                width:50,
+                            }} 
+                            onPress={()=>this.props.navigation.navigate("Message")}>
+                                <Image source={require('../assets/sdfghkjlgfd.png')}></Image>
+                            </TouchableOpacity>
+                        }
+				</View>
+				<View style={{
+						flex:0.3,
+					}}>
+					<Text style={{
                                     fontSize:18,
-                                    marginStart:WidthScale(165),
-                                    // textAlign:'center',
+                                    // marginStart:WidthScale(165),
+                                    textAlign:'center',
                                     zIndex:0,
                                 color:'white'}}>選擇人員</Text>
-                </View>
-                <View style={{
-                        justifyContent:'center',
-                        alignItems:'center',
-                        zIndex:1,
-                        flex:1,
-                }}>
-                    <TouchableOpacity style={{
-                        height: 50,
-                        width:50,
-                        justifyContent:'center',
-                        alignItems:'center',
-                        zIndex:1,
-                        }}
-                        onPress={()=>this.onSelectMemberToGroup()}
-                        >
-                        <View style={{flex:1,justifyContent: "center",
-                                            zIndex:0,
-                                            alignSelf: 'center'}}>
-                            <Text style={{
+				</View>
+				
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-end',
+					}}>
+					<TouchableOpacity style={{
+							alignItems:'center',
+							justifyContent:'center',
+							height:50,
+							width:50,
+						}} 
+						onPress={()=>this.props.navigation.navigate("CreateChatRoom",{ToggleBtn:JSON.stringify(this.state.ToggleBtn)})}
+						>
+						 <Text style={{
                                 fontSize:15,
                                 zIndex:0,
                                 color:'darkgreen'}}>
                                     確認
                             </Text>
-                        </View>
-                    </TouchableOpacity> 
-                </View>
-                <View style={{
-                        flex:0.5,
-                }}></View>
-            </View>
-            
+					</TouchableOpacity>
+				</View>
+			</View>
             <View style={{flex: 0.25,
                             justifyContent:'top',
-                            alignItems:'flex-end',
+                            alignItems:'center',
                             flexDirection: 'column',
                             zIndex:0,
                             }}>
             </View>
-            
-            <View style={{flex: 3.5,
+            <View style={{flex: 0.25,
+                            justifyContent:'center',
+                            alignItems:'center',
+                            flexDirection: 'column',
+                            zIndex:0,
+                            }}>
+                <TextInput style={{
+                                paddingHorizontal:30,
+                                marginTop:0,
+                                backgroundColor:'#ECF0F6',
+                                borderRadius:30,
+                                height:Dimensions.get('window').height*0.8,
+                                width:Dimensions.get('window').width*0.8,
+                                height:43,
+                                zIndex:2}}
+                            value = {(text)=>this.setState({searchString:text})}
+                            onSubmitEditing = {()=>this.doSearch()}
+                            placeholder = '搜尋'
+                            class = 'placeholder'
+                />    
+            </View>
+            <View style={{flex: 3.35,
                             zIndex:0,
                             flexDirection: 'column',
-                            marginTop:18}}>
+                            marginTop:5}}>
                     <FlatList
                         style={{marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
 						contentContainerStyle={{ marginTop: 0}}
@@ -216,66 +248,6 @@ class Message extends Component {
                                                     />
                 </View>
             :null}
-            <View style={{flex: 0.01, flexDirection: 'column'}}>
-                <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
-            </View>
-            <View style={{flex: 0.45, flexDirection: 'row',justifyContent:'space-between'}}>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.02,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
-                        <Image source={require('../assets/footerIcon/Home.png')}></Image>
-                </TouchableOpacity> 
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.03,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Search')}>
-                        <Image source={require('../assets/footerIcon/Search.png')}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.08,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-                        <Image source={require('../assets/footerIcon/Map.png')} 
-                                style={{resizeMode:'stretch',
-                                        marginTop:10,
-                                        width:80,
-                                        height:80
-                                        }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.07,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
-                        <Image source={require('../assets/footerIcon/Msg.png')}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.03,
-                    marginEnd: Dimensions.get('window').width*0.01,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Profile')}>
-                        <Image style={{
-                                        marginTop:10,
-                                        marginStart:5,
-                                        }} 
-                                source={require('../assets/footerIcon/Profile.png')}></Image>
-                </TouchableOpacity>
-            </View>
         </View>
     );
   }

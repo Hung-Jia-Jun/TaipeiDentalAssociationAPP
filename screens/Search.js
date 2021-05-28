@@ -14,7 +14,6 @@ class Page extends Component {
     );
     return (
         <View style={styles.container,{flex: 1, flexDirection: 'column'}}>
-            {/* <ImageBackground source={image} style={styles.image}> */}
                 <View style={{flex: 0.3, flexDirection: 'column'}}>
                     <Image source={searchTopper_image} style={styles.image,
                                                                 {zIndex:1,
