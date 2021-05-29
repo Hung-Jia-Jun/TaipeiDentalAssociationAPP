@@ -93,7 +93,36 @@ class Message extends Component {
     }
     doSearch()
     {
-        console.log(this.state.searchString);
+        var searchStr = this.state.searchString.toString();
+        this.state.ToggleBtn.forEach(e=>{
+            
+            //用正則表達式搜尋
+            var re = searchStr;
+            var matchArr = e.title.match(re);
+
+            //如果不符合篩選條件，那就關閉顯示不需要的用戶
+            if (matchArr == null)
+            {
+                console.log("close : " + e.title + " searchStr : " + searchStr);
+                e.visible=false;
+            }
+            else
+            {
+                if (e.title!=global.username)
+                {
+                    console.log("open : " + e.title + " searchStr : " + searchStr);
+                    e.visible=true;
+                }
+            }
+
+            //但又不需要顯示自己這個腳色，所以自己的角色也要維持關閉的狀態
+            //如果清空搜尋結果，那就顯示所有該顯示的會員
+            if (searchStr=='' && e.title!=global.username)
+            {
+                e.visible=true;
+            }
+        });
+        this.setState({ToggleBtn : this.state.ToggleBtn});
     }
     onSelectMemberToGroup()
     {
@@ -209,10 +238,11 @@ class Message extends Component {
                                 width:Dimensions.get('window').width*0.8,
                                 height:43,
                                 zIndex:2}}
-                            value = {(text)=>this.setState({searchString:text})}
-                            onSubmitEditing = {()=>this.doSearch()}
-                            placeholder = '搜尋'
-                            class = 'placeholder'
+                                onChangeText={(text) => this.setState({searchString: text})}
+                                onSubmitEditing = {()=>{this.doSearch()}}
+                                placeholder = '搜尋'
+                                class = 'placeholder'
+                                // value = {this.state.searchString.toString()}
                 />    
             </View>
             <View style={{flex: 3.35,
