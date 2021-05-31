@@ -39,7 +39,7 @@ class Page extends Component {
 		this.state = {
 			DATA : [],
             indexImage:[],
-            showAnnounce : false,
+            showDetail : false,
 		}
 	}
     fetchAnnouncement()
@@ -62,7 +62,7 @@ class Page extends Component {
 									})
 				i+=1;
 			});
-			that.setState({DATA : _DATA,showAnnounce:true})
+			that.setState({DATA : _DATA,showDetail:true})
 		});
         ref.child('IndexImage').on('value', function (snapshot) {
 			var i=0;
@@ -163,7 +163,7 @@ class Page extends Component {
                                 }}>
                     <View style={{flex:0.2}}></View>
                     <View style={{flex:0.8}}>
-                        {this.state.showAnnounce?
+                        {this.state.showDetail?
                             <Swiper style={styles.wrapper} showsButtons={false}>
                                     {this.showScrollImage(this)}
                             </Swiper>
@@ -174,7 +174,7 @@ class Page extends Component {
             <View style={{flex: 2.5,
 								flexDirection: 'column',
 								}}>
-                    {this.state.showAnnounce?
+                    {this.state.showDetail?
                         <FlatList
                         contentContainerStyle={{ marginTop: 0}}
                         data={this.state.DATA}

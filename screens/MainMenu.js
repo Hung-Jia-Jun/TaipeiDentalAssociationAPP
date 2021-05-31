@@ -6,6 +6,8 @@ const image = require('../assets/b-主選單.png');
 const mainmanuTopper_image = require('../assets/MainmanuTopper.png');
 const footer_image = require('../assets/Footer_blank.png');
 
+//TODO 要新增主選單下拉後的Group標示
+//TODO 新增提示該地方可以下拉
 //iphone 12 pro max 
 const guidelineBaseWidth = 428
 const guidelineBaseHeight = 926
@@ -178,7 +180,7 @@ class Page extends Component {
 					data={DATA}
 					backgroundColor={'#43D1E3'}
 					renderItem={renderItem}
-					ListHeaderComponentStyle={{height:100}}
+					ListHeaderComponentStyle={{height:100,marginTop:HeightScale(50)}}
 					ListHeaderComponent={() => <View style={{height:180}}></View>}
 					keyExtractor={item => item.key.toString()}
 				/>

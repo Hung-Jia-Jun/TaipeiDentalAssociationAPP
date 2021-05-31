@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View, Alert } from "react-native";
 import * as firebase from 'firebase';
 import Swiper from 'react-native-swiper'
 
@@ -93,6 +93,48 @@ class Page extends Component {
             i++;
         })
         return imageScrollViews;
+    }
+    signUpEvent=(title,date) =>
+    {
+        console.log(global.username);
+        console.log(title);
+        console.log(date);
+
+        var signUpEventRef = database.ref('/signUpEvent');
+        
+        //控制是否報名的變數
+        var haveSign = false;
+        signUpEventRef.once('value', function (snapshot) {
+			var i=0;
+			snapshot.forEach((childSnapshot) => {
+                if (haveSign)
+                {
+                    return;
+                }
+                //檢查有沒有報名過
+                if (global.username == childSnapshot.val().user && 
+                        date == childSnapshot.val().date &&
+                        title == childSnapshot.val().title)
+                {
+                    haveSign = true;
+                    Alert.alert(
+                        "學生活動報名",
+                        "\n" + title + " \n\n日期" + date + "\n\n您已報名過此活動\n請準時參加謝謝！");
+                }
+			});
+            
+        });
+        if (haveSign==false)
+        {
+            signUpEventRef.push({
+                "user" : global.username,
+                "title" : title,
+                "date" : date,
+            });
+            Alert.alert(
+                    "學生活動報名",
+                    "\n" + title + " \n\n日期" + date + "\n\n報名成功!!");
+        }
     }
     render() {
 	const renderItem = ({ item }) => (
@@ -323,13 +365,7 @@ const Item = ({ _this,
                         marginStart: 0,
                         marginTop: Dimensions.get('window').height*0.04 * -1,
                         marginStart: Dimensions.get('window').width*0.76,
-                    }} onPress={()=>_this.props.navigation.navigate(sceneName,{
-                                                                                subDescription : subDescription,
-                                                                                subPageImage : subPageImage,
-                                                                                subTitle : subTitle,
-                                                                                title : title,
-                                                                                date : date,
-                                                                                })}>
+                    }} onPress={()=>_this.signUpEvent(title,date)}>
                         <View style={{flex:0.6,
                                         justifyContent:'center',
                                         borderRadius:30,
