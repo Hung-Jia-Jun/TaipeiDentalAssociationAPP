@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import * as firebase from 'firebase';
+import Swiper from 'react-native-swiper'
 
+const appConfig = require('../app.json');
+const config = {
+	databaseURL : appConfig.databaseURL,
+}
+if (!firebase.apps.length) {
+	firebase.initializeApp(config);
+}
+const database = firebase.database();
 
 
 
@@ -10,10 +20,94 @@ const Back_image = require('../assets/Announcement_icon/Back.png')
 const Schedule_image = require('../assets/Announcement_icon/Schedule.png')
 
 const image = require('../assets/b-校友會公告.png');
+
+
+
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
+
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
+
+
 class Page extends Component {
-   render() {
+    constructor(props) {
+		super(props);
+		this.state = {
+			DATA : [],
+            indexImage:[],
+            showAnnounce : false,
+		}
+	}
+    fetchAnnouncement()
+    {
+        var that = this;
+        var _DATA = [];
+        var _indexImage = [];
+        var ref = firebase.database().ref('/announcement');
+		ref.child('Event').on('value', function (snapshot) {
+			var i=0;
+			snapshot.forEach((childSnapshot) => {
+				_DATA.push({   key:i.toString(),
+                                    title : childSnapshot.val().title,
+                                    description : childSnapshot.val().description,
+                                    item_image : childSnapshot.val().item_image,
+                                    sceneName : childSnapshot.val().sceneName,
+                                    subDescription : childSnapshot.val().subDescription,
+                                    subPageImage: childSnapshot.val().subPageImage,
+                                    subTitle: childSnapshot.val().subTitle,
+									})
+				i+=1;
+			});
+			that.setState({DATA : _DATA,showAnnounce:true})
+		});
+        ref.child('IndexImage').on('value', function (snapshot) {
+			var i=0;
+			snapshot.forEach((childSnapshot) => {
+				_indexImage.push({   key:i.toString(),
+                                    uri:childSnapshot.val().uri,
+									})
+				i+=1;
+			});
+			that.setState({indexImage : _indexImage})
+		});
+    }
+    componentDidMount()
+    {
+        this.fetchAnnouncement();
+    }
+    showScrollImage = (_this) => {
+        const imageScrollViews = [];
+        var i = 0;
+        _this.state.indexImage.forEach(e=>{
+            imageScrollViews.push(
+                <View key={i.toString()} style={styles.slide}>
+                    <Image source={ { uri: e.uri } } style={{
+                        width : WidthScale(315),
+                        height:HeightScale(200),
+                        resizeMode : 'contain',
+                }}></Image> 
+                </View>
+            )
+            i++;
+        })
+        return imageScrollViews;
+    }
+
+    render() {
 	const renderItem = ({ item }) => (
-		<Item _this={this} description={item.description} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
+		<Item   _this={this} 
+                description={item.description} 
+                title={item.title} 
+                item_image={item.item_image} 
+                sceneName={item.sceneName}
+                subDescription ={item.subDescription}
+                subPageImage ={item.subPageImage}
+                subTitle ={item.subTitle}
+                 />
 	);
     return (
         <View style={{flex: 3, flexDirection: 'column'}}>
@@ -67,22 +161,28 @@ class Page extends Component {
             <View style={{flex:1.8,
                             alignItems:'center',
                                 }}>
-                    <Image source={require('../assets/Announcement_icon/AnnouncementRawImage.png')}
-                            style={{
-                                    flex:0.9,
-                                    marginTop: Dimensions.get('window').height*0.07,
-                                    }}></Image>
+                    <View style={{flex:0.2}}></View>
+                    <View style={{flex:0.8}}>
+                        {this.state.showAnnounce?
+                            <Swiper style={styles.wrapper} showsButtons={false}>
+                                    {this.showScrollImage(this)}
+                            </Swiper>
+                        :null}
+                    </View>
+                    <View style={{flex:0.01}}></View>
             </View>
             <View style={{flex: 2.5,
 								flexDirection: 'column',
 								}}>
-					<FlatList
-						contentContainerStyle={{ marginTop: 0}}
-						data={DATA}
-						style={{backgroundColor:'#EBF0F3'}}
-						renderItem={renderItem}
-						keyExtractor={item => item.key}
-					/>
+                    {this.state.showAnnounce?
+                        <FlatList
+                        contentContainerStyle={{ marginTop: 0}}
+                        data={this.state.DATA}
+                        style={{backgroundColor:'#EBF0F3'}}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.key.toString()}
+                        />
+                    :null}
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>
                 <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
@@ -152,24 +252,14 @@ class Page extends Component {
 }
 
 
-const DATA = [
-	{
-		key: '0',
-		title: '[校友會開會通知]',
-		item_image : require('../assets/Announcement_icon/listicon1.png'),
-		sceneName:'AnnouncementDetail',
-        description:'跨五屆北醫同學會邀請您',
-	},
-    {
-		key: '1',
-		title: '[開會通知]',
-		item_image : require('../assets/Announcement_icon/listicon2.png'),
-		sceneName:'AnnouncementDetail',
-        description:'11/5.6 中午12點 至晚上9點舉辦票選校友會會長',
-	},
-];
-
-const Item = ({ _this,title,description,item_image,sceneName }) => (
+const Item = ({ _this,
+                title,
+                description,
+                item_image,
+                sceneName,
+                subDescription,
+                subPageImage,
+                subTitle, }) => (
          <View style={{flex: 5,
             marginStart:Dimensions.get('window').width*0.02,
             width:Dimensions.get('window').width*0.95,
@@ -186,9 +276,16 @@ const Item = ({ _this,title,description,item_image,sceneName }) => (
                 marginStart: 0,
                 marginTop:0,
                 
-            }} onPress={() => _this.props.navigation.navigate(sceneName)}>
-                <Image source={ item_image } style={{
+            }} onPress={() => _this.props.navigation.navigate(sceneName,{
+                                                            subDescription : subDescription,
+                                                            subPageImage : subPageImage,
+                                                            subTitle : subTitle,
+                                                            title : title,
+                                                            })}>
+                <Image source={ { uri: item_image } } style={{
                         flex:0.8,
+                        width : 100,
+                        resizeMode : 'contain',
                         marginTop: Dimensions.get('window').height*0.02,
                         marginStart: Dimensions.get('window').width*0.04,
                 }}></Image>
@@ -219,6 +316,18 @@ const Item = ({ _this,title,description,item_image,sceneName }) => (
 
 
 const styles = StyleSheet.create({
+    wrapper: {},
+    slide: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    text: {
+      color: '#fff',
+      fontSize: 30,
+      fontWeight: 'bold'
+    },
+    
     title:{},
     container: {
         flex: 1,

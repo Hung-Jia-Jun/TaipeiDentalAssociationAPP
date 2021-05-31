@@ -82,7 +82,7 @@ class Page extends Component {
 						data={DATA}
 						style={{backgroundColor:'#EBF0F3'}}
 						renderItem={renderItem}
-						keyExtractor={item => item.key}
+						keyExtractor={item => item.key.toString()}
 					/>
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>

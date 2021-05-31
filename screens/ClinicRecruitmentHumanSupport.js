@@ -153,7 +153,7 @@ class Message extends Component {
 						contentContainerStyle={{ marginTop: 0}}
 						data={DATA}
 						renderItem={renderItem}
-						keyExtractor={item => item.key}
+						keyExtractor={item => item.key.toString()}
 					/>
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>

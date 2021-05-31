@@ -27,7 +27,6 @@ if (!firebase.apps.length) {
 }
 const database = firebase.database();
 
-//TODO 新增搜尋好友的功能
 
 class Message extends Component {
     constructor(props) {
@@ -254,7 +253,7 @@ class Message extends Component {
 						contentContainerStyle={{ marginTop: 0}}
 						data={this.state.ToggleBtn}
 						renderItem={renderItem}
-						keyExtractor={item => item.key}
+						keyExtractor={item => item.key.toString()}
 					/>
                     
                     
@@ -274,7 +273,7 @@ class Message extends Component {
                                                     style={{marginTop:0,marginStart:0}}//backgroundColor:'#EBF0F3'}}
                                                     data={this.state.ToggleBtn}
                                                     renderItem={renderOnSelectItem}
-                                                    keyExtractor={item => item.key}
+                                                    keyExtractor={item => item.key.toString()}
                                                     />
                 </View>
             :null}

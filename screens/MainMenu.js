@@ -33,7 +33,8 @@ const checkHaveDetailAndShow = (_this,item,isOnTopItem) => {
 			if (_this.state.dentalGroupPurchaseShowDetail)
 			{
 				item.showDetail = true
-				return 179
+				// return 179
+				return 120
 			}
 			else
 			{
@@ -102,21 +103,21 @@ class Page extends Component {
 					_this.setState({helpAndServiceShowDetail :  _this.state.helpAndServiceShowDetail ? false : true});
 					break;
 				default:
-					_this.props.navigation.navigate(sceneName);
+					_this.props.navigation.push(sceneName);
 					break;
 			}
 		}
 		else
 		{
-			_this.props.navigation.navigate(sceneName);
+			_this.props.navigation.push(sceneName);
 		}
 	}
 	showSubtitle = (_this,item) => {
 			const textList = [];
+			var i = 0;
 			for (const [subTitle, subscene] of Object.entries(item.subTitle)) {
-				console.log(subTitle, subscene)
 				textList.push(
-					<TouchableOpacity style={{
+					<TouchableOpacity key={i.toString()} style={{
 							zIndex:2,
 							height : 40,
 							width:400,
@@ -134,6 +135,7 @@ class Page extends Component {
 						</Text>
 					</TouchableOpacity>
 				)
+				i++;
 			}
 			textList.push(
 			)
@@ -178,7 +180,7 @@ class Page extends Component {
 					renderItem={renderItem}
 					ListHeaderComponentStyle={{height:100}}
 					ListHeaderComponent={() => <View style={{height:180}}></View>}
-					keyExtractor={item => item.key}
+					keyExtractor={item => item.key.toString()}
 				/>
 			</View>
 			<View style={{flex: 1,
@@ -271,8 +273,8 @@ const DATA = [
 		title: '牙材採購',
 		haveDetail : true,
 		showDetail : false,
-		subTitle : {'限時團購':'LimitedTimeGroupPurchase',
-					'跳蚤市場':'FleaMarket'},
+		subTitle : {'限時團購':'LimitedTimeGroupPurchase',},
+					// '跳蚤市場':'FleaMarket'},
 		item_image : require('../assets/MainManu10.png'),
 		sceneName:'',
 	},
@@ -286,7 +288,7 @@ const DATA = [
 		sceneName:'ClinicRecruitmentHumanSupport',
   	},
 	  {
-		key: 5,
+		key: 4,
 		title: '校友服務',
 		haveDetail : true,
 		showDetail : false,
@@ -298,13 +300,13 @@ const DATA = [
 		sceneName:'',
 	},
 	{
-		key: 4,
+		key: 5,
 		title: '牙醫學生專區',
 		haveDetail : true,
 		showDetail : false,
 		subTitle : {'系學會公告':'Student',
 					'活動資訊':'ActivityInformation',
-					'聊天室':''},
+					'聊天室':'Message'},
 					// '聊天室':'Chatroom'},
 		item_image : require('../assets/MainManu9.png'),
 		sceneName:'',

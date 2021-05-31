@@ -85,7 +85,7 @@ class Page extends Component {
                         contentContainerStyle={{ marginTop: 0}}
                         data={DATA}
                         renderItem={renderItem}
-                        keyExtractor={item => item.key}
+                        keyExtractor={item => item.key.toString()}
                         />
 
                 </View>

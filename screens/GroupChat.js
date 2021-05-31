@@ -18,6 +18,7 @@ const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
 const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
 
 
+//TODO 要能退出群組
 const appConfig = require('../app.json');
 const config = {
 	databaseURL : appConfig.databaseURL,
@@ -39,8 +40,10 @@ class Message extends Component {
 			keyboardOpen : false,
 			showGroupSetting : false,
 		}
-		this.msgUpdate();
-
+	}
+	componentDidMount()
+	{
+		this.msgUpdate = this.msgUpdate.bind(this);
 	}
 	msgUpdate()
 	{
@@ -90,8 +93,9 @@ class Message extends Component {
 		{
 			console.log(error);
 		}
+		global.updateCount = 1;
+		
 	}
-
 	sendText()
 	{
 		this.setState({ keyboardOpen: false });
@@ -163,8 +167,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate("Message")}
-						>
+						onPress={()=>this.props.navigation.push('Message')}>
 						<Image source={require('../assets/adsfsdfsdfdxcvcxv.png')}></Image>
 					</TouchableOpacity>
 				</View>
@@ -214,7 +217,7 @@ class Message extends Component {
 													style={{marginTop:20,marginStart:15}}//backgroundColor:'#EBF0F3'}}
 													data={this.state.messages}
 													renderItem={renderItem}
-													keyExtractor={item => item.key}
+													keyExtractor={item => item.key.toString()}
 													/>
 													
 				</View>

@@ -18,7 +18,9 @@ const NotifycationTopper_image = require('../assets/NotifycationTopper.png');
 const Footer_image = require('../assets/Footer_blank.png');
 const Friend_image = require('../assets/24px_friend.png');
 
-
+//TODO 要新增新訊息的推播通知
+//TODO 新增診所訊息通知
+//TODO 診所身份用戶可以發訊息給求職者
 //iphone 12 pro max 
 const guidelineBaseWidth = 428
 const guidelineBaseHeight = 926
@@ -34,12 +36,6 @@ class Message extends Component {
         this.state = {
             showGroupList:false,
             GroupList : [
-                // {
-                //     key: '0',
-                //     title: '500期',
-                //     item_image : require('../assets/NotifyItem.png'),
-                // },
-                
             ]
         }
     }
@@ -164,7 +160,7 @@ class Message extends Component {
 						contentContainerStyle={{ marginTop: 0}}
 						data={DATA}
 						renderItem={renderItem}
-						keyExtractor={item => item.key}
+						keyExtractor={item => item.key.toString()}
 					/>
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>
@@ -234,45 +230,6 @@ class Message extends Component {
 
 
 
-
-const Group_Item = ({ _this,title,item_image,discription,groupID}) => (
-    <View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:45,backgroundColor:'#D8F4FB'}}>
-        <View style={{zIndex:0,width:Dimensions.get('window').width,height:50}}>
-            <TouchableOpacity style={styles.button,{
-                    height: 45,
-                    zIndex:0,
-                    shadowOffset:{  width: 5,  height: 5},
-                    shadowColor: 'black',
-                    shadowOpacity: 0.01,
-                    width:Dimensions.get('window').width,
-                    marginStart: 0,
-                    zIndex:1,
-                    flexDirection:'row',
-                    marginTop:0,
-                }} onPress={() => _this.props.navigation.navigate('GroupChat',{ GroupName : title,
-                                                                                GroupID : groupID
-                                                                                })}>
-                    <Image source={ item_image } style={{zIndex:0,
-                                                        marginTop:0,
-                                                        marginStart:50,
-                                                        width:30,
-                                                        height:30}}></Image>
-                    <Text style={{
-                        width:230,
-                        zIndex:0,
-                        height:30,
-                        marginLeft: 100,
-                        textAlign:'left',
-                        marginTop:3,
-                        fontSize:15,
-                        justifyContent:'center',
-                        color:'black'}}>
-                            {title}
-                    </Text>
-            </TouchableOpacity>
-        </View> 
-    </View>
-);
 
 const Item = ({ _this,title,item_image,discription}) => (
     <View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:105}}>

@@ -101,7 +101,12 @@ class Message extends Component {
                         belongGroups : user.belongGroups
                     });
                 }
-                });
+                })
+                .catch(function(error) {
+                    console.log('There has been a problem with your fetch operation: ' + error.message);
+                     // ADD THIS THROW error
+                      throw error;
+                    });
                 
                 GroupUser.push(user);
             }
@@ -267,7 +272,7 @@ class Message extends Component {
                                                     style={{marginTop:0,marginStart:30}}//backgroundColor:'#EBF0F3'}}
                                                     data={this.state.ToggleBtn}
                                                     renderItem={renderOnSelectItem}
-                                                    keyExtractor={item => item.key}
+                                                    keyExtractor={item => item.key.toString()}
                                                     />
                 </View>
             </View>

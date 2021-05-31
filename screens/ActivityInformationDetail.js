@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import Swiper from 'react-native-swiper'
 
 
 
@@ -10,7 +11,59 @@ const Back_image = require('../assets/Announcement_icon/Back.png')
 const Schedule_image = require('../assets/Announcement_icon/Schedule.png')
 
 const image = require('../assets/b-校友會公告.png');
+
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
+
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
+
 class Page extends Component {
+    constructor(props) {
+		super(props);
+		this.state = {
+			DATA : [],
+            showDetail : false,
+		}
+	}
+    componentDidMount()
+    {
+        var _DATA = [];
+        _DATA = [
+            {
+                key: '0',
+                description: this.props.navigation.getParam('subDescription'),
+                item_image : this.props.navigation.getParam('subPageImage'),
+                subTitle : this.props.navigation.getParam('subTitle'),
+                date : this.props.navigation.getParam('date'),
+            }
+        ];
+        this.setState({DATA:_DATA , showDetail:true});
+    }
+    showScrollImage = (_this) => {
+        const imageScrollViews = [];
+        var i = 0;
+        _this.state.DATA.forEach(e=>{
+            e.item_image.forEach(ele=>{
+                imageScrollViews.push(
+                    <View key={i.toString()} style={styles.slide}>
+                        <Image source={ { uri: ele } } style={{
+                            width : WidthScale(315),
+                            height:HeightScale(200),
+                            resizeMode : 'contain',
+                    }}></Image> 
+                    </View>
+                )
+                i++;
+                console.log(ele);
+
+            })
+        })
+        return imageScrollViews;
+    }
    render() {
 	const renderItem = ({ item }) => (
 		<Item _this={this} date={item.date} endDate={item.endDate} description={item.description} location={item.location} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
@@ -50,7 +103,7 @@ class Page extends Component {
                             </View>
                         </TouchableOpacity>
                         <Text style={{fontSize:18,
-                                        color:'white'}}>牙醫系學生活動詳情</Text>
+                                        color:'white'}}>{this.props.navigation.getParam('title')}</Text>
                         <TouchableOpacity style={styles.button,{
                             height: 50,
                             width:50,
@@ -67,22 +120,21 @@ class Page extends Component {
             <View style={{flex:1.8,
                             alignItems:'center',
                                 }}>
-                    <Image source={require('../assets/AcademicEvents_icon/RawImage.png')}
-                            style={{
-                                    flex:0.9,
-                                    resizeMode:'contain',
-                                    marginTop: Dimensions.get('window').height*0.07,
-                                    }}></Image>
+                        {this.state.showDetail?
+                            <Swiper style={styles.wrapper} showsButtons={false}>
+                                    {this.showScrollImage(this)}
+                            </Swiper>
+                        :null}
             </View>
             <View style={{flex: 2.5,
 								flexDirection: 'column',
 								}}>
 					<FlatList
 						contentContainerStyle={{ marginTop: 0}}
-						data={DATA}
+						data={this.state.DATA}
 						style={{backgroundColor:'#EBF0F3'}}
 						renderItem={renderItem}
-						keyExtractor={item => item.key}
+						keyExtractor={item => item.key.toString()}
 					/>
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>
@@ -96,20 +148,8 @@ class Page extends Component {
   }
 }
 
-const DATA = [
-	{
-		key: '0',
-		title: '迎新活動開始了，有需要請洽系學會報名',
-		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
-		sceneName:'',
-        date:'2020.12.30 10:00-12:00',
-        endDate : '2020.12.25',
-        location : '南港展覽館',
-        description:'牙醫系系學會舉辦迎新活動',
-	}
-];
 
-const Item = ({ _this,title,date,item_image,sceneName,endDate,location,description }) => (
+const Item = ({ _this,title,date,item_image,sceneName,description }) => (
          <View style={{flex: 5,
             marginStart:Dimensions.get('window').width*0.02,
             width:Dimensions.get('window').width*0.95,
@@ -130,7 +170,16 @@ const Item = ({ _this,title,date,item_image,sceneName,endDate,location,descripti
                             }}>
                                 {title}
                 </Text>
-                
+                <Text style={{
+                            position: 'absolute',
+                            marginTop: Dimensions.get('window').height*0.05,
+                            marginStart: Dimensions.get('window').width*0.05,
+                            fontSize:10,
+                            width:Dimensions.get('window').width*0.9,
+                            color:'black'
+                            }}>
+                                {date}
+                </Text> 
                 <View style={{flex:1.8,
                             flexDirection:'column',
                             alignItems:'center',
@@ -154,6 +203,12 @@ const Item = ({ _this,title,date,item_image,sceneName,endDate,location,descripti
 
 
 const styles = StyleSheet.create({
+    wrapper: {},
+    slide: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     title:{},
     container: {
         flex: 1,
