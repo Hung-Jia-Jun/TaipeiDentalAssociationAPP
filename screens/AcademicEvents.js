@@ -1,6 +1,16 @@
 import React, { Component } from "react";
-import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View, Alert } from "react-native";
+import * as firebase from 'firebase';
+import Swiper from 'react-native-swiper'
 
+const appConfig = require('../app.json');
+const config = {
+	databaseURL : appConfig.databaseURL,
+}
+if (!firebase.apps.length) {
+	firebase.initializeApp(config);
+}
+const database = firebase.database();
 
 
 
@@ -10,10 +20,138 @@ const Back_image = require('../assets/Announcement_icon/Back.png')
 const Schedule_image = require('../assets/Announcement_icon/Schedule.png')
 
 const image = require('../assets/b-校友會公告.png');
+
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
+
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
+
+
 class Page extends Component {
-   render() {
+    constructor(props) {
+		super(props);
+		this.state = {
+			DATA : [],
+            indexImage:[],
+            showAnnounce : false,
+		}
+	}
+    fetchAnnouncement()
+    {
+        var that = this;
+        var _DATA = [];
+        var _indexImage = [];
+        var ref = firebase.database().ref('/academicEvents');
+		ref.child('Event').on('value', function (snapshot) {
+			var i=0;
+			snapshot.forEach((childSnapshot) => {
+				_DATA.push({   key:i.toString(),
+                                    date : childSnapshot.val().date,
+                                    item_image : childSnapshot.val().item_image,
+                                    sceneName : childSnapshot.val().sceneName,
+                                    subDescription : childSnapshot.val().subDescription,
+                                    subPageImage : childSnapshot.val().subPageImage,
+                                    subTitle : childSnapshot.val().subTitle,
+                                    title : childSnapshot.val().title,
+									})
+				i+=1;
+			});
+			that.setState({DATA : _DATA,showAnnounce:true})
+		});
+        ref.child('IndexImage').on('value', function (snapshot) {
+			var i=0;
+			snapshot.forEach((childSnapshot) => {
+				_indexImage.push({   key:i.toString(),
+                                    uri:childSnapshot.val().uri,
+									})
+				i+=1;
+			});
+			that.setState({indexImage : _indexImage})
+		});
+    }
+    componentDidMount()
+    {
+        this.fetchAnnouncement();
+    }
+    showScrollImage = (_this) => {
+        const imageScrollViews = [];
+        var i = 0;
+        _this.state.indexImage.forEach(e=>{
+            imageScrollViews.push(
+                <View key={i.toString()} style={styles.slide}>
+                    <Image source={ { uri: e.uri } } style={{
+                        width : WidthScale(315),
+                        height:HeightScale(200),
+                        resizeMode : 'contain',
+                }}></Image> 
+                </View>
+            )
+            i++;
+        })
+        return imageScrollViews;
+    }
+    signUpEvent=(title,date) =>
+    {
+        console.log(global.username);
+        console.log(title);
+        console.log(date);
+
+        var signUpEventRef = database.ref('/signUpEvent');
+        
+        //控制是否報名的變數
+        var haveSign = false;
+        signUpEventRef.once('value', function (snapshot) {
+			var i=0;
+			snapshot.forEach((childSnapshot) => {
+                if (haveSign)
+                {
+                    return;
+                }
+                //檢查有沒有報名過
+                if (global.username == childSnapshot.val().user && 
+                        date == childSnapshot.val().date &&
+                        title == childSnapshot.val().title)
+                {
+                    haveSign = true;
+                }
+			});
+            if (haveSign==false)
+            {
+                signUpEventRef.push({
+                    "user" : global.username,
+                    "title" : title,
+                    "date" : date,
+                });
+                Alert.alert(
+                        "學術活動報名",
+                        "\n" + title + " \n\n日期" + date + "\n\n報名成功!!");
+            }
+            else
+            {
+                Alert.alert(
+                    "學術活動報名",
+                    "\n" + title + " \n\n日期" + date + "\n\n您已報名過此活動\n請準時參加謝謝！");
+            }
+            
+        });
+    }
+    render() {
 	const renderItem = ({ item }) => (
-		<Item _this={this} Date={item.Date} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
+		<Item _this={this} 
+                date={item.date} 
+                title={item.title} 
+                item_image={item.item_image} 
+                description={item.description} 
+                subDescription ={item.subDescription}
+                subPageImage ={item.subPageImage}
+                subTitle ={item.subTitle}
+                sceneName={item.sceneName}
+                />
+                
 	);
     return (
         <View style={{flex: 3, flexDirection: 'column'}}>
@@ -67,19 +205,22 @@ class Page extends Component {
             <View style={{flex:1.8,
                             alignItems:'center',
                                 }}>
-                    <Image source={require('../assets/AcademicEvents_icon/RawImage.png')}
-                            style={{
-                                    flex:0.9,
-                                    resizeMode:'contain',
-                                    marginTop: Dimensions.get('window').height*0.07,
-                                    }}></Image>
+                    <View style={{flex:0.2}}></View>
+                    <View style={{flex:0.8}}>
+                        {this.state.showAnnounce?
+                            <Swiper style={styles.wrapper} showsButtons={false}>
+                                    {this.showScrollImage(this)}
+                            </Swiper>
+                        :null}
+                    </View>
+                    <View style={{flex:0.01}}></View>
             </View>
             <View style={{flex: 2.5,
 								flexDirection: 'column',
 								}}>
 					<FlatList
 						contentContainerStyle={{ marginTop: 0}}
-						data={DATA}
+						data={this.state.DATA}
 						style={{backgroundColor:'#EBF0F3'}}
 						renderItem={renderItem}
 						keyExtractor={item => item.key.toString()}
@@ -153,24 +294,15 @@ class Page extends Component {
 }
 
 
-const DATA = [
-	{
-		key: '0',
-		title: '2020牙醫學術研討會',
-		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
-		sceneName:'',
-        Date:'2020.12.30',
-	},
-    {
-		key: '1',
-		title: '牙醫最新技術研討會',
-		item_image : require('../assets/AcademicEvents_icon/Bitmap2.png'),
-		sceneName:'',
-        Date:'2020.12.24',
-	},
-];
-
-const Item = ({ _this,title,Date,item_image,sceneName }) => (
+const Item = ({ _this,
+                title,
+                date,
+                item_image,
+                sceneName,
+                description,
+                subDescription,
+                subPageImage,
+                subTitle }) => (
          <View style={{flex: 5,
             marginStart:Dimensions.get('window').width*0.02,
             width:Dimensions.get('window').width*0.95,
@@ -187,12 +319,18 @@ const Item = ({ _this,title,Date,item_image,sceneName }) => (
                 marginStart: 0,
                 marginTop:0,
                 
-            }} onPress={() => _this.props.navigation.navigate(sceneName)}>
-                <Image source={ item_image } style={{
+            }} onPress={() => _this.props.navigation.navigate(sceneName,{
+                                                                subDescription : subDescription,
+                                                                subPageImage : subPageImage,
+                                                                subTitle : subTitle,
+                                                                title : title,
+                                                                date : date,
+                                                                })}>
+                <Image source={ {uri : item_image} } style={{
                         width: Dimensions.get('window').width*0.3,
                         height: Dimensions.get('window').height*0.1,
                         marginTop: Dimensions.get('window').height*0.02,
-                        marginStart: Dimensions.get('window').width*0.04,
+                        marginStart: Dimensions.get('window').width*0.03,
                         resizeMode:'contain',
                 }}></Image>
                 <Text style={{
@@ -213,7 +351,7 @@ const Item = ({ _this,title,Date,item_image,sceneName }) => (
                     height: Dimensions.get('window').height*0.04,
                     color:'#47DCEF'
                 }}>
-                                {Date}
+                                {date}
                 </Text>
                 <Image source={require('../assets/AcademicEvents_icon/meeting.png')}
                         style={{
@@ -230,7 +368,7 @@ const Item = ({ _this,title,Date,item_image,sceneName }) => (
                         marginStart: 0,
                         marginTop: Dimensions.get('window').height*0.04 * -1,
                         marginStart: Dimensions.get('window').width*0.76,
-                    }} onPress={()=>_this.props.navigation.navigate('AcademicEventsDetail')}>
+                    }} onPress={()=>_this.signUpEvent(title,date)}>
                         <View style={{flex:0.6,
                                         justifyContent:'center',
                                         borderRadius:30,
@@ -250,6 +388,17 @@ const Item = ({ _this,title,Date,item_image,sceneName }) => (
 
 
 const styles = StyleSheet.create({
+    wrapper: {},
+    slide: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    text: {
+      color: '#fff',
+      fontSize: 30,
+      fontWeight: 'bold'
+    },
     title:{},
     container: {
         flex: 1,

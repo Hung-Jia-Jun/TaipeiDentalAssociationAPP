@@ -7,6 +7,7 @@ const Footer_image = require('../assets/Footer_blank.png');
 const addressIcon_image = require('../assets/addressIcon.png');
 
 
+//TODO 新增診所停車場篩選
 class Page extends Component {
   render() {
     const renderItem = ({ item }) => (

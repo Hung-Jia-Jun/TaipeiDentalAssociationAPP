@@ -335,7 +335,7 @@ class OverviewMap extends Component {
                                     color:'#47DCEF',
                                     fontSize:28,
                                     marginTop:height < guidelineBaseHeight ? HeightScale(-180) : HeightScale(-140),
-                                    }}>Hi Ethan</Text>
+                                    }}>Hi {global.username}</Text>
                 </View>
                 <View style={styles.borderBlackLine,{flex: 0.14, flexDirection: 'row',
                         zIndex: 1,}}>
@@ -523,13 +523,14 @@ class OverviewMap extends Component {
                         </View>
                     ) : null}
                 </View>
-                <View style={styles.borderBlackLine,{flex: 5,  
+                <View style={styles.borderBlackLine,{flex: 5.15,
+                        borderWidth:1,  
+                        backgroundColor:'white',
                         flexDirection: 'column', 
-                        height:Dimensions.get('screen').height,
-                        width:width,
-                        borderWidth:1,
+                        // height:Dimensions.get('screen').height*0.8,
+                        // width:width,
                         // marginStart:WidthScale(27),
-                        marginTop:HeightScale(-150),
+                        marginTop:HeightScale(-200),
                         zIndex:0
                         }}>
                     <MapView 

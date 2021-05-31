@@ -117,24 +117,27 @@ class Page extends Component {
                         title == childSnapshot.val().title)
                 {
                     haveSign = true;
-                    Alert.alert(
-                        "學生活動報名",
-                        "\n" + title + " \n\n日期" + date + "\n\n您已報名過此活動\n請準時參加謝謝！");
                 }
 			});
+            if (haveSign==false)
+            {
+                signUpEventRef.push({
+                    "user" : global.username,
+                    "title" : title,
+                    "date" : date,
+                });
+                Alert.alert(
+                        "學生活動報名",
+                        "\n" + title + " \n\n日期" + date + "\n\n報名成功!!");
+            }
+            else
+            {
+                Alert.alert(
+                    "學生活動報名",
+                    "\n" + title + " \n\n日期" + date + "\n\n您已報名過此活動\n請準時參加謝謝！");
+            }
             
         });
-        if (haveSign==false)
-        {
-            signUpEventRef.push({
-                "user" : global.username,
-                "title" : title,
-                "date" : date,
-            });
-            Alert.alert(
-                    "學生活動報名",
-                    "\n" + title + " \n\n日期" + date + "\n\n報名成功!!");
-        }
     }
     render() {
 	const renderItem = ({ item }) => (
