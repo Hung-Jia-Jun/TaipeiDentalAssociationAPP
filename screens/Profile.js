@@ -34,7 +34,7 @@ class Page extends Component {
 										width:Dimensions.get('window').width,
 										height:Dimensions.get('window').height*0.05,
 										marginTop:0,
-										}}>Hi Ethan</Text>
+										}}>Hi {global.username}</Text>
 						
 				</View>
 				<View style={{flex:1.5,

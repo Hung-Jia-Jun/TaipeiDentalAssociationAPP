@@ -40,7 +40,7 @@ class Page extends Component {
             showAnnounce : false,
 		}
 	}
-    fetchAnnouncement()
+    fetchDataFromFirebase()
     {
         var that = this;
         var _DATA = [];
@@ -75,7 +75,7 @@ class Page extends Component {
     }
     componentDidMount()
     {
-        this.fetchAnnouncement();
+        this.fetchDataFromFirebase();
     }
     showScrollImage = (_this) => {
         const imageScrollViews = [];

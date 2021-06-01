@@ -95,7 +95,7 @@ class Page extends Component {
                             marginStart: 0,
                             marginTop:0,
                             marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('Announcement')}>
+                        }} onPress={()=>this.props.navigation.goBack()}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
@@ -109,12 +109,7 @@ class Page extends Component {
                             width:50,
                             marginTop:0,
                             marginEnd: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate()}>
-                            <View style={{flex:1,
-                                            justifyContent:'center',
-                                            alignItems:'center',}}>
-                                <Image></Image>
-                            </View>
+                        }}>
                         </TouchableOpacity>
             </View>
             <View style={{flex:1.8,
