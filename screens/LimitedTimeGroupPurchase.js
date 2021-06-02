@@ -1,289 +1,394 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import * as firebase from 'firebase';
+
+const appConfig = require('../app.json');
+const config = {
+	databaseURL : appConfig.databaseURL,
+}
+if (!firebase.apps.length) {
+	firebase.initializeApp(config);
+}
+const database = firebase.database();
+
+//NotifycationTopper.png
+const image = require('../assets/b-訊息中心（聊天室）.png');
+
+const NotifycationTopper_image = require('../assets/NotifycationTopper.png');
+const Footer_image = require('../assets/Footer_blank.png');
+const Friend_image = require('../assets/24px_friend.png');
 
 
+//iphone 12 pro max 
+const guidelineBaseWidth = 428
+const guidelineBaseHeight = 926
+const { width, height } = Dimensions.get('window')
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width] // Figuring out if portrait or landscape 
 
+const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
+const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
 
-const Topper_image = require('../assets/NotifycationTopper.png');
-const Footer_image = require('../assets/Footer_blank.png')
-const Back_image = require('../assets/Announcement_icon/Back.png')
-const Schedule_image = require('../assets/Announcement_icon/Schedule.png')
+class Message extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			showFilterList:false,
+			DATA : [],
+		}
+	}
 
-const image = require('../assets/b-校友會公告.png');
-class Page extends Component {
-   render() {
-	const renderItem = ({ item }) => (
-		<Item _this={this} Date={item.Date} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
-	);
-    return (
-        <View style={{flex: 3, flexDirection: 'column'}}>
-            <View style={{flex:0.4,
-								flexDirection: 'column',
-								zIndex: 1}}>
-                    <Image source={Topper_image} style={
-                                        {marginTop: 0,
-										zIndex:0,
-										width:Dimensions.get('window').width,
-										height:Dimensions.get('window').height*0.2,
-                                        resizeMode:'stretch',
-                                        width:Dimensions.get('window').width}}></Image>
-                    
-            </View>
-             
-            <View style={{flex: 0.15,
-                            zIndex:1,
-                            flexDirection: 'row',
-                            justifyContent:'space-between',
-                            alignItems:'center',
-                            }}>
-                        <TouchableOpacity style={styles.button,{
-                            height: 50,
-                            width:50,
-                            marginStart: 0,
-                            marginTop:0,
-                            marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
-                            <View style={{flex:1,
-                                            justifyContent:'center',
-                                            alignItems:'center',}}>
-                                <Image source={Back_image}></Image>
-                            </View>
-                        </TouchableOpacity>
-                        <Text style={{fontSize:18,
-                                        color:'white'}}>學術活動區</Text>
-                        <TouchableOpacity style={styles.button,{
-                            height: 50,
-                            width:50,
-                            marginTop:0,
-                            marginEnd: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('Schedule')}>
-                            <View style={{flex:1,
-                                            justifyContent:'center',
-                                            alignItems:'center',}}>
-                                <Image></Image>
-                            </View>
-                        </TouchableOpacity>
-            </View>
-            <View style={{flex:1.8,
-                            alignItems:'center',
-                                }}>
-                    <Image source={require('../assets/AcademicEvents_icon/RawImage.png')}
-                            style={{
-                                    flex:0.9,
-                                    resizeMode:'contain',
-                                    marginTop: Dimensions.get('window').height*0.07,
-                                    }}></Image>
-            </View>
-            <View style={{flex: 2.5,
-								flexDirection: 'column',
-								}}>
-					<FlatList
-						contentContainerStyle={{ marginTop: 0}}
-						data={DATA}
-						style={{backgroundColor:'#EBF0F3'}}
-						renderItem={renderItem}
-						keyExtractor={item => item.key.toString()}
+	fetchDataFromFirebase()
+    {
+        var that = this;
+        var _DATA = [];
+        var _indexImage = [];
+        var ref = firebase.database().ref('/limitTimeGroupPurchaseProduct');
+		ref.child('item').on('value', function (snapshot) {
+			var i=0;
+			snapshot.forEach((childSnapshot) => {
+				_DATA.push({   key:i.toString(),
+                                name : childSnapshot.val().name,
+                                price : childSnapshot.val().price,
+                                amount : childSnapshot.val().amount,
+                                manufacturerInformation : childSnapshot.val().manufacturerInformation,
+                                model : childSnapshot.val().model,
+                                spec : childSnapshot.val().spec,
+                                image : childSnapshot.val().image,
+                                sceneName : childSnapshot.val().sceneName,
+                                modelInfo  : childSnapshot.val().modelInfo,
+                                specInfo  : childSnapshot.val().specInfo,
+									})
+				i+=1;
+			});
+			that.setState({DATA : _DATA,showDetail:true})
+		});
+    }
+    componentDidMount()
+    {
+        this.fetchDataFromFirebase();
+    }
+    showScrollImage = (_this) => {
+        const imageScrollViews = [];
+        var i = 0;
+        _this.state.indexImage.forEach(e=>{
+            imageScrollViews.push(
+                <View key={i.toString()} style={styles.slide}>
+                    <Image source={ { uri: e.uri } } style={{
+                        width : WidthScale(315),
+                        height:HeightScale(200),
+                        resizeMode : 'contain',
+                }}></Image> 
+                </View>
+            )
+            i++;
+        })
+        return imageScrollViews;
+    }
+	render() {
+		const renderItem = ({ item }) => (
+			<Item   _this={this} 
+                    name = {item.name}
+                    price = {item.price}
+                    amount = {item.amount}
+                    manufacturerInformation = {item.manufacturerInformation}
+                    model = {item.model}
+                    spec = {item.spec}
+                    image = {item.image}
+                    sceneName = {item.sceneName}
+                    modelInfo = {item.modelInfo}
+                    specInfo = {item.specInfo}
 					/>
-            </View>
-            <View style={{flex: 0.01, flexDirection: 'column'}}>
-                <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
-            </View>
-            <View style={{flex: 0.5,
-                            flexDirection: 'row',
-                            justifyContent:'space-between'}}>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.02,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
-                        <Image source={require('../assets/footerIcon/Home.png')}></Image>
-                </TouchableOpacity> 
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.03,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Search')}>
-                        <Image source={require('../assets/footerIcon/Search.png')}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.08,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
-                        <Image source={require('../assets/footerIcon/Map.png')} 
-                                style={{resizeMode:'stretch',
-                                        marginTop:10,
-                                        width:80,
-                                        height:80
-                                        }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.07,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
-                        <Image source={require('../assets/footerIcon/Msg.png')}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button,{
-                    height: 50,
-                    width:50,justifyContent:'center',
-                    alignItems:'center',
-                    marginStart: Dimensions.get('window').width*0.03,
-                    marginEnd: Dimensions.get('window').width*0.01,
-                    marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Profile')}>
-                        <Image style={{
-                                        marginTop:10,
-                                        marginStart:5,
-                                        }} 
-                                source={require('../assets/footerIcon/Profile.png')}></Image>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
+		);
+	return (
+		<View  key="container" style={styles.container,{flex: 1,
+										flexDirection: 'column',
+										}}>
+			<View style={{flex: 0.3,
+							flexDirection: 'column',
+							}}>
+				<Image source={NotifycationTopper_image} style={styles.image,
+																			{zIndex:1,
+																			resizeMode:'stretch',
+																			height:Dimensions.get('window').height*0.2,
+																			width:Dimensions.get('window').width,
+																			marginTop:0
+																			}}></Image>
+			</View>
+			<View style={{flex: 0.55,
+							justifyContent:'center',
+							alignItems:'center',
+							zIndex:0,
+							flexDirection: 'row',
+							}}>
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-start',
+					}}>
+                    <TouchableOpacity style={{
+							alignItems:'center',
+							justifyContent:'center',
+							height:50,
+							width:50,
+						}} 
+						onPress={()=>this.props.navigation.navigate('MainMenu')}>
+						<Image source={require('../assets/6516516516.png')}></Image>
+					</TouchableOpacity>
+				</View>
+				<View style={{
+						flex:0.3,
+					}}>
+					<Text style={{
+									fontSize:18,
+									textAlign:'center',
+									zIndex:0,
+								color:'white'}}>牙材採購</Text>
+				</View>
+				
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-end',
+					}}>
+					
+				</View>
+			</View>
+			<View style={{flex: 0.35,
+							flexDirection: 'column',
+							}}>
+				<View style={{flex: 1,
+								flexDirection: 'row',
+								}}>
+					<TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.01,
+												marginStart:Dimensions.get('window').width*0.12,
+												zIndex:0,
+												alignContent:'flex-start',
+												width:100,
+												height:40}}
+												onPress={()=>this.props.navigation.navigate('LimitedTimeGroupPurchase')}>
+						<Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>牙材採購</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.01,
+												marginStart:Dimensions.get('window').width*0.2,
+												zIndex:0,
+												alignItems:'flex-end',
+												width:100,
+												height:40}}
+												onPress={()=>this.props.navigation.navigate('LimitedTimeGroupPurchase')}>
+						<Text style={{marginTop:12,fontSize:15,color:'#3FEEEA',textAlign:'center'}}>限時團購</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={{flex: 0.05,
+								flexDirection: 'row',
+								}}>
+					<View style={{flex: 1,
+								width:Dimensions.get('window').width*0.1,
+								alignContent:'center',
+								height:Dimensions.get('window').height*0.004,
+								backgroundColor:'#E2EBF6',
+								flexDirection: 'row',
+								}}>
+					</View>
+					   <View style={{flex: 1,
+								width:Dimensions.get('window').width*0.2,
+								height:Dimensions.get('window').height*0.004,
+								backgroundColor:'#43D1E3',
+								flexDirection: 'row',
+								}}>
+					</View>
+				</View>
+			</View>
+			<View style={{flex: 4,
+							zIndex:0,
+							flexDirection: 'column',
+							marginTop:0}}>
+				<FlatList
+					style={{marginTop:5,marginStart:8}}//backgroundColor:'#EBF0F3'}}
+                    contentContainerStyle={{}}
+					data={this.state.DATA}
+					renderItem={renderItem}
+                    numColumns={2}
+					keyExtractor={item => item.key.toString()}
+					/>
+			</View>
+			<View style={{flex: 0.01, flexDirection: 'column'}}>
+				<Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
+			</View>
+			<View style={{flex: 0.5, flexDirection: 'row',justifyContent:'space-between'}}>
+				<TouchableOpacity style={styles.button,{
+					height: 50,
+					width:50,justifyContent:'center',
+					alignItems:'center',
+					marginStart: Dimensions.get('window').width*0.02,
+					marginTop:12,
+				}} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+						<Image source={require('../assets/footerIcon/Home.png')}></Image>
+				</TouchableOpacity> 
+				<TouchableOpacity style={styles.button,{
+					height: 50,
+					width:50,justifyContent:'center',
+					alignItems:'center',
+					marginStart: Dimensions.get('window').width*0.03,
+					marginTop:12,
+				}} onPress={()=>this.props.navigation.navigate('Search')}>
+						<Image source={require('../assets/footerIcon/Search.png')}></Image>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button,{
+					height: 50,
+					width:50,justifyContent:'center',
+					alignItems:'center',
+					marginStart: Dimensions.get('window').width*0.08,
+					marginTop:12,
+				}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+						<Image source={require('../assets/footerIcon/Map.png')} 
+								style={{resizeMode:'stretch',
+										marginTop:10,
+										width:80,
+										height:80
+										}}></Image>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button,{
+					height: 50,
+					width:50,justifyContent:'center',
+					alignItems:'center',
+					marginStart: Dimensions.get('window').width*0.07,
+					marginTop:12,
+				}} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+						<Image source={require('../assets/footerIcon/Msg.png')}></Image>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button,{
+					height: 50,
+					width:50,justifyContent:'center',
+					alignItems:'center',
+					marginStart: Dimensions.get('window').width*0.03,
+					marginEnd: Dimensions.get('window').width*0.01,
+					marginTop:12,
+				}} onPress={()=>this.props.navigation.navigate('Profile')}>
+						<Image style={{
+										marginTop:10,
+										marginStart:5,
+										}} 
+								source={require('../assets/footerIcon/Profile.png')}></Image>
+				</TouchableOpacity>
+			</View>
+		</View>
+	);
   }
 }
 
 
-const DATA = [
-	{
-		key: '0',
-		title: '2020牙醫學術研討會',
-		item_image : require('../assets/AcademicEvents_icon/Bitmap.png'),
-		sceneName:'',
-        Date:'2020.12.30',
-	},
-    {
-		key: '1',
-		title: '牙醫最新技術研討會',
-		item_image : require('../assets/AcademicEvents_icon/Bitmap2.png'),
-		sceneName:'',
-        Date:'2020.12.24',
-	},
-];
 
-const Item = ({ _this,title,Date,item_image,sceneName }) => (
-         <View style={{flex: 5,
-            marginStart:Dimensions.get('window').width*0.02,
-            width:Dimensions.get('window').width*0.95,
-            backgroundColor : '#FFFFFF',
-            flexDirection: 'row',
-            marginBottom:Dimensions.get('window').height*0.02,
-            shadowOffset:{  width:0,  height:5},
-            shadowColor: 'black',
-            shadowOpacity: 0.1,
-            justifyContent:'space-between'}}>
-            <TouchableOpacity style={styles.button,{
-                height: Dimensions.get('window').height*0.13,
-                width:Dimensions.get('window').width*0.8,
-                marginStart: 0,
-                marginTop:0,
-                
-            }} onPress={() => _this.props.navigation.navigate(sceneName)}>
-                <Image source={ item_image } style={{
-                        width: Dimensions.get('window').width*0.3,
-                        height: Dimensions.get('window').height*0.1,
-                        marginTop: Dimensions.get('window').height*0.02,
-                        marginStart: Dimensions.get('window').width*0.04,
-                        resizeMode:'contain',
-                }}></Image>
-                <Text style={{
-                            position: 'absolute',
-                            marginTop: Dimensions.get('window').height*0.02,
-                            marginStart: Dimensions.get('window').width*0.36,
-                            fontSize:16,
-                            color:'black'
+
+const Item = ({ _this,
+                name,
+                price,
+                amount,
+                image,
+                manufacturerInformation,
+                model,
+                spec,
+                modelInfo,
+                specInfo,
+                sceneName,
+            }) => (
+        <TouchableOpacity style={{
+            }} onPress={() => _this.props.navigation.push(sceneName,{   name : name,
+                                                                        price : price,
+                                                                        amount : amount,
+                                                                        image : image,
+                                                                        manufacturerInformation : manufacturerInformation,
+                                                                        model : model,
+                                                                        spec : spec,
+                                                                        modelInfo : modelInfo,
+                                                                        specInfo : specInfo,
+                                                                    })}>
+            <View style={{  
+                            height:230,
+                            width:Dimensions.get('window').width*0.47,
+                            shadowOffset:{  width:WidthScale(0),  height:HeightScale(5)},
+                            shadowColor: 'black',
+                            shadowOpacity: 0.1,
+                            borderRadius:5,
+                            marginEnd:8,
+                            marginBottom:10,
+                            flex:1,
+                            backgroundColor:'#FFFFFF',
                             }}>
-                                {title}
-                </Text>
-                <Text style={{
-                    position: 'absolute',
-                    marginTop: Dimensions.get('window').height*0.08,
-                    marginStart: Dimensions.get('window').width*0.43,
-                    fontSize:16,
-                    width: Dimensions.get('window').width*0.3,
-                    height: Dimensions.get('window').height*0.04,
-                    color:'#47DCEF'
-                }}>
-                                {Date}
-                </Text>
-                <Image source={require('../assets/AcademicEvents_icon/meeting.png')}
-                        style={{
-                            marginTop: Dimensions.get('window').height*0.042*-1,
-                            marginStart: Dimensions.get('window').width*0.36,
-                            width: Dimensions.get('window').width*0.05,
-                            height: Dimensions.get('window').height*0.03,
-                            resizeMode:'contain',
-                        }}
-                        ></Image>
-                <TouchableOpacity style={styles.button,{
-                            height: 50,
-                        width:50,
-                        marginStart: 0,
-                        marginTop: Dimensions.get('window').height*0.04 * -1,
-                        marginStart: Dimensions.get('window').width*0.76,
-                    }} onPress={()=>_this.props.navigation.navigate('AcademicEventsDetail')}>
-                        <View style={{flex:0.6,
-                                        justifyContent:'center',
-                                        borderRadius:30,
-                                        width:Dimensions.get('window').width*0.15,
-                                        backgroundColor:'#43D1E3',
-                                        alignItems:'center',}}>
-                            <Text style={{
-                                fontSize:16,
-                                color:'white'
-                                }}>報名</Text>
-                        </View>
-                </TouchableOpacity>
-            </TouchableOpacity>
-        </View>
-
+                <View style={styles.container,{flex: 0.8,
+                                                justifyContent:'center',
+                                                alignItems:'center',
+                                            }}>
+                    <Image source={ { uri : image[0] }  } style={{
+                                                                width : WidthScale(130),
+                                                                height:HeightScale(130),
+                                                                resizeMode : 'contain',
+                                                        }}></Image>
+                </View>
+                <View style={styles.container,{flex: 0.2, 
+                                                flexDirection: 'column',
+                                                backgroundColor:'#F4F9FD',
+                                                padding:10,
+                                                justifyContent:'center',
+                                                borderRadius:5,
+                                                }}>
+                    <View style={{flexDirection:'row'}}>
+                        <Text style={{
+                            fontSize:14,
+                            marginTop:8,
+                            color:'#3BD2E4'}}>
+                                $
+                        </Text>
+                        <Text style={{
+                            fontSize:23,
+                            color:'#3BD2E4'}}>
+                                {price}
+                        </Text>
+                    </View>
+                    <Text style={{
+                        fontSize:17,
+                        color:'black'}}>
+                            {name}
+                    </Text>
+                </View>
+            </View> 
+        </TouchableOpacity>
 );
 
 
+
 const styles = StyleSheet.create({
-    title:{},
-    container: {
-        flex: 1,
-        flexDirection: "column"
-    },
-    image: {
-        flex: 1,
-        justifyContent: "center"
-    },
-    text: {
-        color: "white",
-        fontSize: 42,
-        fontWeight: "bold",
-        textAlign: "center",
-        
-    },
-    TextInputStyleClass:{
-        height: 50,
-        width:255,
-        marginStart: 60,
-        borderColor: '#ECF2F6',
-        borderWidth: 1,
-        borderRadius: 10 ,
-        backgroundColor : "#ECF2F6"
-        },
-    UsernameTextInputclass:{
-        height: 50,
-        width:255,
-        marginStart: 60,
-        marginBottom: 15,
-        borderColor: '#ECF2F6',
-        borderWidth: 1,
-        borderRadius: 10 ,
-        backgroundColor : "#ECF2F6",
-    },
+	title:{},
+	container: {
+		flex: 1,
+		flexDirection: "column"
+	},
+	image: {
+		flex: 1,
+		justifyContent: "center"
+	},
+	text: {
+		color: "white",
+		fontSize: 42,
+		fontWeight: "bold",
+		textAlign: "center",
+		
+	},
+	TextInputStyleClass:{
+		height: 50,
+		width:255,
+		marginStart: 60,
+		borderColor: '#ECF2F6',
+		borderWidth: 1,
+		borderRadius: 10 ,
+		backgroundColor : "#ECF2F6"
+		},
+	UsernameTextInputclass:{
+		height: 50,
+		width:255,
+		marginStart: 60,
+		marginBottom: 15,
+		borderColor: '#ECF2F6',
+		borderWidth: 1,
+		borderRadius: 10 ,
+		backgroundColor : "#ECF2F6",
+	},
 });
-export default Page;
+export default Message;

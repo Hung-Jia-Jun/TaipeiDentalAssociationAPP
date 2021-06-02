@@ -59,6 +59,7 @@ class Index extends Component {
 		// 	else 
 		// 	{
 		// 		Alert.alert("登入成功");
+		// 		global.username = this.state.username;
 		// 		this.props.navigation.navigate('OverviewMap');
 		// 	}
 		// } else {
