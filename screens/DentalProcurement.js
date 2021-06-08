@@ -163,6 +163,8 @@ class Page extends Component {
 												name : this.state.name,
 												orderID : _orderID,
 												item_image : this.state.item_image[0],
+												//訂單狀態為下訂單的狀態，之後可能會有刪除的狀態
+												status : 'active',
 												});
 						
 						var GroupBuyRef = database.ref('/user'+"/" + global.username);

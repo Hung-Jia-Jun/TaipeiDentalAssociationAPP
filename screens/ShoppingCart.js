@@ -32,8 +32,15 @@ class Message extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showGroupList:false,
 			DATA : [],
+            //顯示啟動（剛下單未結帳）的訂單
+            showOrderActive:true,
+
+            //顯示取消的訂單
+            showOrderCancel:false,
+
+            //顯示已完成的訂單
+            showOrderDone:false,
 		}
 	}
 	componentDidMount()
@@ -44,6 +51,7 @@ class Message extends Component {
 	{
 		var that = this;
 		var _GroupList=[]
+        this.setState({DATA : []});
 		firebase.database().ref('/user'+"/" + global.username+ '/groupBuyItems').get().then((result) => {
             var orders = result.val();
             var i = 0;
@@ -56,56 +64,15 @@ class Message extends Component {
                     name : e.name,
                     orderID : e.orderID,
                     item_image : e.item_image,
+                    status : e.status,
                 })
                 i++;
             })
             this.setState({DATA : this.state.DATA});
-            console.log(this.state.DATA);
         });
-		// ref.on('value', function (snapshot) {
-		// 	// 先清空舊有的聊天室通知列表
-		// 	var i=0;
-		// 	snapshot.forEach((childSnapshot) => {
-		// 		_GroupList.push({   key:i.toString(),
-		// 							title:childSnapshot.val().key,
-		// 							groupID:childSnapshot.val().value,
-		// 							item_image : require('../assets/NotifyItem.png'),
-		// 							})
-		// 		i+=1;
-		// 	});
-		// 	that.setState({DATA : that.state.DATA});
-		// 	that.setState({GroupList:_GroupList}, () => that.updateLastMsg());
-		// });
-	}
-	updateLastMsg()
-	{
-		var that = this;
-		var GroupList = that.state.GroupList;
-		var i =0;
-		GroupList.forEach(e =>{
-			var groupID = e.groupID;
-			//只要關於群組的內容有更新，就更新一次畫面
-			var ref = firebase.database().ref();
-			that.state.DATA = [];
-			ref.child("group").child(groupID).get().then((snapshot) => {
-			// var foo = ref.on('value' , function (snapshot) {
-				var EachGroupMsgArr = Object.values(snapshot.val().msg);
-				var last = EachGroupMsgArr[EachGroupMsgArr.length - 1];
-				
-				that.state.DATA.push({
-					key : i.toString(),
-					title : e.title,
-					groupID : groupID,
-					item_image : require('../assets/MessageIcon.png'),
-					discription : last.msg,
-				});
-				i++;
-				that.setState({DATA : that.state.DATA});
-			});
-		});
 	}
 	render() {
-		const renderItem = ({ item }) => (
+		const renderItemActive = ({ item }) => (
 			<Item   _this={this} 
                     seledtedSpec = {item.seledtedSpec}
                     seledtedAmount = {item.seledtedAmount}
@@ -113,10 +80,36 @@ class Message extends Component {
                     name = {item.name}
                     orderID = {item.orderID}
                     item_image = {item.item_image}
+                    status = {item.status}
+                    //這次Flat List 要顯示的訂單為
+                    showStatus = {'active'}
 					/>
 		);
-		const Group_renderItem = ({ item }) => (
-			<Group_Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription} groupID={item.groupID}/>
+        const renderItemCancel = ({ item }) => (
+			<Item   _this={this} 
+                    seledtedSpec = {item.seledtedSpec}
+                    seledtedAmount = {item.seledtedAmount}
+                    price = {item.price}
+                    name = {item.name}
+                    orderID = {item.orderID}
+                    item_image = {item.item_image}
+                    status = {item.status}
+                    //這次Flat List 要顯示的訂單為
+                    showStatus = {'cancel'}
+					/>
+		);
+        const renderItemDone = ({ item }) => (
+			<Item   _this={this} 
+                    seledtedSpec = {item.seledtedSpec}
+                    seledtedAmount = {item.seledtedAmount}
+                    price = {item.price}
+                    name = {item.name}
+                    orderID = {item.orderID}
+                    item_image = {item.item_image}
+                    status = {item.status}
+                    //這次Flat List 要顯示的訂單為
+                    showStatus = {'done'}
+					/>
 		);
 	return (
 		<View  key="container" style={styles.container,{flex: 1,
@@ -143,11 +136,20 @@ class Message extends Component {
 						flex:0.3,
 						alignItems:'flex-start',
 					}}>
-                    <View style={{flex:1,
-											justifyContent:'center',
-											alignItems:'center',}}>
-                        <Image source={require('../assets/leftArrow.png')}></Image>
-                    </View>
+                    <TouchableOpacity style={{
+                        alignItems:'center',
+                        justifyContent:'center',
+                        flex:0.5,
+                        width:50,
+                    }}
+                    onPress={()=>this.props.navigation.navigate('Profile')}
+                    >
+                        <View style={{
+                                                justifyContent:'center',
+                                                alignItems:'center',}}>
+                            <Image source={require('../assets/leftArrow.png')}></Image>
+                        </View>
+                    </TouchableOpacity>
 				</View>
 				<View style={{
 						flex:0.3,
@@ -183,29 +185,42 @@ class Message extends Component {
                                                 flex:1,
 												alignContent:'center',
                                                 borderBottomWidth:2,
-                                                borderColor:'#3FEEEA',
+                                                borderColor:this.state.showOrderActive==true?'#3FEEEA':'gray',
 												width:100,
 												height:40}}
-												onPress={()=>this.props.navigation.navigate('Notifycation')}>
-						<Text style={{marginTop:12,fontSize:15,color:'#3FEEEA',textAlign:'center'}}>已選購</Text>
+												onPress={()=>this.setState({showOrderActive:true,
+                                                                            showOrderCancel : false,
+                                                                            showOrderDone : false,
+                                                                        },()=>this.getOrders())}>
+						<Text style={{marginTop:12,fontSize:15,color:this.state.showOrderActive==true?'#3FEEEA':'gray',textAlign:'center'}}>已選購</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.01,
 												zIndex:0,
                                                 flex:1,
+                                                borderBottomWidth:2,
+                                                borderColor:this.state.showOrderDone==true?'#3FEEEA':'gray',
 												alignItems:'center',
 												width:100,
 												height:40}}
-												onPress={()=>this.props.navigation.navigate('Message')}>
-						<Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>訂單完成</Text>
+												onPress={()=>this.setState({showOrderActive:false,
+                                                                            showOrderCancel : false,
+                                                                            showOrderDone : true,
+                                                                        },()=>this.getOrders())}>
+						<Text style={{marginTop:12,fontSize:15,color:this.state.showOrderDone==true?'#3FEEEA':'gray',textAlign:'center'}}>訂單完成</Text>
 					</TouchableOpacity>
                     <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.01,
 												zIndex:0,
                                                 flex:1,
+                                                borderBottomWidth:2,
+                                                borderColor:this.state.showOrderCancel==true?'#3FEEEA':'gray',
 												alignItems:'center',
 												width:100,
 												height:40}}
-												onPress={()=>this.props.navigation.navigate('Message')}>
-						<Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>已取消</Text>
+												onPress={()=>this.setState({showOrderActive:false,
+                                                                            showOrderCancel : true,
+                                                                            showOrderDone : false,
+                                                                        },()=>this.getOrders())}>
+						<Text style={{marginTop:12,fontSize:15,color:this.state.showOrderCancel==true?'#3FEEEA':'gray',textAlign:'center'}}>已取消</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -213,13 +228,33 @@ class Message extends Component {
 							zIndex:0,
 							flexDirection: 'column',
 							marginTop:0}}>
-					<FlatList
-						style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-						contentContainerStyle={{ marginTop: 0}}
-						data={this.state.DATA}
-						renderItem={renderItem}
-						keyExtractor={item => item.key.toString()}
-					/>
+                    {this.state.showOrderActive==true?
+                        <FlatList
+                            style={{}}//backgroundColor:'#EBF0F3'}}
+                            contentContainerStyle={{ marginTop: 0}}
+                            data={this.state.DATA}
+                            renderItem={renderItemActive}
+                            keyExtractor={item => item.key.toString()}
+                        />
+                    :null}
+                    {this.state.showOrderCancel==true?
+                        <FlatList
+                            style={{}}//backgroundColor:'#EBF0F3'}}
+                            contentContainerStyle={{ marginTop: 0}}
+                            data={this.state.DATA}
+                            renderItem={renderItemCancel}
+                            keyExtractor={item => item.key.toString()}
+                        />
+                    :null}
+                    {this.state.showOrderDone==true?
+                        <FlatList
+                            style={{}}//backgroundColor:'#EBF0F3'}}
+                            contentContainerStyle={{ marginTop: 0}}
+                            data={this.state.DATA}
+                            renderItem={renderItemDone}
+                            keyExtractor={item => item.key.toString()}
+                        />
+                    :null}
 			</View>
 			<View style={{flex: 0.01, flexDirection: 'column'}}>
 				<Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
@@ -295,51 +330,207 @@ const Item = ({ _this,
                 seledtedAmount,
                 orderID,
                 item_image,
+                status,
+                showStatus
             }) => (
-	<View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:105}}>
-		<ImageBackground style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,height:100,backgroundColor:'#F2FAFF'}}> 
-			<View style={{zIndex:0,width:Dimensions.get('window').width,height:100}}>
-				<View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row'}}>
-					<Image source={ {uri : item_image} } style={{borderWidth:1,zIndex:0,marginStart:27,marginTop:11,width:90,height:90}}></Image>
-				</View>
-				<View style={styles.container,{zIndex:0,flex: 0.1, flexDirection: 'column'}}>
-					<Text style={{
-						width:230,
-						zIndex:0,
-						height:30,
-						marginTop: 20,
-						marginLeft: 125,
-						fontSize:17,
-						color:'black'}}>
-							{name}
-					</Text>
-					<Text style={{
-						width:230,
-						height:40,
-						zIndex:0,
-						marginTop: 0,
-						marginLeft: 125,
-						fontSize:12,
-						color:'black'}}>
-							{price}
-					</Text>
-				</View>
-				<TouchableOpacity style={styles.button,{
-						height: 100,
-						zIndex:0,
-						shadowOffset:{  width: 5,  height: 5},
-						shadowColor: 'black',
-						shadowOpacity: 0.01,
-						width:Dimensions.get('window').width,
-						borderColor:'black',
-						marginStart: 0,
-						zIndex:0,
-						marginTop:0,
-					}} onPress={() => _this.props.navigation.push('GroupChat',{GroupID : groupID , GroupName : title})}>
-					</TouchableOpacity>
-			</View> 
-		</ImageBackground>
-	</View>
+    //檢查訂單狀態
+    <View>
+    {status==showStatus?
+        <View style={styles.container,{
+            zIndex:0,
+            padding:10,
+            shadowOffset:{  width:WidthScale(0),  height:HeightScale(5)},
+            shadowColor: 'black',
+            shadowOpacity: 0.2,
+            flex: 1}}>
+                    <View style={styles.container,{zIndex:0,
+                                                    padding:10,
+                                                    flex: 0.7,
+                                                    borderTopLeftRadius:10,
+                                                    borderTopRightRadius:10,
+                                                    backgroundColor:'white',
+                                                    flexDirection:'column',
+                                                    }}>
+
+                        
+                        <View style={{flexDirection:'row',flex:1,borderBottomWidth:2,borderColor:'#E2EBF6'}}>
+                            <View style={{flex:0.3,
+                                    justifyContent:'center',
+                                }}>
+                                <Text style={{
+                                    fontSize:15,
+                                    color:'black'}}>
+                                    訂單編號 
+                                </Text>
+                            </View>
+                            <View style={{flex:1,
+                                    justifyContent:'center',
+                                }}>
+                                <Text style={{
+                                    fontSize:18,
+                                    textAlign:'left',
+                                    color:'black'}}>
+                                    #{orderID}
+                                </Text>
+                            </View>
+                            <TouchableOpacity style={{  
+                                                        height:HeightScale(40),
+                                                        width:WidthScale(30),
+                                                        justifyContent:'center',
+                                                        flex:0.3}}
+                                                onPress={function(){
+                                                                    var _GroupList=[]
+                                                                    var _DATA=[]
+                                                                    var ref = firebase.database().ref('/user'+"/" + global.username);
+                                                                    ref.child('/groupBuyItems').get().then((result) => {
+                                                                        var orders = result.val();
+                                                                        var i = 0;
+                                                                        orders.forEach(e=>{
+                                                                            if (e.orderID==orderID)
+                                                                            {
+                                                                                //如果是都顯示在已取消的訂單列表了，那就可以讓用戶刪除
+                                                                                if (showStatus=='cancel')
+                                                                                {
+                                                                                    e.status = 'delete';
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    e.status = 'cancel';
+                                                                                }
+                                                                            }
+                                                                            //重建其他不需要取消訂單的Item
+                                                                            else
+                                                                            {
+                                                                                _DATA.push({
+                                                                                    key : i.toString(),
+                                                                                    seledtedSpec : e.seledtedSpec,
+                                                                                    seledtedAmount : e.seledtedAmount,
+                                                                                    price : e.price,
+                                                                                    name : e.name,
+                                                                                    orderID : e.orderID,
+                                                                                    item_image : e.item_image,
+                                                                                    status : e.status,
+                                                                                })
+                                                                            }
+                                                                            i++;
+                                                                        })
+                                                                        ref.update({
+                                                                            groupBuyItems : orders
+                                                                        });
+                                                                        _this.setState({DATA : _DATA});
+                                                                    });
+                                                        }}
+                                                        >
+                                <Text style={{
+                                                alignSelf:'flex-end',
+                                                color:'#3BD2E4'}}>
+                                        {showStatus=='cancel'?"刪除":"取消"}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{flex:0.8,flexDirection:'column'}}>
+                            <View style={{flexDirection:'row'}}>
+                                <View style={{paddingTop:5}}>
+                                    <Image source={ {uri : item_image} } style={{width:80,height:80}}></Image>
+                                </View>
+                                <View style={{  
+                                            flex:1,
+                                            padding:5,
+                                            justifyContent:'center'}}>
+                                    <View style={{  
+                                            flex:1,
+                                            justifyContent:'center'}}>
+                                            <View style={{flex:0.2,marginTop:HeightScale(20)}}>
+                                                <Text style={{
+                                                    textAlign:'left',
+                                                    fontSize:20,
+                                                    color:'black'}}>
+                                                        {name}
+                                                </Text>
+                                            </View>
+                                            <View style={{flex:0.8,flexDirection:'row'}}>
+
+                                                <View style={{  
+                                                                flex:1,
+                                                                justifyContent:'center'}}>
+                                                    <Text style={{
+                                                                    fontSize:10,
+                                                                    color:'#3BD2E4'}}>$
+                                                                        <Text style={{
+                                                                            textAlign:'right',
+                                                                            marginEnd:10,
+                                                                            fontSize:20,
+                                                                            color:'#3BD2E4'}}>
+                                                                                {price}
+                                                                            </Text>
+                                                        </Text>
+                                                    
+                                                </View>
+                                                <View style={{  
+                                                                flex:0.5,
+                                                                justifyContent:'center'}}>
+                                                    <Text style={{
+                                                                    textAlign:'center',
+                                                                    color:'black'}}>
+                                                            x{seledtedAmount}
+                                                    </Text>
+                                                </View>
+                                                <View style={{  
+                                                                flex:1,
+                                                                justifyContent:'center'}}>
+                                                    <Text style={{
+                                                                    textAlign:'right',
+                                                                    marginEnd:20,
+                                                                    color:'black'}}>
+                                                            {seledtedSpec}
+                                                    </Text>
+                                                    <Text style={{
+                                                                    textAlign:'right',
+                                                                    marginEnd:10,
+                                                                    fontSize:15,
+                                                                    color:'#3BD2E4'}}>$
+                                                                        <Text style={{
+                                                                            textAlign:'right',
+                                                                            marginEnd:10,
+                                                                            fontSize:20,
+                                                                            color:'#3BD2E4'}}>
+                                                                                {price * seledtedAmount}
+                                                                        </Text>
+                                                        </Text>
+                                                </View>
+                                            </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{
+                                    zIndex:0,
+                                    flex:0.3,
+                                    borderBottomLeftRadius:10,
+                                    borderBottomRightRadius:10,
+                                    height:HeightScale(55),
+                                    backgroundColor : '#01C5DE',
+                                    justifyContent:'center',
+                                    }}>
+                                        <Text style={{
+                                                    textAlign:'right',
+                                                    marginEnd:10,
+                                                    fontSize:20,
+                                                    color:'white'}}>
+                                                        總共 : $
+                                                        <Text style={{
+                                                            textAlign:'right',
+                                                            marginEnd:10,
+                                                            fontSize:25,
+                                                            color:'white'}}>
+                                                                {price * seledtedAmount}
+                                                            </Text>
+                                        </Text>
+                    </View>
+        </View> 
+    :null}
+    </View>
 );
 
 

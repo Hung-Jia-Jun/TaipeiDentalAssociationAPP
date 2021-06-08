@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component,useState, useEffect } from 'react';
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 import MultiSelect from 'react-native-multiple-select';
 import * as firebase from 'firebase';
 import KeyboardListener from 'react-native-keyboard-listener';
+import * as ImagePicker from 'expo-image-picker';
 const image = require('../assets/b-訊息中心（聊天室）.png');
 
 const NotifycationTopper_image = require('../assets/NotifycationTopper.png');
@@ -28,7 +29,9 @@ if (!firebase.apps.length) {
 }
 const database = firebase.database();
 
+
 class Message extends Component {
+	
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -39,11 +42,37 @@ class Message extends Component {
 			InputMSG : '',
 			keyboardOpen : false,
 			showGroupSetting : false,
+			sendImage:'',
 		}
 	}
+
+
+
+	pickImage = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		});
+	
+		console.log(result.data);
+	
+		if (!result.cancelled) {
+			this.setState({sendImage : result.uri});
+		}
+	};
+
 	componentDidMount()
 	{
 		this.msgUpdate = this.msgUpdate.bind(this);
+		async () => {
+			if (Platform.OS !== 'web') {
+			const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+			if (status !== 'granted') {
+				alert('Sorry, we need camera roll permissions to make this work!');
+			}
+		}}
 	}
 	msgUpdate()
 	{
@@ -124,6 +153,7 @@ class Message extends Component {
 		this.setState({InputMSG:''});
 
 	}
+	
   render() {
 	const renderItem = ({ item }) => (
 		<Item 	_this={this}
@@ -292,6 +322,7 @@ class Message extends Component {
 									alignalItems:'center',
 									justifyContent:'center'
 							}}
+							onPress={this.pickImage}
 							>
 						<Text style={{
 							zIndex:0,

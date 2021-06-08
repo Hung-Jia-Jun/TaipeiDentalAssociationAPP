@@ -74,6 +74,7 @@ import GroupChat from "./screens/GroupChat";
 
 
 import Register from "./screens/Register";
+import EditBusinessCard from "./screens/EditBusinessCard";
 
 
 const AppNavigator = createStackNavigator({
@@ -87,56 +88,56 @@ const AppNavigator = createStackNavigator({
 	HightStoreMaps: {
 		screen: HightStoreMaps,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	MediumStoreMaps: {
 		screen: MediumStoreMaps,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	LowStoreMaps: {
 		screen: LowStoreMaps,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	OverviewMap: {
 		screen: OverviewMap,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	Food: {
 		screen: Food,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	FilterStroe: {
 		screen: FilterStroe,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	MainMenu: {
 		screen: MainMenu,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	Search: {
 		screen: Search,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
@@ -150,7 +151,7 @@ const AppNavigator = createStackNavigator({
 	Profile: {
 		screen: Profile,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
@@ -164,231 +165,231 @@ const AppNavigator = createStackNavigator({
 	Announcement: {
 		screen: Announcement,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	Schedule: {
 		screen: Schedule,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	AcademicEvents: {
 		screen: AcademicEvents,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	AcademicEventsDetail: {
 		screen: AcademicEventsDetail,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	DentalGroupPurchase: {
 		screen: DentalGroupPurchase,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	DentalGroupPurchaseFilter: {
 		screen: DentalGroupPurchaseFilter,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	DentalSpecialGroupPurchase: {
 		screen: DentalSpecialGroupPurchase,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ClinicRecruitment: {
 		screen: ClinicRecruitment,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ClinicRecruitmentHumanSupport: {
 		screen: ClinicRecruitmentHumanSupport,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ClinicRecruitmentHumanSupportDetail: {
 		screen: ClinicRecruitmentHumanSupportDetail,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ContactTheClinic: {
 		screen: ContactTheClinic,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	Student: {
 		screen: Student,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	StudentDepartmentAssociationAnnouncementDetail: {
 		screen: StudentDepartmentAssociationAnnouncementDetail,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	HelpAndService: {
 		screen: HelpAndService,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	HelpAndServiceAnonymous: {
 		screen: HelpAndServiceAnonymous,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	SendMessage: {
 		screen: SendMessage,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	MessageCommunication: {
 		screen: MessageCommunication,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	DentalProcurement: {
 		screen: DentalProcurement,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	DentalProcurementConfirm: {
 		screen: DentalProcurementConfirm,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	DentalProcurementSussful: {
 		screen: DentalProcurementSussful,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ShoppingCart: {
 		screen: ShoppingCart,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ShoppingCartDeleteProductConfirm: {
 		screen: ShoppingCartDeleteProductConfirm,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ShoppingCartDeletedProductList: {
 		screen: ShoppingCartDeletedProductList,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ShoppingCartDoneProductList: {
 		screen: ShoppingCartDoneProductList,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ReceiveAward: {
 		screen: ReceiveAward,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	EditProfile: {
 		screen: EditProfile,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	MyFavourite: {
 		screen: MyFavourite,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	MyFavouriteFood: {
 		screen: MyFavouriteFood,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	MyFavouriteSeminar: {
 		screen: MyFavouriteSeminar,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	MyFavouriteProduct: {
 		screen: MyFavouriteProduct,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	MyStore: {
 		screen: MyStore,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	MyStoreHasBeenRemoved : {
 		screen: MyStoreHasBeenRemoved ,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	PersonalBusinessCard : {
 		screen: PersonalBusinessCard ,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
@@ -396,98 +397,98 @@ const AppNavigator = createStackNavigator({
 	EventRegistration : {
 		screen: EventRegistration,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	Questionnaire : {
 		screen: Questionnaire,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	LimitedTimeGroupPurchase : {
 		screen: LimitedTimeGroupPurchase,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	FleaMarket : {
 		screen: FleaMarket,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	OpinionSubmission : {
 		screen: OpinionSubmission,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	HealthInsurance : {
 		screen: HealthInsurance,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	OpeningStoreProblems : {
 		screen: OpeningStoreProblems,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ActivityInformation : {
 		screen: ActivityInformation,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	Chatroom : {
 		screen: Chatroom,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	EventRegistrationDetail : {
 		screen: EventRegistrationDetail,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	HealthInsuranceDetail : {
 		screen: HealthInsuranceDetail,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	OpeningStoreProblemsDetail : {
 		screen: OpeningStoreProblemsDetail,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	ActivityInformationDetail : {
 		screen: ActivityInformationDetail,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
 	AnnouncementDetail : {
 		screen: AnnouncementDetail,
 		navigationOptions: {
-			animationEnabled: true,
+			animationEnabled: false,
 			headerShown: false
 		}
 	},
@@ -514,6 +515,13 @@ const AppNavigator = createStackNavigator({
 	},
 	GroupChat : {
 		screen: GroupChat,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
+	EditBusinessCard : {
+		screen: EditBusinessCard,
 		navigationOptions: {
 			animationEnabled: false,
 			headerShown: false
