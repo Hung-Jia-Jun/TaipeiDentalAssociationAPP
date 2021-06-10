@@ -259,6 +259,33 @@ class Index extends Component {
 											justifyContent:'flex-end',
 											marginBottom:10,
 													}}>
+							<View style={{
+												justifyContent:'center',
+												borderTopWidth:3,
+												borderTopColor:'#B9C2CC',
+												alignItems:'flex-end',
+												backgroundColor:'#FFF',
+												height:50}}>
+									<TouchableOpacity style={{alignContent:'center',
+																justifyContent:'center',
+																marginEnd:15,
+																textAlign:'center',
+																flex:1,
+																justifyContent:'center',
+																height:40,
+																width:60,
+																}}
+														onPress={()=>{this.setState({showEnrollmentYear:false,
+															showMemberType:false,
+															showBirthDay:false,})}}
+													>
+										<Text style={{textAlign:'center',fontSize:20,}}>確認</Text>
+									</TouchableOpacity>
+
+								</View>
+								<View style={{
+												backgroundColor:'#FFF',
+												height:200}}>
 										<Picker
 											selectedValue={this.state.memberType}
 											onValueChange={(itemValue, itemIndex) =>
@@ -271,101 +298,132 @@ class Index extends Component {
 											<Picker.Item label="牙醫系學生" value="牙醫系學生" />
 											<Picker.Item label="其他校盟友" value="其他校盟友" />
 										</Picker>
+								</View>
+								
 							</View>
 						}
 						{this.state.showEnrollmentYear?
-						<View style={{
+							<View style={{
 											width:Dimensions.get('window').width,
 											flex:0.01,
 											justifyContent:'flex-end',
 											marginBottom:10,
+											flexDirection:'column',
 													}}>
-													<Picker
-														selectedValue={this.state.enrollmentYear}
-														onValueChange={(itemValue, itemIndex) =>
-															this.setSelectedEnrollmentYear(itemValue)
-														}
-														>
-														<Picker.Item label="2030" value="2030" />
-														<Picker.Item label="2029" value="2029" />
-														<Picker.Item label="2028" value="2028" />
-														<Picker.Item label="2027" value="2027" />
-														<Picker.Item label="2026" value="2026" />
-														<Picker.Item label="2025" value="2025" />
-														<Picker.Item label="2024" value="2024" />
-														<Picker.Item label="2023" value="2023" />
-														<Picker.Item label="2022" value="2022" />
-														<Picker.Item label="2021" value="2021" />
-														<Picker.Item label="2020" value="2020" />
-														<Picker.Item label="2019" value="2019" />
-														<Picker.Item label="2018" value="2018" />
-														<Picker.Item label="2017" value="2017" />
-														<Picker.Item label="2016" value="2016" />
-														<Picker.Item label="2015" value="2015" />
-														<Picker.Item label="2017" value="2017" />
-														<Picker.Item label="2013" value="2013" />
-														<Picker.Item label="2012" value="2012" />
-														<Picker.Item label="2011" value="2011" />
-														<Picker.Item label="2010" value="2010" />
-														<Picker.Item label="2009" value="2009" />
-														<Picker.Item label="2008" value="2008" />
-														<Picker.Item label="2007" value="2007" />
-														<Picker.Item label="2006" value="2006" />
-														<Picker.Item label="2005" value="2005" />
-														<Picker.Item label="2004" value="2004" />
-														<Picker.Item label="2003" value="2003" />
-														<Picker.Item label="2002" value="2002" />
-														<Picker.Item label="2001" value="2001" />
-														<Picker.Item label="2000" value="2000" />
-														<Picker.Item label="1999" value="1999" />
-														<Picker.Item label="1998" value="1998" />
-														<Picker.Item label="1997" value="1997" />
-														<Picker.Item label="1996" value="1996" />
-														<Picker.Item label="1995" value="1995" />
-														<Picker.Item label="1994" value="1994" />
-														<Picker.Item label="1993" value="1993" />
-														<Picker.Item label="1992" value="1992" />
-														<Picker.Item label="1991" value="1991" />
-														<Picker.Item label="1990" value="1990" />
-														<Picker.Item label="1989" value="1989" />
-														<Picker.Item label="1988" value="1988" />
-														<Picker.Item label="1987" value="1987" />
-														<Picker.Item label="1986" value="1986" />
-														<Picker.Item label="1985" value="1985" />
-														<Picker.Item label="1984" value="1984" />
-														<Picker.Item label="1983" value="1983" />
-														<Picker.Item label="1982" value="1982" />
-														<Picker.Item label="1981" value="1981" />
-														<Picker.Item label="1980" value="1980" />
-														<Picker.Item label="1979" value="1979" />
-														<Picker.Item label="1978" value="1978" />
-														<Picker.Item label="1977" value="1977" />
-														<Picker.Item label="1976" value="1976" />
-														<Picker.Item label="1975" value="1975" />
-														<Picker.Item label="1974" value="1974" />
-														<Picker.Item label="1973" value="1973" />
-														<Picker.Item label="1972" value="1972" />
-														<Picker.Item label="1971" value="1971" />
-														<Picker.Item label="1970" value="1970" />
-														<Picker.Item label="1969" value="1969" />
-														<Picker.Item label="1968" value="1968" />
-														<Picker.Item label="1967" value="1967" />
-														<Picker.Item label="1966" value="1966" />
-														<Picker.Item label="1965" value="1965" />
-														<Picker.Item label="1964" value="1964" />
-														<Picker.Item label="1963" value="1963" />
-														<Picker.Item label="1962" value="1962" />
-														<Picker.Item label="1961" value="1961" />
-														<Picker.Item label="1960" value="1960" />
-														<Picker.Item label="1959" value="1959" />
-														<Picker.Item label="1958" value="1958" />
-														<Picker.Item label="1957" value="1957" />
-														<Picker.Item label="1956" value="1956" />
-														<Picker.Item label="1955" value="1955" />
-														<Picker.Item label="1954" value="1954" />
-														<Picker.Item label="1953" value="1953" />
-													</Picker>
-													</View>
+								<View style={{
+												justifyContent:'center',
+												borderTopWidth:3,
+												borderTopColor:'#B9C2CC',
+												alignItems:'flex-end',
+												backgroundColor:'#FFF',
+												height:50}}>
+									<TouchableOpacity style={{alignContent:'center',
+																justifyContent:'center',
+																marginEnd:15,
+																textAlign:'center',
+																flex:1,
+																justifyContent:'center',
+																height:40,
+																width:60,
+																}}
+														onPress={()=>{this.setState({showEnrollmentYear:false,
+															showMemberType:false,
+															showBirthDay:false,})}}
+													>
+										<Text style={{textAlign:'center',fontSize:20,}}>確認</Text>
+									</TouchableOpacity>
+
+								</View>
+								<View style={{
+												backgroundColor:'#FFF',
+												height:200}}>
+									<Picker
+										selectedValue={this.state.enrollmentYear}
+										onValueChange={(itemValue, itemIndex) =>
+											this.setSelectedEnrollmentYear(itemValue)
+										}
+										>
+										<Picker.Item label="2030" value="2030" />
+										<Picker.Item label="2029" value="2029" />
+										<Picker.Item label="2028" value="2028" />
+										<Picker.Item label="2027" value="2027" />
+										<Picker.Item label="2026" value="2026" />
+										<Picker.Item label="2025" value="2025" />
+										<Picker.Item label="2024" value="2024" />
+										<Picker.Item label="2023" value="2023" />
+										<Picker.Item label="2022" value="2022" />
+										<Picker.Item label="2021" value="2021" />
+										<Picker.Item label="2020" value="2020" />
+										<Picker.Item label="2019" value="2019" />
+										<Picker.Item label="2018" value="2018" />
+										<Picker.Item label="2017" value="2017" />
+										<Picker.Item label="2016" value="2016" />
+										<Picker.Item label="2015" value="2015" />
+										<Picker.Item label="2017" value="2017" />
+										<Picker.Item label="2013" value="2013" />
+										<Picker.Item label="2012" value="2012" />
+										<Picker.Item label="2011" value="2011" />
+										<Picker.Item label="2010" value="2010" />
+										<Picker.Item label="2009" value="2009" />
+										<Picker.Item label="2008" value="2008" />
+										<Picker.Item label="2007" value="2007" />
+										<Picker.Item label="2006" value="2006" />
+										<Picker.Item label="2005" value="2005" />
+										<Picker.Item label="2004" value="2004" />
+										<Picker.Item label="2003" value="2003" />
+										<Picker.Item label="2002" value="2002" />
+										<Picker.Item label="2001" value="2001" />
+										<Picker.Item label="2000" value="2000" />
+										<Picker.Item label="1999" value="1999" />
+										<Picker.Item label="1998" value="1998" />
+										<Picker.Item label="1997" value="1997" />
+										<Picker.Item label="1996" value="1996" />
+										<Picker.Item label="1995" value="1995" />
+										<Picker.Item label="1994" value="1994" />
+										<Picker.Item label="1993" value="1993" />
+										<Picker.Item label="1992" value="1992" />
+										<Picker.Item label="1991" value="1991" />
+										<Picker.Item label="1990" value="1990" />
+										<Picker.Item label="1989" value="1989" />
+										<Picker.Item label="1988" value="1988" />
+										<Picker.Item label="1987" value="1987" />
+										<Picker.Item label="1986" value="1986" />
+										<Picker.Item label="1985" value="1985" />
+										<Picker.Item label="1984" value="1984" />
+										<Picker.Item label="1983" value="1983" />
+										<Picker.Item label="1982" value="1982" />
+										<Picker.Item label="1981" value="1981" />
+										<Picker.Item label="1980" value="1980" />
+										<Picker.Item label="1979" value="1979" />
+										<Picker.Item label="1978" value="1978" />
+										<Picker.Item label="1977" value="1977" />
+										<Picker.Item label="1976" value="1976" />
+										<Picker.Item label="1975" value="1975" />
+										<Picker.Item label="1974" value="1974" />
+										<Picker.Item label="1973" value="1973" />
+										<Picker.Item label="1972" value="1972" />
+										<Picker.Item label="1971" value="1971" />
+										<Picker.Item label="1970" value="1970" />
+										<Picker.Item label="1969" value="1969" />
+										<Picker.Item label="1968" value="1968" />
+										<Picker.Item label="1967" value="1967" />
+										<Picker.Item label="1966" value="1966" />
+										<Picker.Item label="1965" value="1965" />
+										<Picker.Item label="1964" value="1964" />
+										<Picker.Item label="1963" value="1963" />
+										<Picker.Item label="1962" value="1962" />
+										<Picker.Item label="1961" value="1961" />
+										<Picker.Item label="1960" value="1960" />
+										<Picker.Item label="1959" value="1959" />
+										<Picker.Item label="1958" value="1958" />
+										<Picker.Item label="1957" value="1957" />
+										<Picker.Item label="1956" value="1956" />
+										<Picker.Item label="1955" value="1955" />
+										<Picker.Item label="1954" value="1954" />
+										<Picker.Item label="1953" value="1953" />
+									</Picker>
+								</View>
+							</View>
 						:null}
 						{this.state.showBirthDay==false?null:
 							<View style={{borderWidth:1,
@@ -374,12 +432,39 @@ class Index extends Component {
 											justifyContent:'flex-end',
 											marginBottom:40,
 													}}>
-								<DateTimePicker 
-									value={ this.state.birthDay }
-									mode='date'
-									display='spinner'
-									onChange={ (event,date) => this.setSelectedBirthDay(date) } />
-								
+								<View style={{
+												justifyContent:'center',
+												borderTopWidth:3,
+												borderTopColor:'#B9C2CC',
+												alignItems:'flex-end',
+												backgroundColor:'#FFF',
+												height:50}}>
+									<TouchableOpacity style={{alignContent:'center',
+																justifyContent:'center',
+																marginEnd:15,
+																textAlign:'center',
+																flex:1,
+																justifyContent:'center',
+																height:40,
+																width:60,
+																}}
+														onPress={()=>{this.setState({showEnrollmentYear:false,
+															showMemberType:false,
+															showBirthDay:false,})}}
+													>
+										<Text style={{textAlign:'center',fontSize:20,}}>確認</Text>
+									</TouchableOpacity>
+
+								</View>
+								<View style={{
+												backgroundColor:'#FFF',
+												height:200}}>
+									<DateTimePicker 
+										value={ this.state.birthDay }
+										mode='date'
+										display='spinner'
+										onChange={ (event,date) => this.setSelectedBirthDay(date) } />
+								</View>
 							</View>
 						}
 						

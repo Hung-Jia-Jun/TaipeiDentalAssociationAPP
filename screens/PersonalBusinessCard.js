@@ -32,8 +32,9 @@ class Message extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showGroupList:false,
-			GroupList : [
+            showCards : false,
+            //個人名片List
+			cardList : [
 			  
 			],
 			DATA : [],
@@ -41,40 +42,89 @@ class Message extends Component {
 	}
 	componentDidMount()
 	{
-		this.updateGroupList();
+		this.updateCardList();
 	}
-	updateGroupList()
+	updateCardList()
 	{
 		var that = this;
-		var _GroupList=[]
-		var ref = firebase.database().ref('/user'+"/" + global.username+ '/belongGroups');
-		ref.on('value', function (snapshot) {
-			// 先清空舊有的聊天室通知列表
-			var i=0;
-			snapshot.forEach((childSnapshot) => {
-				_GroupList.push({   key:i.toString(),
-									title:childSnapshot.val().key,
-									groupID:childSnapshot.val().value,
-									item_image : require('../assets/NotifyItem.png'),
-									})
-				i+=1;
-			});
-			that.setState({DATA : that.state.DATA});
-			that.setState({GroupList:_GroupList}, () => that.updateLastMsg());
-		});
+        that.setState({cardList:[],showCards:false},()=>{
+            var ref = firebase.database().ref('/user'+"/" + global.username+ '/businessCard');
+            ref.on('value', function (snapshot) {
+                var _cardList=[]
+                // 先清空舊有的聊天室通知列表
+                var i=0;
+                var _experienceList = []
+                var _educationList = []
+                snapshot.forEach((childSnapshot) => {
+                    //個人名片的資訊
+                    var carInfo = childSnapshot.val();
+                    
+                    _experienceList = that.rebuildCardKey(carInfo.experienceList);
+                    _educationList = that.rebuildCardKey(carInfo.educationList);
+                
+                
+                    _cardList.push({    key:i.toString(),
+                                        id : carInfo.id,
+                                        businessCardName : carInfo.businessCardName,
+                                        experienceList : _experienceList,
+                                        educationList : _educationList,
+                                        })
+                    i+=1;
+                });
+                // that.setState({cardList:_cardList});
+                that.setState({cardList:_cardList}, () => that.setState({showCards:true}));
+            });
+        })
 	}
-	
+
+    //因為要重建key不然沒辦法顯示
+    rebuildCardKey(arr)
+	{
+        var that = this;
+        var _arr = [];
+        var i=0;
+        if (arr==undefined)
+        {
+            return null;
+        }
+        arr.forEach(e=>{
+            _arr.push({
+                            key: i.toString(),
+                            placeholderText: '學歷',
+                            value:e.value,
+            });
+            i++;
+        })
+        return _arr;
+	}
+
+	showCardsDetail(arr)
+	{
+        var that = this;
+        var textList = [];
+        var i=0;
+        if (arr==undefined)
+        {
+            return null;
+        }
+        Object.values(arr).forEach(card=>{
+            textList.push(
+                <Text style={{
+                    // key : i.toString(),
+                    color:'#FFF',
+                    fontSize:18,
+                    marginBottom:3,
+                }}>
+                    {card.value}
+                </Text>
+            )
+            i++;
+        })
+        return textList;
+	}
 	render() {
 		const renderItem = ({ item }) => (
-			<Item   _this={this} 
-					title={item.title} 
-					item_image={item.item_image} 
-					discription={item.discription}
-					groupID={item.groupID}
-					/>
-		);
-		const Group_renderItem = ({ item }) => (
-			<Group_Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription} groupID={item.groupID}/>
+			<Item _this={this} item={item}/>
 		);
 	return (
 		<View  key="container" style={styles.container,{flex: 1,
@@ -97,11 +147,10 @@ class Message extends Component {
 							zIndex:0,
 							flexDirection: 'row',
 							}}>
-                                {/* busniessCardBackground */}
-				<View style={{
-						flex:0.3,
-						alignItems:'flex-start',
-					}}>
+                
+                <View style={{
+                    flex:0.3,
+                    alignItems:'flex-start'}}>
                     <TouchableOpacity style={{
 							alignItems:'center',
 							justifyContent:'center',
@@ -126,7 +175,18 @@ class Message extends Component {
 						flex:0.3,
 						alignItems:'flex-end',
 					}}>
-				
+                         <TouchableOpacity style={{
+							alignItems:'center',
+							justifyContent:'center',
+							height:50,
+							width:50,
+						}} 
+						onPress={()=>this.props.navigation.navigate('EditBusinessCard')}>
+						<Text style={{  fontSize:35,
+                                        color:'#FFF',
+                                        justifyContent:'center',
+                                        alignContent:'center'}}>+</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
 			<View style={{flex: 3.7,
@@ -136,38 +196,51 @@ class Message extends Component {
 					<View style={{flex: 0.05,
                                     }}>
 			        </View>
-                    <TouchableOpacity style={{flex: 0.4,
-                                        marginEnd:WidthScale(20),
-                                        marginStart : WidthScale(20),
-                                        marginTop:HeightScale(20),
-                                        borderRadius:15,
-                                        backgroundColor:'#FFF',
-                                        borderColor:'#01C5DE',
-                                        borderWidth:3,
-                                        shadowOffset:{  width:0,  height:3},
-                                        shadowColor: 'black',
-                                        shadowOpacity: 0.1,
-                                    }}
-                                    onPress={()=>this.props.navigation.navigate('EditBusinessCard')}
-                                    >
-                            <View style={{flex: 1,
-                                            justifyContent:'center',
-                                            }}>
-                                    <Text style={{padding:30,
-                                                    textAlign:'center',
-                                                    color:'#01C5DE',
-                                                    fontSize:20,
+                    {this.state.cardList.length>0 & this.state.showCards==true?
+                        <View style={{
+                                        }}>
+                            <FlatList
+                                style={{}}//backgroundColor:'#EBF0F3'}}
+                                contentContainerStyle={{ marginTop: 0}}
+                                data={this.state.cardList}
+                                renderItem={renderItem}
+                                extraData={this.state}
+                                keyExtractor={item => item.key.toString()}
+                                />
+                        </View>
+                    :   <TouchableOpacity style={{flex: 0.4,
+                                            marginEnd:WidthScale(20),
+                                            marginStart : WidthScale(20),
+                                            marginTop:HeightScale(20),
+                                            borderRadius:15,
+                                            backgroundColor:'#FFF',
+                                            borderColor:'#01C5DE',
+                                            borderWidth:3,
+                                            shadowOffset:{  width:0,  height:3},
+                                            shadowColor: 'black',
+                                            shadowOpacity: 0.1,
+                                        }}
+                                        onPress={()=>this.props.navigation.navigate('EditBusinessCard')}
+                                        >
+                                <View style={{flex: 1,
+                                                justifyContent:'center',
                                                 }}>
-                                                    <Text style={{
-                                                    textAlign:'center',
-                                                    color:'#01C5DE',
-                                                    fontSize:50,
+                                        <Text style={{padding:30,
+                                                        textAlign:'center',
+                                                        color:'#01C5DE',
+                                                        fontSize:20,
                                                     }}>
-                                                        +{"\n"}
-                                                    </Text>
-                                                    新增個人名片</Text>
-                            </View>
-                    </TouchableOpacity>
+                                                        <Text style={{
+                                                        textAlign:'center',
+                                                        color:'#01C5DE',
+                                                        fontSize:50,
+                                                        }}>
+                                                            +{"\n"}
+                                                        </Text>
+                                                        新增個人名片</Text>
+                                </View>
+                        </TouchableOpacity>
+                    }
                     <View style={{flex: 0.2,
                                     }}>
 			        </View>
@@ -239,91 +312,111 @@ class Message extends Component {
 
 
 
+const Item = ({ _this,item}) => (
+    <TouchableOpacity style={{flex: 1}}
+    //TODO 要能編輯個人名片，所以要加一個bussnessCarID
+    onPress={()=>_this.props.navigation.navigate('EditBusinessCard',{cardId:item.id})}
+    style={{flexDirection:'column', 
+    shadowOffset:{  width:4,  height:4},
+    shadowColor: 'black',
+    shadowOpacity: 0.2}}
+    >
+        <ImageBackground source={require('../assets/busniessCardBackground.png')}
+                style={{
+                    marginEnd:WidthScale(20),
+                    marginStart : WidthScale(15),
+                    marginTop:HeightScale(40),
+                    borderRadius:10,
+                    padding:10,
+                    overflow: 'hidden',
+                }}>
+                <View style={{
+                        flexDirection:'row',
+                        borderColor:'#FFF',
+                        paddingBottom:10,
+                        borderBottomWidth:2,
+                }}>
+                    <Image source={{uri : global.userIcon}} 
+                            style={{
+                                borderWidth:3,
+                                height:60,
+                                width:60,
+                                borderRadius:100,
+                                borderColor:'#FFF',
+                                marginEnd:20,
+                                resizeMode:'contain',
+                            }}    
+                            ></Image>
+                    <View style={{
+                        flexDirection:'column',
+                        justifyContent:'center',
+                        marginEnd:WidthScale(150),
+                    }}>
+                        <Text style={{
+                            color:'#FFF',
+                            fontSize:18,
+                        }}>{item.businessCardName}</Text>
+                    </View>
 
-const Group_Item = ({ _this,title,item_image,discription,groupID}) => (
-	<View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:45,backgroundColor:'#D8F4FB'}}>
-		<View style={{zIndex:0,width:Dimensions.get('window').width,height:50}}>
-			<TouchableOpacity style={styles.button,{
-					height: 45,
-					zIndex:0,
-					shadowOffset:{  width: 5,  height: 5},
-					shadowColor: 'black',
-					shadowOpacity: 0.01,
-					width:Dimensions.get('window').width,
-					marginStart: 0,
-					zIndex:1,
-					flexDirection:'row',
-					marginTop:0,
-				}} onPress={() => _this.props.navigation.push('GroupChat',{ GroupName : title,
-																				GroupID : groupID
-																				})}>
-					<Image source={ item_image } style={{zIndex:0,
-														marginTop:0,
-														marginStart:50,
-														width:30,
-														height:30}}></Image>
-					<Text style={{
-						width:230,
-						zIndex:0,
-						height:30,
-						marginLeft: 100,
-						textAlign:'left',
-						marginTop:3,
-						fontSize:15,
-						justifyContent:'center',
-						color:'black'}}>
-							{title}
-					</Text>
-			</TouchableOpacity>
-		</View> 
-	</View>
-);
+                    <View style={{
+                        flexDirection:'column',
+                        justifyContent:'center',
+                    }}>
+                        <Text style={{
+                            color:'#FFF',
+                            fontSize:15,
+                        }}>{global.birthday}</Text>
+                    </View>
+                </View>
+                <View style={{
+                        flexDirection:'column',
+                        flex:1,
+                        marginTop:10,
+                }}>
+                    <View style={{
+                        flex:1,
+                        marginTop:5,
+                        flexDirection:'row',
+                    }}>
+                        <Text style={{
+                            color:'#FFF',
+                            fontSize:18,
+                        }}>學歷 : </Text>
 
-const Item = ({ _this,title,item_image,discription,groupID}) => (
-	<View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:105}}>
-		<ImageBackground style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,height:100,backgroundColor:'#F2FAFF'}}> 
-			<View style={{zIndex:0,width:Dimensions.get('window').width,height:100}}>
-				<View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row'}}>
-					<Image source={ item_image } style={{zIndex:0,marginStart:27,marginTop:11,width:90,height:90}}></Image>
-				</View>
-				<View style={styles.container,{zIndex:0,flex: 0.1, flexDirection: 'column'}}>
-					<Text style={{
-						width:230,
-						zIndex:0,
-						height:30,
-						marginTop: 20,
-						marginLeft: 125,
-						fontSize:17,
-						color:'black'}}>
-							{title}
-					</Text>
-					<Text style={{
-						width:230,
-						height:40,
-						zIndex:0,
-						marginTop: 0,
-						marginLeft: 125,
-						fontSize:12,
-						color:'black'}}>
-							{discription}
-					</Text>
-				</View>
-				<TouchableOpacity style={styles.button,{
-						height: 100,
-						zIndex:0,
-						shadowOffset:{  width: 5,  height: 5},
-						shadowColor: 'black',
-						shadowOpacity: 0.01,
-						width:Dimensions.get('window').width,
-						borderColor:'black',
-						marginStart: 0,
-						zIndex:0,
-						marginTop:0,
-					}} onPress={() => _this.props.navigation.push('GroupChat',{GroupID : groupID , GroupName : title})}>
-					</TouchableOpacity>
-			</View> 
-		</ImageBackground>
-	</View>
+                        <View style={{
+                            flex:1,
+                            marginStart:15,
+                            flexDirection:'column',
+                        }}>
+                        {
+                            _this.showCardsDetail(item.educationList)
+                        }
+                        </View>
+                    </View>
+
+                    <View style={{
+                        flex:1,
+                        marginTop:5,
+                        flexDirection:'row',
+                    }}>
+                        <Text style={{
+                            color:'#FFF',
+                            fontSize:18,
+                        }}>經歷 : </Text>
+
+                        <View style={{
+                            flex:1,
+                            marginStart:15,
+                            flexDirection:'column',
+                        }}>
+                        {
+                            _this.showCardsDetail(item.experienceList)
+                        }
+                        </View>
+                    </View>
+                </View>
+        </ImageBackground>
+    </TouchableOpacity>
 );
 
 

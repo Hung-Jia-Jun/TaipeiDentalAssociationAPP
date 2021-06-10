@@ -35,6 +35,10 @@ class Index extends Component {
 	
 	signin() {
 		global.username="test";
+		global.userIcon = "http://lorempixel.com/1920/1920/cats";
+		global.birthday = '20210505'; 
+		global.enrollmentYear = '2000'; 
+		global.memberType = '台北市開業'; 
 		this.props.navigation.navigate('OverviewMap');
 		return;
 		// if (this.state.username=='' || this.state.birthday_str=='密碼（出生年月日）')
@@ -60,6 +64,11 @@ class Index extends Component {
 		// 	{
 		// 		Alert.alert("登入成功");
 		// 		global.username = this.state.username;
+		// 		global.userIcon = user.userIcon;
+		//		global.birthday = user.birthday;
+		// 		global.enrollmentYear = user.enrollmentYear;
+		// 		global.memberType = user.memberType;
+
 		// 		this.props.navigation.navigate('OverviewMap');
 		// 	}
 		// } else {

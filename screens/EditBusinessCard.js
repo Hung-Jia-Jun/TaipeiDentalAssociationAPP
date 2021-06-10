@@ -32,6 +32,7 @@ class Message extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			cardId :this.props.navigation.getParam('cardId'),
 			//這張名片你要叫什麼名字
 			businessCardName:'',
 			experienceList : [
@@ -50,11 +51,71 @@ class Message extends Component {
 			],
 		}
 	}
+	componentDidMount()
+	{
+		try
+		{
+			// this.setState({cardId : this.props.navigation.getParam('cardId')});
+			console.log(this.state.cardId);
+			var businessCardName;
+			var experienceList;
+			var that = this;
+			var educationList;
+			// 現在是進入編輯名片的環節
+			if (this.state.cardId != undefined)
+			{
+				var ref = firebase.database().ref('/user'+"/" + global.username+ '/businessCard');
+				ref.on('value', function (snapshot) {
+					console.log(snapshot);
+					snapshot.forEach((childSnapshot) => {
+						//個人名片的資訊
+						var carInfo = childSnapshot.val();
+						if (carInfo.id == that.state.cardId)
+						{
+							console.log(carInfo);
+							that.setState({
+								businessCardName : carInfo.businessCardName,
+								experienceList : carInfo.experienceList,
+								educationList : carInfo.educationList,
+							});
+						}
+					});
+				});
+			}
+		}
+		catch
+		{
+
+		}
+	}
 	arrayRemove(arr, value) { 
         return arr.filter(function(ele){ 
             return ele.key != value; 
         });
     }
+	removeCardById(Id,callback)
+	{
+		var that = this;
+		var dbRef = database.ref();
+		//加入該用戶的所屬群組列表
+		dbRef.child("user").child(global.username).get().then((result) => {
+			if (result.exists()) {
+				var user = result.val();
+				var newArr = []
+				user.businessCard.forEach(e=>{
+					if (e.id!=Id)
+					{
+						newArr.push(e);
+					}
+				})
+				var businessCardRef = database.ref('/user'+"/" + global.username);
+				console.log(newArr);
+				businessCardRef.update({
+					businessCard : newArr
+				});
+				
+		}},callback);
+	}
 	uploadSelfBusinessCard(callback)
 	{
 		var that = this;
@@ -67,15 +128,67 @@ class Message extends Component {
 				{
 					user.businessCard = []
 				}
-				user.businessCard.push({
-										businessCardName : that.state.businessCardName,
-										experienceList : that.state.experienceList,
-										educationList : that.state.educationList,
-										})
-				var businessCardRef = database.ref('/user'+"/" + global.username);
-				businessCardRef.update({
-					businessCard : user.businessCard
-				});
+				if (that.state.cardId != undefined)
+				{
+					user.businessCard.forEach(e=>{
+						if (e.id==that.state.cardId)
+						{
+							if (that.state.experienceList==undefined)
+							{
+								that.state.experienceList=[]
+							}
+							if (that.state.educationList==undefined)
+							{
+								that.state.educationList=[]
+							}
+							e.businessCardName = that.state.businessCardName;
+							e.experienceList = that.state.experienceList;
+							e.educationList = that.state.educationList;
+						}
+					})
+					var businessCardRef = database.ref('/user'+"/" + global.username);
+					console.log(user.businessCard);
+					businessCardRef.update({
+						businessCard : user.businessCard
+					});
+				
+				}
+				else
+				{
+					if (that.state.experienceList.length==0)
+					{
+						that.setState({experienceList:[
+							{
+								key: 0,
+								placeholderText: '經歷',
+								value:"",
+							},
+						]});
+					}
+
+					if (that.state.educationList.length==0)
+					{
+						that.setState({educationList:[
+							{
+								key: 0,
+								placeholderText: '學歷',
+								value:"",
+							},
+						]});
+					}
+
+					var timeStamp = new Date().getTime().toString();
+					user.businessCard.push({
+											id :timeStamp,
+											businessCardName : that.state.businessCardName,
+											experienceList : that.state.experienceList,
+											educationList : that.state.educationList,
+											})
+					var businessCardRef = database.ref('/user'+"/" + global.username);
+					businessCardRef.update({
+						businessCard : user.businessCard
+					});
+				}
 			}
 			})
 			.catch(function(error) {
@@ -85,39 +198,12 @@ class Message extends Component {
 				},callback);
 		
 	}
-	// updateLastMsg()
-	// {
-	// 	var that = this;
-	// 	var GroupList = that.state.GroupList;
-	// 	var i =0;
-	// 	GroupList.forEach(e =>{
-	// 		var groupID = e.groupID;
-	// 		//只要關於群組的內容有更新，就更新一次畫面
-	// 		var ref = firebase.database().ref();
-	// 		that.state.DATA = [];
-	// 		ref.child("group").child(groupID).get().then((snapshot) => {
-	// 		// var foo = ref.on('value' , function (snapshot) {
-	// 			var EachGroupMsgArr = Object.values(snapshot.val().msg);
-	// 			var last = EachGroupMsgArr[EachGroupMsgArr.length - 1];
-				
-	// 			that.state.DATA.push({
-	// 				key : i.toString(),
-	// 				title : e.title,
-	// 				groupID : groupID,
-	// 				item_image : require('../assets/MessageIcon.png'),
-	// 				discription : last.msg,
-	// 			});
-	// 			i++;
-	// 			that.setState({DATA : that.state.DATA});
-	// 		});
-	// 	});
-	// }
 	render() {
 		const renderItem = ({ item }) => (
-			<Education_Item _this={this} itemKey={item.key} title={item.placeholderText} value={item.value}/>
+			<Education_Item _this={this} itemKey={item.key} placeholderText={item.placeholderText} value={item.value}/>
 		);
 		const renderItem2 = ({ item }) => (
-			<Experience_Item _this={this} itemKey={item.key} title={item.placeholderText} value={item.value}/>
+			<Experience_Item _this={this} itemKey={item.key} placeholderText={item.placeholderText} value={item.value}/>
 		);
 		
 	return (
@@ -151,7 +237,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate('Profile')}>
+						onPress={()=>this.props.navigation.navigate('PersonalBusinessCard')}>
 						<Image source={require('../assets/adsfsdfsdfdxcvcxv.png')}></Image>
 					</TouchableOpacity>
 				</View>
@@ -169,7 +255,15 @@ class Message extends Component {
 						flex:0.3,
 						alignItems:'flex-end',
 					}}>
-				
+				 	<TouchableOpacity style={{
+							alignItems:'center',
+							justifyContent:'center',
+							height:50,
+							width:50,
+						}} 
+						onPress={()=>this.removeCardById(this.state.cardId,this.props.navigation.navigate('PersonalBusinessCard'))}>
+						<Image source={require('../assets/whiteTrachcan.png')}></Image>
+					</TouchableOpacity>
 				</View>
 			</View>
 			<View style={{flex: 3.7,
@@ -203,12 +297,27 @@ class Message extends Component {
 								alignItems:'center',
 								}}
 								onPress={()=>{
-									this.state.educationList.push({
-										key : this.state.educationList.length,
-										placeholderText: '學歷',
-										value:"",
-									});
-									this.setState({educationList : this.state.educationList});
+									if (this.state.educationList==undefined)
+									{
+										this.setState({educationList:[]},()=>{
+											this.state.educationList.push({
+												key : this.state.educationList.length,
+												placeholderText: '學歷',
+												value:"",
+											});
+											this.setState({educationList : this.state.educationList});
+										});
+									}
+									else
+									{
+										this.state.educationList.push({
+											key : this.state.educationList.length,
+											placeholderText: '學歷',
+											value:"",
+										});
+										this.setState({educationList : this.state.educationList});
+									}
+									
 								}}
 								>
 							<Image source={require('../assets/plus.png')}></Image>
@@ -238,12 +347,26 @@ class Message extends Component {
 							alignItems:'center',
 							}}
 							onPress={()=>{
-								this.state.experienceList.push({
-									key : this.state.experienceList.length,
-									placeholderText: '經歷',
-									value:"",
-								});
-								this.setState({experienceList : this.state.experienceList});
+								if (this.state.experienceList==undefined)
+								{
+									this.setState({experienceList:[]},()=>{
+										this.state.experienceList.push({
+											key : this.state.experienceList.length,
+											placeholderText: '經歷',
+											value:"",
+										});
+										this.setState({experienceList : this.state.experienceList});
+									});
+								}
+								else
+									{
+										this.state.experienceList.push({
+											key : this.state.experienceList.length,
+											placeholderText: '經歷',
+											value:"",
+										});
+										this.setState({experienceList : this.state.experienceList});
+									}
 							}}
 							>
 						<Image source={require('../assets/plus.png')}></Image>
@@ -307,17 +430,24 @@ const Education_Item = ({ _this,itemKey,placeholderText,value}) => (
 								console.log(itemKey);
 								var _educationList = _this.arrayRemove(_this.state.educationList,itemKey);
 								_this.state.educationList = []
-
-								var i=0;
-								Object.values(_educationList).forEach(e=>{
-									_this.state.educationList.push({
-										key : i,
-										placeholderText: '學歷',
-										value:e.value,
+								
+								try
+								{
+									var i=0;
+									Object.values(_educationList).forEach(e=>{
+										_this.state.educationList.push({
+											key : i,
+											placeholderText: '學歷',
+											value:e.value,
+										})
+										i++;
 									})
-									i++;
-								})
-								_this.setState({educationList:_this.state.educationList})
+									_this.setState({educationList:_this.state.educationList})
+								}
+								catch
+								{
+									
+								}
 							}}>
 			<Image source={require('../assets/trashCan.png')}></Image>
 		</TouchableOpacity>
@@ -349,17 +479,24 @@ const Experience_Item = ({ _this,itemKey,placeholderText,value}) => (
 								console.log(itemKey);
 								var _experienceList = _this.arrayRemove(_this.state.experienceList,itemKey);
 								_this.state.experienceList = []
-
-								var i=0;
-								Object.values(_experienceList).forEach(e=>{
-									_this.state.experienceList.push({
-										key : i,
-										placeholderText: '學歷',
-										value:e.value,
+								
+								try
+								{
+									var i=0;
+									Object.values(_experienceList).forEach(e=>{
+										_this.state.experienceList.push({
+											key : i,
+											placeholderText: '學歷',
+											value:e.value,
+										})
+										i++;
 									})
-									i++;
-								})
-								_this.setState({experienceList:_this.state.experienceList})
+									_this.setState({experienceList:_this.state.experienceList})
+								}
+								catch
+								{
+
+								}
 							}}>
 			<Image source={require('../assets/trashCan.png')}></Image>
 		</TouchableOpacity>
