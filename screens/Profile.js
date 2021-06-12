@@ -5,7 +5,23 @@ import {Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackgr
 const Topper_image = require('../assets/profile_topper.png');
 const Footer_image = require('../assets/Footer_blank.png')
 class Page extends Component {
-  render() {
+	componentDidMount()
+	{
+		try
+		{
+			_username = this.props.navigation.getParam('username');
+			if (_username!=undefined)
+			{
+				global.username = _username;
+				console.log(global.username);
+			}
+		}
+		catch
+		{
+
+		}
+	}
+  	render() {
 	const renderItem = ({ item }) => (
 		<Item _this={this} title={item.title} sceneName={item.sceneName} />
 	);

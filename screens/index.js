@@ -32,51 +32,53 @@ class Index extends Component {
 			showBirthDay:false,
 		}
 	}
-	
+	componentDidMount()
+	{
+		this.setState({username:"test",birthday_str : '20240612'});
+	}
 	signin() {
-		global.username="test";
-		global.userIcon = "http://lorempixel.com/1920/1920/cats";
-		global.birthday = '20210505'; 
-		global.enrollmentYear = '2000'; 
-		global.memberType = '台北市開業'; 
-		this.props.navigation.navigate('OverviewMap');
-		return;
-		// if (this.state.username=='' || this.state.birthday_str=='密碼（出生年月日）')
-		// {
-		// 	Alert.alert("請輸入登入資訊");
-		// 	return;
-		// }
-		// var dbRef = database.ref();
-		// dbRef.child("user").child(this.state.username).get().then((result) => {
-		// if (result.exists()) {
-		// 	var user = result.val();
-		// 	if (this.state.birthday_str != user.birthday)
-		// 	{
-		// 		Alert.alert("帳號或密碼錯誤");
-		// 		return;
-		// 	}
-		// 	else if(user.validation==false)
-		// 	{
-		// 		Alert.alert("會員正在審核中，請等待客服通知");
-		// 		return;
-		// 	}
-		// 	else 
-		// 	{
-		// 		Alert.alert("登入成功");
-		// 		global.username = this.state.username;
-		// 		global.userIcon = user.userIcon;
-		//		global.birthday = user.birthday;
-		// 		global.enrollmentYear = user.enrollmentYear;
-		// 		global.memberType = user.memberType;
+		if (this.state.username=='' || this.state.birthday_str=='密碼（出生年月日）')
+		{
+			Alert.alert("請輸入登入資訊");
+			return;
+		}
+		var dbRef = database.ref();
+		dbRef.child("user").child(this.state.username).get().then((result) => {
+		if (result.exists()) {
+			var user = result.val();
+			if (this.state.birthday_str != user.birthday)
+			{
+				Alert.alert("姓名或生日錯誤");
+				return;
+			}
+			else if(user.validation==false)
+			{
+				Alert.alert("會員正在審核中，請等待客服通知");
+				return;
+			}
+			else 
+			{
+				Alert.alert("登入成功");
+				global.username = user.username;
+				global.userIcon = user.userIcon;
+				global.birthday = user.birthday;
+				global.enrollmentYear = user.enrollmentYear;
+				global.memberType = user.memberType;
+				global.doctorID = user.doctorID==undefined?'':user.doctorID;
+				global.gender = user.gender==undefined?'':user.gender;
+				global.phoneNumber = user.phoneNumber==undefined?'':user.phoneNumber;
+				global.Email = user.Email==undefined?'':user.Email;
+				global.LineID = user.LineID==undefined?'':user.LineID;
+				global.WechatID = user.WechatID==undefined?'':user.WechatID;
 
-		// 		this.props.navigation.navigate('OverviewMap');
-		// 	}
-		// } else {
-		// 	Alert.alert("帳號或密碼錯誤");
-		// }
-		// }).catch((error) => {
-		// 	console.error(error);
-		// });
+				this.props.navigation.navigate('OverviewMap');
+			}
+		} else {
+			Alert.alert("帳號或密碼錯誤");
+		}
+		}).catch((error) => {
+			console.error(error);
+		});
 
 	}
 	setSelectedBirthDay(value)
@@ -201,12 +203,40 @@ class Index extends Component {
 											justifyContent:'flex-end',
 											marginBottom:40,
 													}}>
-								<DateTimePicker 
-									value={ this.state.birthday }
-									mode='date'
-									display='spinner'
-									onChange={ (event,date) => this.setSelectedBirthDay(date) } />
-								
+							<View style={{
+												justifyContent:'center',
+												borderTopWidth:3,
+												borderTopColor:'#B9C2CC',
+												alignItems:'flex-end',
+												backgroundColor:'#FFF',
+												height:50}}>
+									<TouchableOpacity style={{alignContent:'center',
+																justifyContent:'center',
+																marginEnd:15,
+																textAlign:'center',
+																flex:1,
+																justifyContent:'center',
+																height:40,
+																width:60,
+																}}
+														onPress={()=>{this.setState({showEnrollmentYear:false,
+															showMemberType:false,
+															showBirthDay:false,})}}
+													>
+										<Text style={{textAlign:'center',fontSize:20,}}>確認</Text>
+									</TouchableOpacity>
+
+								</View>
+								<View style={{
+												backgroundColor:'#FFF',
+												height:200}}>
+
+									<DateTimePicker 
+										value={ this.state.birthday }
+										mode='date'
+										display='spinner'
+										onChange={ (event,date) => this.setSelectedBirthDay(date) } />
+								</View>
 							</View>
 						}
 						

@@ -234,7 +234,7 @@ class Message extends Component {
 							zIndex:0,
 							flexDirection: 'column',
 							marginTop:18}}>
-				 <KeyboardListener
+				<KeyboardListener
 					onWillShow={() => { this.setState({ keyboardOpen: true }); }}
 					onWillHide={() => { this.setState({ keyboardOpen: false }); }}
 				/>

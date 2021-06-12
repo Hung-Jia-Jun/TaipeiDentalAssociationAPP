@@ -67,13 +67,13 @@ class Index extends Component {
 		dbRef.child("user").child(this.state.username).get().then((result) => {
 			if (result.exists()==false) 
 			{
-				database.ref('/user'+"/" + this.state.username).set({	username:this.state.username,
+				database.ref('/user'+"/" + this.state.username).set({	
+									username:this.state.username,
 									memberType:this.state.memberType,
 									birthday:this.state.birthDay_str,
 									enrollmentYear:this.state.enrollmentYear,
 									userIcon : '../assets/MessageIcon.png',
 									validation : false,
-									belongGroups : [],
 								});
 				Alert.alert("申請成功，等待審核中");
 			} 

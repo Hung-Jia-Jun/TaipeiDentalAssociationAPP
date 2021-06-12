@@ -380,20 +380,93 @@ class Page extends Component {
 				</View>
 			</View>
 			{this.state.showAmountSelect?
-				<Picker selectedValue={this.state.seledtedAmount}
-						style={{height:160}}
-						onValueChange={(itemValue, itemIndex) =>
-						this.setSelectedAmount(itemValue)}>
-						{this.showAmountBtn(this)}
-				</Picker>
+				<View style={{
+					width:Dimensions.get('window').width,
+					flex:0.01,
+					justifyContent:'flex-end',
+					marginBottom:10,
+					flexDirection:'column',
+							}}>
+					<View style={{
+									justifyContent:'center',
+									borderTopWidth:3,
+									borderTopColor:'#B9C2CC',
+									alignItems:'flex-end',
+									backgroundColor:'#FFF',
+									height:50}}>
+						<TouchableOpacity style={{alignContent:'center',
+													justifyContent:'center',
+													marginEnd:15,
+													textAlign:'center',
+													flex:1,
+													justifyContent:'center',
+													height:40,
+													width:60,
+													}}
+											onPress={()=>{
+															this.setState({showAmountSelect : false ,showSpecSelect:false});
+															}}
+										>
+							<Text style={{textAlign:'center',fontSize:20,}}>確認</Text>
+						</TouchableOpacity>
+
+					</View>
+					<View style={{
+									backgroundColor:'#FFF',
+									height:200}}>
+						<Picker selectedValue={this.state.seledtedAmount}
+								style={{height:160}}
+								onValueChange={(itemValue, itemIndex) =>
+								this.setSelectedAmount(itemValue)}>
+								{this.showAmountBtn(this)}
+						</Picker>
+					</View>
+				</View>
 			:null}
 			{this.state.showSpecSelect?
-				<Picker selectedValue={this.state.seledtedSpec}
-						style={{height:160}}
-						onValueChange={(itemValue, itemIndex) =>
-						this.setSelectedSpec(itemValue)}>
-						{this.showSpecBtn(this)}
-				</Picker>
+				<View style={{
+					width:Dimensions.get('window').width,
+					flex:0.01,
+					justifyContent:'flex-end',
+					marginBottom:10,
+					flexDirection:'column',
+							}}>
+					<View style={{
+									justifyContent:'center',
+									borderTopWidth:3,
+									borderTopColor:'#B9C2CC',
+									alignItems:'flex-end',
+									backgroundColor:'#FFF',
+									height:50}}>
+						<TouchableOpacity style={{alignContent:'center',
+													justifyContent:'center',
+													marginEnd:15,
+													textAlign:'center',
+													flex:1,
+													justifyContent:'center',
+													height:40,
+													width:60,
+													}}
+											onPress={()=>{
+															this.setState({showAmountSelect : false ,showSpecSelect:false});
+															}}
+										>
+							<Text style={{textAlign:'center',fontSize:20,}}>確認</Text>
+						</TouchableOpacity>
+
+					</View>
+					<View style={{
+									backgroundColor:'#FFF',
+									height:200}}>
+						<Picker selectedValue={this.state.seledtedSpec}
+								style={{height:160}}
+								onValueChange={(itemValue, itemIndex) =>
+								this.setSelectedSpec(itemValue)}>
+								{this.showSpecBtn(this)}
+						</Picker>
+					</View>
+				</View>
+
 			:null}
 			{this.state.showAmountSelect==false && this.state.showSpecSelect==false ?
 				<View style={{flex: 0.1,
