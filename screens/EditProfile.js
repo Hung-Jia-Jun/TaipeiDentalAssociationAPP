@@ -1,17 +1,27 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View, Alert } from "react-native";
 import * as firebase from 'firebase';
+import { initializeApp } from "@firebase/app";
+import { getStorage } from "@firebase/storage";
+
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
+import * as ImagePicker from 'expo-image-picker';
+import { Constants, Permissions } from 'expo';
+import uuid from 'uuid';
+
 // import Moment from 'moment';
 import KeyboardListener from 'react-native-keyboard-listener';
+
 const appConfig = require('../app.json');
-const config = {
+const firebaseConfig = {
 	databaseURL : appConfig.databaseURL,
 }
+const firebaseApp =null;
 if (!firebase.apps.length) {
-	firebase.initializeApp(config);
-}
+   firebaseApp = firebase.initializeApp(firebaseConfig);
+ }
+
 const database = firebase.database();
 
 //NotifycationTopper.png
@@ -47,6 +57,8 @@ class Message extends Component {
             keyboardOpen : false,
 
             username : global.username,
+
+            userIcon : global.userIcon,
 
 			userInfo:[
                 {
@@ -119,8 +131,39 @@ class Message extends Component {
 	};
 	componentDidMount()
 	{
-	
 	}
+
+    _pickImage = async () => {
+        let pickerResult = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          base64: true,
+          aspect: [4, 3],
+        });
+        var base64data = pickerResult.base64;
+    
+        const formData = new FormData();
+        formData.append('image',base64data);
+        formData.append('type', 'base64');
+    
+        const requestOptions = {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Authorization': 'Bearer c7a6ad9e4c02b5dcb3a9b00b1c479a68e815ee7b',
+            },
+            redirect: 'follow'
+        };
+        fetch('https://api.imgur.com/3/image', requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                var link = JSON.parse(result).data.link;
+                console.log(link);
+                //更新用戶大頭貼
+                global.userIcon = link;
+                this.setState({userIcon:link});
+            })
+            .catch(error => console.log('error', error));
+    };
 	arrayRemove(arr, value) { 
         return arr.filter(function(ele){ 
             return ele.key != value; 
@@ -128,8 +171,6 @@ class Message extends Component {
     }
 	updateProfile()
     {
-
-       
         var dbRef = database.ref();
         var userRef = dbRef.child("user").child(global.username);
         //更新該用戶的個人資料
@@ -152,7 +193,7 @@ class Message extends Component {
                 global.belongGroup = user.belongGroups;
                 global.groupBuyItem = user.groupBuyItems;
                 global.memberType = user.memberType;
-                global.userIcon = user.userIcon;
+                // global.userIcon = user.userIcon;
                 global.validation = user.validation;
                 //之後要刪掉舊的
                 // database.ref('/user'+"/" + oldUsername).remove();
@@ -162,7 +203,7 @@ class Message extends Component {
                     belongGroups:user.belongGroups==undefined ? []:user.belongGroups,
                     groupBuyItems:user.groupBuyItems==undefined ? []:user.groupBuyItems,
                     memberType: user.memberType,
-                    userIcon: user.userIcon,
+                    userIcon: global.userIcon,
                     validation: user.validation,
                     username : global.username ,
                     doctorID : global.doctorID ,
@@ -180,7 +221,6 @@ class Message extends Component {
             }
             })
             .catch(function(error) {
-                console.log('There has been a problem with your fetch operation: ' + error.message);
                  // ADD THIS THROW error
                   throw error;
                 });
@@ -226,7 +266,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate('Profile',{global:global})}>
+						onPress={()=>this.props.navigation.navigate('Profile')}>
                             <Image source={require('../assets/leftArrow.png')}></Image> 
 					</TouchableOpacity>
 				</View>
@@ -260,8 +300,10 @@ class Message extends Component {
                         <TouchableOpacity style={{
                                         justifyContent:'center',
                                         flexDirection:'row',
-                                        alignItems:'center',}}>
-                            <Image source={{uri : global.userIcon}} 
+                                        alignItems:'center',}}
+                                        onPress={()=>this._pickImage()}
+                                        >
+                            <Image source={{uri : this.state.userIcon}} 
                                     style={{
                                         borderWidth:3,
                                         height:90,
