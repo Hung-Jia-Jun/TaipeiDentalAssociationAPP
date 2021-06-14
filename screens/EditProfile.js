@@ -17,6 +17,7 @@ const appConfig = require('../app.json');
 const firebaseConfig = {
 	databaseURL : appConfig.databaseURL,
 }
+const token = appConfig.token;
 const firebaseApp =null;
 if (!firebase.apps.length) {
    firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -149,7 +150,7 @@ class Message extends Component {
             method: 'POST',
             body: formData,
             headers: {
-                'Authorization': 'Bearer c7a6ad9e4c02b5dcb3a9b00b1c479a68e815ee7b',
+                'Authorization': token,
             },
             redirect: 'follow'
         };

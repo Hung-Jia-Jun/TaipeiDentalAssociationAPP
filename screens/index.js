@@ -58,7 +58,7 @@ class Index extends Component {
 			}
 			else 
 			{
-				Alert.alert("登入成功");
+				// Alert.alert("登入成功");
 				global.username = user.username;
 				global.userIcon = user.userIcon;
 				global.birthday = user.birthday;
