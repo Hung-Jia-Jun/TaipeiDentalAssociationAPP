@@ -113,8 +113,9 @@ class Message extends Component {
 	{
 		try
 		{
-			this.setState({GroupName : this.props.navigation.state.params.GroupName,
-							GroupID : this.props.navigation.state.params.GroupID,                
+			this.setState({GroupName : this.props.navigation.getParam('GroupName'),
+							GroupID : this.props.navigation.getParam('GroupID'),          
+							groupType:this.props.navigation.getParam('groupType'),      
 			});
 			this.msgUpdate()
 		}
@@ -197,7 +198,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.push('Message')}>
+						onPress={()=>this.props.navigation.push(this.state.groupType=='multiChat'?'Message':'Notifycation')}>
 						<Image source={require('../assets/adsfsdfsdfdxcvcxv.png')}></Image>
 					</TouchableOpacity>
 				</View>

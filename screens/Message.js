@@ -55,6 +55,7 @@ class Message extends Component {
 				_GroupList.push({   key:i.toString(),
 									title:childSnapshot.val().key,
 									groupID:childSnapshot.val().value,
+									groupType:childSnapshot.val().groupType,
 									item_image : require('../assets/NotifyItem.png'),
 									})
 				i+=1;
@@ -74,19 +75,22 @@ class Message extends Component {
 			var ref = firebase.database().ref();
 			that.state.DATA = [];
 			ref.child("group").child(groupID).get().then((snapshot) => {
-			// var foo = ref.on('value' , function (snapshot) {
-				var EachGroupMsgArr = Object.values(snapshot.val().msg);
-				var last = EachGroupMsgArr[EachGroupMsgArr.length - 1];
-				
-				that.state.DATA.push({
-					key : i.toString(),
-					title : e.title,
-					groupID : groupID,
-					item_image : require('../assets/MessageIcon.png'),
-					discription : last.msg,
-				});
-				i++;
-				that.setState({DATA : that.state.DATA});
+				if  (snapshot.val().msg!=undefined && snapshot.val().groupType=='multiChat')
+				{
+					var EachGroupMsgArr = Object.values(snapshot.val().msg);
+					var last = EachGroupMsgArr[EachGroupMsgArr.length - 1];
+					
+					that.state.DATA.push({
+						key : i.toString(),
+						title : e.title,
+						groupID : groupID,
+						groupType: snapshot.val().groupType,
+						item_image : require('../assets/MessageIcon.png'),
+						discription : last.msg,
+					});
+					i++;
+					that.setState({DATA : that.state.DATA});
+				}
 			});
 		});
 	}
@@ -97,10 +101,11 @@ class Message extends Component {
 					item_image={item.item_image} 
 					discription={item.discription}
 					groupID={item.groupID}
+					item={item}
 					/>
 		);
 		const Group_renderItem = ({ item }) => (
-			<Group_Item _this={this} title={item.title} item_image={item.item_image} discription={item.discription} groupID={item.groupID}/>
+			<Group_Item _this={this} item={item} title={item.title} item_image={item.item_image} discription={item.discription} groupID={item.groupID}/>
 		);
 	return (
 		<View  key="container" style={styles.container,{flex: 1,
@@ -309,11 +314,15 @@ class Message extends Component {
 
 
 
-const Group_Item = ({ _this,title,item_image,discription,groupID}) => (
-	<View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:45,backgroundColor:'#D8F4FB'}}>
+const Group_Item = ({ _this,title,item,item_image,discription,groupID}) => (
+	<View style={styles.container,{zIndex:0,
+									flex: 1,
+									flexDirection: 'row',
+									height:item.groupType=='multiChat'?45:0,
+									backgroundColor:'#D8F4FB'}}>
 		<View style={{zIndex:0,width:Dimensions.get('window').width,height:50}}>
 			<TouchableOpacity style={styles.button,{
-					height: 45,
+					height: item.groupType=='multiChat'?45:0,
 					zIndex:0,
 					shadowOffset:{  width: 5,  height: 5},
 					shadowColor: 'black',
@@ -324,17 +333,18 @@ const Group_Item = ({ _this,title,item_image,discription,groupID}) => (
 					flexDirection:'row',
 					marginTop:0,
 				}} onPress={() => _this.props.navigation.push('GroupChat',{ GroupName : title,
-																				GroupID : groupID
+																				GroupID : groupID,
+																				groupType:'multiChat'
 																				})}>
 					<Image source={ item_image } style={{zIndex:0,
 														marginTop:0,
 														marginStart:50,
 														width:30,
-														height:30}}></Image>
+														height:item.groupType=='multiChat'?30:0,}}></Image>
 					<Text style={{
 						width:230,
 						zIndex:0,
-						height:30,
+						height:item.groupType=='multiChat'?30:0,
 						marginLeft: 100,
 						textAlign:'left',
 						marginTop:3,
@@ -348,7 +358,7 @@ const Group_Item = ({ _this,title,item_image,discription,groupID}) => (
 	</View>
 );
 
-const Item = ({ _this,title,item_image,discription,groupID}) => (
+const Item = ({ _this,item,title,item_image,discription,groupID}) => (
 	<View style={styles.container,{zIndex:0,flex: 1, flexDirection: 'row',height:105}}>
 		<ImageBackground style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,height:100,backgroundColor:'#F2FAFF'}}> 
 			<View style={{zIndex:0,width:Dimensions.get('window').width,height:100}}>
@@ -388,7 +398,7 @@ const Item = ({ _this,title,item_image,discription,groupID}) => (
 						marginStart: 0,
 						zIndex:0,
 						marginTop:0,
-					}} onPress={() => _this.props.navigation.push('GroupChat',{GroupID : groupID , GroupName : title})}>
+					}} onPress={() => _this.props.navigation.push('GroupChat',{GroupID : groupID , GroupName : title,groupType:'multiChat'})}>
 					</TouchableOpacity>
 			</View> 
 		</ImageBackground>

@@ -99,20 +99,34 @@ class Message extends Component {
                 },
                 {
                     key : 5,
+                    title : '所屬診所名稱',
+                    value : global.clinic,
+                    //要做的彈出框類型
+                    popupVar : "textInput",
+                },
+                {
+                    key : 6,
+                    title : '診所地址',
+                    value : global.clinicAddr,
+                    //要做的彈出框類型
+                    popupVar : "textInput",
+                },
+                {
+                    key : 7,
                     title : '信箱',
                     value : global.Email,
                     //要做的彈出框類型
                     popupVar : "textInput",
                 },
                 {
-                    key : 6,
+                    key : 8,
                     title : 'LineID',
                     value : global.LineID,
                     //要做的彈出框類型
                     popupVar : "textInput",
                 },
                 {
-                    key : 7,
+                    key : 9,
                     title : 'WechatID',
                     value : global.WechatID,
                     //要做的彈出框類型
@@ -132,6 +146,7 @@ class Message extends Component {
 	};
 	componentDidMount()
 	{
+        console.log(this.state.userInfo);
 	}
 
     _pickImage = async () => {
@@ -187,23 +202,26 @@ class Message extends Component {
                 global.gender = this.state.userInfo[2].value == undefined ? '' : this.state.userInfo[2].value;
                 global.birthday = this.state.userInfo[3].value == undefined ? '' : this.state.userInfo[3].value;
                 global.phoneNumber = this.state.userInfo[4].value == undefined ? '' : this.state.userInfo[4].value;
-                global.Email = this.state.userInfo[5].value == undefined ? '' : this.state.userInfo[5].value;
-                global.LineID = this.state.userInfo[6].value == undefined ? '' : this.state.userInfo[6].value;
-                global.WechatID = this.state.userInfo[7].value == undefined ? '' : this.state.userInfo[7].value;
+                global.clinic = this.state.userInfo[5].value == undefined ? '' : this.state.userInfo[5].value;
+                global.clinicAddr = this.state.userInfo[6].value == undefined ? '' : this.state.userInfo[6].value;
+                global.Email = this.state.userInfo[7].value == undefined ? '' : this.state.userInfo[7].value;
+                global.LineID = this.state.userInfo[8].value == undefined ? '' : this.state.userInfo[8].value;
+                global.WechatID = this.state.userInfo[9].value == undefined ? '' : this.state.userInfo[9].value;
                 
                 global.belongGroup = user.belongGroups;
                 global.groupBuyItem = user.groupBuyItems;
                 global.memberType = user.memberType;
-                // global.userIcon = user.userIcon;
+                global.point = user.point==undefined?0:user.point;
                 global.validation = user.validation;
                 //之後要刪掉舊的
                 // database.ref('/user'+"/" + oldUsername).remove();
 
                 //因為涉及到更改用戶名稱，所以要推送一個新的user進去
-                database.ref('/user'+"/" + global.username).set({	
+                database.ref('/user'+"/" + global.username).update({	
                     belongGroups:user.belongGroups==undefined ? []:user.belongGroups,
                     groupBuyItems:user.groupBuyItems==undefined ? []:user.groupBuyItems,
                     memberType: user.memberType,
+                    point : user.point==undefined?0:user.point,
                     userIcon: global.userIcon,
                     validation: user.validation,
                     username : global.username ,
@@ -212,6 +230,8 @@ class Message extends Component {
                     gender : global.gender ,
                     birthday : global.birthday ,
                     phoneNumber : global.phoneNumber ,
+                    clinic : global.clinic,
+                    clinicAddr : global.clinicAddr,
                     Email : global.Email ,
                     LineID : global.LineID ,
                     WechatID : global.WechatID ,
@@ -659,7 +679,7 @@ const Item = ({ _this,item,popupVar}) => (
                                     minWidth:250,
                                     textAlign:'right',
                                     zIndex:2}}
-                                            placeholder = {item.value!=undefined?item.value:"未設定"}
+                                            placeholder = {item.value!=''?item.value:"未設定"}
                                             onChangeText={(text) => {
                                                 _this.state.userInfo.forEach(e=>{
                                                     if (e.title==item.title)

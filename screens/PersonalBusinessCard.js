@@ -314,7 +314,6 @@ class Message extends Component {
 
 const Item = ({ _this,item}) => (
     <TouchableOpacity style={{flex: 1}}
-    //TODO 要能編輯個人名片，所以要加一個bussnessCarID
     onPress={()=>_this.props.navigation.navigate('EditBusinessCard',{cardId:item.id})}
     style={{flexDirection:'column', 
     shadowOffset:{  width:4,  height:4},

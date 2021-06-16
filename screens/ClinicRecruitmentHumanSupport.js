@@ -63,38 +63,40 @@ class Message extends Component {
                             }}>
             </View>
             <View style={{flex: 0.34,
-                            zIndex:1,
-                            flexDirection: 'row',
-                            justifyContent:'space-between',
-                            alignItems:'center',
-                            }}>
-                        <TouchableOpacity style={styles.button,{
-                            height: 50,
-                            width:50,
-                            marginStart: 0,
-                            marginTop:0,
-                            marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
-                            <View style={{flex:1,
-                                            justifyContent:'center',
-                                            alignItems:'center',}}>
-                                <Image source={Back_image}></Image>
-                            </View>
-                        </TouchableOpacity>
-                        <Text style={{fontSize:18,
-                                        color:'white'}}>人力銀行區</Text>
-                        <TouchableOpacity style={styles.button,{
-                            height: 50,
-                            width:50,
-                            marginTop:0,
-                            marginEnd: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('')}>
-                            <View style={{flex:1,
-                                            justifyContent:'center',
-                                            alignItems:'center',}}>
-                                <Image></Image>
-                            </View>
-                        </TouchableOpacity>
+							justifyContent:'center',
+							alignItems:'center',
+							zIndex:0,
+							flexDirection: 'row',
+							}}>
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-start',
+					}}>
+                    <TouchableOpacity style={{
+							alignItems:'center',
+							justifyContent:'center',
+							height:50,
+							width:50,
+						}} 
+						onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                            <Image source={require('../assets/leftArrow.png')}></Image> 
+					</TouchableOpacity>
+				</View>
+				<View style={{
+						flex:0.3,
+					}}>
+					<Text style={{
+									fontSize:18,
+									textAlign:'center',
+									zIndex:0,
+								color:'white'}}>人力銀行區</Text>
+				</View>
+				
+				<View style={{
+						flex:0.3,
+						alignItems:'flex-end',
+					}}>
+				</View>
             </View>
             <View style={{flex: 0.25,
                             flexDirection: 'column',
@@ -104,44 +106,26 @@ class Message extends Component {
                                 alignItems: 'center',
                                 justifyContent:'space-between',
                                 }}>
-                    <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0,
+                     <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0,
                                                 marginStart:Dimensions.get('window').width*0.12,
                                                 zIndex:0,
                                                 width:100,
-                                                height:40}}>
-                        <Text style={{marginTop:12,fontSize:15,color:'#3FEEEA',textAlign:'center'}}>求職</Text>
+                                                borderBottomWidth:3,
+                                                borderColor:'#43D1E3',
+                                                height:40}}
+                                                onPress={()=>this.props.navigation.navigate('ClinicRecruitmentHumanSupport')}>
+                        <Text style={{marginTop:12,fontSize:15,color:'#43D1E3',textAlign:'center'}}>求職</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0,
                                                 marginEnd: Dimensions.get('window').width*0.12,
                                                 zIndex:0,
                                                 width:100,
+                                                borderBottomWidth:3,
+                                                borderColor:'#E2EBF6',
                                                 height:40}} 
-                                                onPress={()=>this.props.navigation.navigate('ClinicRecruitment')}>
+                                                onPress={()=>this.props.navigation.push('ClinicRecruitment')}>
                         <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>求才</Text>
                     </TouchableOpacity>
-                </View>
-                <View style={{flex: 0.1,
-                                flexDirection: 'row',
-                                }}>
-                    <View style={{flex: 0.2,
-                                alignContent:'center',
-                                }}>
-                    </View>
-                    <View style={{flex: 0.5,
-                                width:Dimensions.get('window').width*0.1,
-                                alignContent:'center',
-                                height:Dimensions.get('window').height*0.004,
-                                backgroundColor:'#43D1E3',
-                                flexDirection: 'row',
-                                }}>
-                    </View>
-                       <View style={{flex: 1,
-                                width:Dimensions.get('window').width*0.2,
-                                height:Dimensions.get('window').height*0.004,
-                                backgroundColor:'#E2EBF6',
-                                flexDirection: 'row',
-                                }}>
-                    </View>
                 </View>
             </View>
             

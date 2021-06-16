@@ -95,6 +95,9 @@ class Message extends Component {
                     user.belongGroups.push({
                                                 key : this.state.GroupName,
                                                 value : GroupID,
+                                                //設定群組為多人聊天型態
+                                                //因為還有一對一聊天，就不顯示在所屬群組列表內了
+                                                groupType : 'multiChat',
                                             })
                     var GroupListRef = database.ref('/user'+"/" + user.username);
                     GroupListRef.update({
@@ -112,11 +115,13 @@ class Message extends Component {
             }
         })
         database.ref('/group'+"/" + GroupID).set({	
-            GroupUser : GroupUser
+            GroupUser : GroupUser,
+            //設定群組為多人聊天型態
+            //因為還有一對一聊天，就不顯示在所屬群組列表內了
+            groupType : 'multiChat',
         });
         //groupName是要顯示到下個頁面用的，所以不能帶上Timestamp不然用戶會覺得他的群組名稱怎麼會有一串亂碼
-        this.props.navigation.navigate('GroupChat',{GroupID : GroupID , GroupName : this.state.GroupName});
-        
+        this.props.navigation.push('GroupChat',{GroupID : GroupID , GroupName : this.state.GroupName,groupType:'multiChat'});
     }
     //追加好友到群組內
     appendMember()

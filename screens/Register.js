@@ -74,6 +74,11 @@ class Index extends Component {
 									enrollmentYear:this.state.enrollmentYear,
 									userIcon : '../assets/MessageIcon.png',
 									validation : false,
+									//個人點數
+									point:0,
+
+									//所屬診所
+									clinic:'',
 								});
 				Alert.alert("申請成功，等待審核中");
 			} 

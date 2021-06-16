@@ -34,7 +34,7 @@ class Index extends Component {
 	}
 	componentDidMount()
 	{
-		this.setState({username:"test",birthday_str : '20240612'});
+		this.setState({username:"test",birthday_str : '20210614'});
 	}
 	signin() {
 		if (this.state.username=='' || this.state.birthday_str=='密碼（出生年月日）')
@@ -67,10 +67,20 @@ class Index extends Component {
 				global.doctorID = user.doctorID==undefined?'':user.doctorID;
 				global.gender = user.gender==undefined?'':user.gender;
 				global.phoneNumber = user.phoneNumber==undefined?'':user.phoneNumber;
+				
+				//該用戶所屬診所
+				global.clinic = user.clinic==undefined?'':user.clinic;
+				
+				//該用戶所屬診所的地址
+				global.clinicAddr = user.clinicAddr==undefined?'':user.clinicAddr;
 				global.Email = user.Email==undefined?'':user.Email;
-				global.LineID = user.LineID==undefined?'':user.LineID;
+				global.LineID = user.LineID==undefined?'':user.LineIrD;
 				global.WechatID = user.WechatID==undefined?'':user.WechatID;
+				//個人點數
+				global.point = user.point;
 
+				global.clinic = user.clinic;
+				global.clinicAddr = user.clinicAddr;
 				this.props.navigation.navigate('OverviewMap');
 			}
 		} else {

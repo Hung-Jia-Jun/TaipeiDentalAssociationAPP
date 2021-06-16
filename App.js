@@ -75,6 +75,7 @@ import GroupChat from "./screens/GroupChat";
 
 import Register from "./screens/Register";
 import EditBusinessCard from "./screens/EditBusinessCard";
+import PublishRecruitment from "./screens/PublishRecruitment";
 
 
 const AppNavigator = createStackNavigator({
@@ -522,6 +523,13 @@ const AppNavigator = createStackNavigator({
 	},
 	EditBusinessCard : {
 		screen: EditBusinessCard,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
+	PublishRecruitment : {
+		screen: PublishRecruitment,
 		navigationOptions: {
 			animationEnabled: false,
 			headerShown: false
