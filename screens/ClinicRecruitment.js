@@ -347,7 +347,7 @@ const Item = ({ _this,item,title,item_image,sceneName }) => (
                 width:Dimensions.get('window').width*0.8,
                 marginStart: 0,
                 marginTop:0,
-            }} onPress={() => _this.props.navigation.navigate('ClinicRecruitmentHumanSupportDetail',{item:item})}>
+            }} onPress={() => _this.props.navigation.push('ClinicRecruitmentHumanSupportDetail',{item:item})}>
                 <View style={{flex:1,
                             flexDirection:'column'}}>
                     <View style={{flex:0.1,

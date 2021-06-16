@@ -113,6 +113,7 @@ class Message extends Component {
 	{
 		try
 		{
+			//TODO 要新增送出名片的功能
 			this.setState({GroupName : this.props.navigation.getParam('GroupName'),
 							GroupID : this.props.navigation.getParam('GroupID'),          
 							groupType:this.props.navigation.getParam('groupType'),      

@@ -190,7 +190,9 @@ class Message extends Component {
                         
             <View style={{flex: 3.25,
                             flexDirection: 'column',
-                            padding:20,
+                            paddingStart:20,
+                            paddingTop:10,
+                            paddingEnd:20,
                             marginTop:0}}>
                     <View style={{flex:0.45,flexDirection:'row'}}>
                         <Image source={this.state.item.item_image} style={{
@@ -256,25 +258,21 @@ class Message extends Component {
                         </View>
                         
                         <View style={{
-                                    flex:0.2
+                                    flex:1,
                                     }}>
-                            <Text style={{
+                            <TextInput 
+                                    multiline={true}
+                                    editable={false}
+                                    selection={false}
+                                    contextMenuHidden={true}
+                                    style={{
                                         fontSize:18,
                                         color:'#5C6A6C'
                                         }}>
                                 {this.state.item.jobDescription}
-                            </Text>
+                            </TextInput>
                         </View>
                     </View>
-                    
-                    {/* <FlatList
-                        style={{marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-                        contentContainerStyle={{ marginTop: 0}}
-                        data={this.state.DATA}
-                        extraData={this.state}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.key.toString()}
-                    /> */}
             </View>
             <View style={{flex: 0.01, flexDirection: 'column'}}>
                 <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
