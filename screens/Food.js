@@ -119,7 +119,7 @@ class OverviewMap extends Component {
                         marginStart:width < guidelineBaseWidth ? WidthScale(20) : WidthScale(29) ,
                         marginTop:HeightScale(35),
                     }} 
-                    onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                    onPress={()=>this.props.navigation.push('OverviewMap')}>
                     <Text style={styles.borderBlackLine,{marginStart:WidthScale(23),fontSize:16,marginTop:HeightScale(15),color:'black'}}>診所/人力/車位</Text>
                     </TouchableOpacity>
                     <TouchableOpacity id={'foodFilterBtn'} style={styles.button,{
@@ -132,7 +132,7 @@ class OverviewMap extends Component {
                         shadowOpacity: 0.3,
                         marginStart:width < guidelineBaseWidth ? WidthScale(10) : WidthScale(15) ,
                         marginTop:HeightScale(35),
-                    }} onPress={()=>this.props.navigation.navigate('Food')}>
+                    }} onPress={()=>this.props.navigation.push('Food')}>
                     <Text style={styles.borderBlackLine,{marginStart:WidthScale(40),color:'white',fontSize:16,marginTop:HeightScale(15)}}>食衣住行</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
@@ -143,7 +143,7 @@ class OverviewMap extends Component {
                         shadowOpacity: 0.3,
                         marginStart:WidthScale(15),
                         marginTop:HeightScale(30),
-                    }} onPress={()=>this.props.navigation.navigate('FilterStroe')}>
+                    }} onPress={()=>this.props.navigation.push('FilterStroe')}>
                     <Image source={filterButton_image} style={styles.borderBlackLine,{marginStart:WidthScale(5)}}></Image>
                     </TouchableOpacity>
                 </View>
@@ -308,7 +308,7 @@ class OverviewMap extends Component {
                         marginStart:WidthScale(30),
                         marginTop:HeightScale(10),
                        
-                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    }} onPress={()=>this.props.navigation.push('MainMenu')}>
                     </TouchableOpacity> 
                     <TouchableOpacity style={styles.button,{
                         height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
@@ -316,7 +316,7 @@ class OverviewMap extends Component {
                         marginStart:WidthScale(21),
                         marginTop:HeightScale(10),
                        
-                    }} onPress={()=>this.props.navigation.navigate('Search')}>
+                    }} onPress={()=>this.props.navigation.push('Search')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
@@ -324,7 +324,7 @@ class OverviewMap extends Component {
                         marginStart:WidthScale(39),
                         marginTop:HeightScale(10),
                        
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                    }} onPress={()=>this.props.navigation.push('OverviewMap')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
@@ -332,7 +332,7 @@ class OverviewMap extends Component {
                         marginStart:WidthScale(35),
                         marginTop:HeightScale(10),
                        
-                    }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                    }} onPress={()=>this.props.navigation.push('Notifycation')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
@@ -340,7 +340,7 @@ class OverviewMap extends Component {
                         marginStart:WidthScale(20),
                         marginTop:HeightScale(10),
                        
-                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                    }} onPress={()=>this.props.navigation.push('Profile')}>
                     </TouchableOpacity>
                 </View>
             </View>

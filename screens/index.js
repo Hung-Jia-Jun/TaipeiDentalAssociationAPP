@@ -73,6 +73,9 @@ class Index extends Component {
 				
 				//該用戶所屬診所的地址
 				global.clinicAddr = user.clinicAddr==undefined?'':user.clinicAddr;
+
+				//用戶所屬診所具備PGY診所訓練資格
+				global.clinicPGYType = user.clinicPGYType==undefined?'':user.clinicPGYType;
 				global.Email = user.Email==undefined?'':user.Email;
 				global.LineID = user.LineID==undefined?'':user.LineIrD;
 				global.WechatID = user.WechatID==undefined?'':user.WechatID;
@@ -81,7 +84,7 @@ class Index extends Component {
 
 				global.clinic = user.clinic;
 				global.clinicAddr = user.clinicAddr;
-				this.props.navigation.navigate('OverviewMap');
+				this.props.navigation.push('OverviewMap');
 			}
 		} else {
 			Alert.alert("帳號或密碼錯誤");
@@ -132,7 +135,7 @@ class Index extends Component {
 									paddingVertical: 10,
 									paddingHorizontal: 12
 									
-								}} onPress={()=>this.props.navigation.navigate('Index')}>
+								}} onPress={()=>this.props.navigation.push('Index')}>
 									<Text style={ {fontSize: 18,
 												color: "#27D0E5",
 												fontWeight: "bold",
@@ -152,7 +155,7 @@ class Index extends Component {
 									// borderRadius: 63,
 									paddingVertical: 10,
 									paddingHorizontal: 12
-								}} onPress={()=>this.props.navigation.navigate('Register')}>
+								}} onPress={()=>this.props.navigation.push('Register')}>
 									<Text style={ {fontSize: 18,
 												color: "#B9C2CC",
 												fontWeight: "bold",

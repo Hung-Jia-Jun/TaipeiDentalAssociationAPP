@@ -24,7 +24,7 @@ class page extends Component {
                             marginLeft: WidthScale(25),
                             marginTop:HeightScale(61),
                             width: 50,
-                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                    }} onPress={()=>this.props.navigation.push('Profile')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.08, flexDirection: 'row'}}>
@@ -33,14 +33,14 @@ class page extends Component {
                         width: 146,
                         marginLeft: WidthScale(55),
                         marginTop:HeightScale(8),
-                    }} onPress={()=>this.props.navigation.navigate('MyStore')}>
+                    }} onPress={()=>this.props.navigation.push('MyStore')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height:50,
                         width: 146,
                         marginLeft: WidthScale(20),
                         marginTop:HeightScale(8),
-                    }} onPress={()=>this.props.navigation.navigate('MyStoreHasBeenRemoved')}>
+                    }} onPress={()=>this.props.navigation.push('MyStoreHasBeenRemoved')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.8, flexDirection: 'row'}}>
@@ -51,35 +51,35 @@ class page extends Component {
                         width:50,
                         marginStart: WidthScale(30),
                         marginTop:HeightScale(12),
-                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    }} onPress={()=>this.props.navigation.push('MainMenu')}>
                     </TouchableOpacity> 
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         marginStart: WidthScale(20),
                         marginTop:HeightScale(12),
-                    }} onPress={()=>this.props.navigation.navigate('Search')}>
+                    }} onPress={()=>this.props.navigation.push('Search')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         marginStart: WidthScale(40),
                         marginTop:HeightScale(12),
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                    }} onPress={()=>this.props.navigation.push('OverviewMap')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         marginStart: WidthScale(35),
                         marginTop:HeightScale(12),
-                    }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                    }} onPress={()=>this.props.navigation.push('Notifycation')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,
                         marginStart: WidthScale(20),
                         marginTop:HeightScale(12),
-                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                    }} onPress={()=>this.props.navigation.push('Profile')}>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>

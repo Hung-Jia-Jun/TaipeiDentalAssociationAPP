@@ -15,7 +15,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 23,
                         marginTop:60,
-                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    }} onPress={()=>this.props.navigation.push('MainMenu')}>
                     </TouchableOpacity>
                 </View>
 
@@ -27,7 +27,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 43,
                         marginTop:20,
-                    }} onPress={()=>this.props.navigation.navigate('HelpAndService')}>
+                    }} onPress={()=>this.props.navigation.push('HelpAndService')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -36,7 +36,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 0,
                         marginTop:20,
-                    }} onPress={()=>this.props.navigation.navigate('HelpAndServiceAnonymous')}>
+                    }} onPress={()=>this.props.navigation.push('HelpAndServiceAnonymous')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.4, flexDirection: 'row'}}>

@@ -29,7 +29,7 @@ class HightStoreMaps extends Component {
                             borderWidth:1,
                             justifyContent:'center',
                             borderRadius:10,
-                        }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                        }} onPress={()=>this.props.navigation.push('OverviewMap')}>
                             <Text style={{
                                 // marginStart:WidthScale(50),
                                         color:'black',
@@ -83,7 +83,7 @@ class HightStoreMaps extends Component {
                     height: 650,
                     width:Dimensions.get('window').width,
                     marginTop:HeightScale(68),
-                }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                }} onPress={()=>this.props.navigation.push('OverviewMap')}>
                 </TouchableOpacity>
             </View>
         </View>

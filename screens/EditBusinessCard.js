@@ -237,7 +237,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate('PersonalBusinessCard')}>
+						onPress={()=>this.props.navigation.push('PersonalBusinessCard')}>
 						<Image source={require('../assets/adsfsdfsdfdxcvcxv.png')}></Image>
 					</TouchableOpacity>
 				</View>
@@ -261,7 +261,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.removeCardById(this.state.cardId,this.props.navigation.navigate('PersonalBusinessCard'))}>
+						onPress={()=>this.removeCardById(this.state.cardId,this.props.navigation.push('PersonalBusinessCard'))}>
 						<Image source={require('../assets/whiteTrachcan.png')}></Image>
 					</TouchableOpacity>
 				</View>
@@ -389,7 +389,7 @@ class Message extends Component {
 					flex:1,
 					backgroundColor:'#01C5DE',
 					alignItems:'center',
-				}} onPress={()=> this.uploadSelfBusinessCard(this.props.navigation.navigate('PersonalBusinessCard')) }>
+				}} onPress={()=> this.uploadSelfBusinessCard(this.props.navigation.push('PersonalBusinessCard')) }>
 						<Text style={{
                             textAlign:'center',
                             color:'#FFF',

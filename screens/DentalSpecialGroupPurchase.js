@@ -14,7 +14,7 @@ class Message extends Component {
                             marginLeft: 25,
                             marginTop: 61,
                             width: 50,
-                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    }} onPress={()=>this.props.navigation.push('MainMenu')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         borderWidth: 1,
@@ -22,7 +22,7 @@ class Message extends Component {
                         marginLeft: 239,
                         marginTop: 61,
                         width: 50,
-                    }} onPress={()=>this.props.navigation.navigate('DentalGroupPurchaseFilter')}>
+                    }} onPress={()=>this.props.navigation.push('DentalGroupPurchaseFilter')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.08, flexDirection: 'row'}}>
@@ -32,7 +32,7 @@ class Message extends Component {
                             width: 137,
                             marginLeft: 47,
                             marginTop: 0,
-                    }} onPress={()=>this.props.navigation.navigate('DentalGroupPurchase')}>
+                    }} onPress={()=>this.props.navigation.push('DentalGroupPurchase')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         borderWidth: 1,
@@ -40,7 +40,7 @@ class Message extends Component {
                         width: 137,
                         marginLeft: 5,
                         marginTop: 0,
-                    }} onPress={()=>this.props.navigation.navigate('DentalSpecialGroupPurchase')}>
+                    }} onPress={()=>this.props.navigation.push('DentalSpecialGroupPurchase')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.8, flexDirection: 'row'}}>
@@ -51,7 +51,7 @@ class Message extends Component {
                         marginTop: 11,
                         borderWidth:1,
                         borderColor:'black',
-                    }} onPress={()=>this.props.navigation.navigate('DentalProcurement')}>
+                    }} onPress={()=>this.props.navigation.push('DentalProcurement')}>
                     </TouchableOpacity> 
                 </View>
                 <View style={{flex: 0.1, flexDirection: 'row'}}>
@@ -62,7 +62,7 @@ class Message extends Component {
                         borderColor:'black',
                         marginStart: 24,
                         marginTop:12,
-                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    }} onPress={()=>this.props.navigation.push('MainMenu')}>
                     </TouchableOpacity> 
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -71,7 +71,7 @@ class Message extends Component {
                         borderColor:'black',
                         marginStart: 11,
                         marginTop:12,
-                    }} onPress={()=>this.props.navigation.navigate('Search')}>
+                    }} onPress={()=>this.props.navigation.push('Search')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -80,7 +80,7 @@ class Message extends Component {
                         borderColor:'black',
                         marginStart: 28,
                         marginTop:12,
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                    }} onPress={()=>this.props.navigation.push('OverviewMap')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -89,7 +89,7 @@ class Message extends Component {
                         borderColor:'black',
                         marginStart: 24,
                         marginTop:12,
-                    }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                    }} onPress={()=>this.props.navigation.push('Notifycation')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -98,7 +98,7 @@ class Message extends Component {
                         borderColor:'black',
                         marginStart: 15,
                         marginTop:12,
-                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                    }} onPress={()=>this.props.navigation.push('Profile')}>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>

@@ -15,7 +15,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 23,
                         marginTop:60,
-                    }} onPress={()=>this.props.navigation.navigate('ClinicRecruitmentHumanSupportDetail')}>
+                    }} onPress={()=>this.props.navigation.push('ClinicRecruitmentHumanSupportDetail')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.6, flexDirection: 'row'}}>

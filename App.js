@@ -76,7 +76,8 @@ import GroupChat from "./screens/GroupChat";
 import Register from "./screens/Register";
 import EditBusinessCard from "./screens/EditBusinessCard";
 import PublishRecruitment from "./screens/PublishRecruitment";
-
+import PublishRecruitmentHumanSupport from "./screens/PublishRecruitmentHumanSupport";
+import ClinicRecruitmentDetail from "./screens/ClinicRecruitmentDetail";
 
 const AppNavigator = createStackNavigator({
 	Index: {
@@ -535,7 +536,20 @@ const AppNavigator = createStackNavigator({
 			headerShown: false
 		}
 	},
-	
+	PublishRecruitmentHumanSupport : {
+		screen: PublishRecruitmentHumanSupport,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
+	ClinicRecruitmentDetail : {
+		screen: ClinicRecruitmentDetail,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
 	
 });
 

@@ -130,7 +130,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate('MainMenu')}>
+						onPress={()=>this.props.navigation.push('MainMenu')}>
 						<Image source={require('../assets/6516516516.png')}></Image>
 					</TouchableOpacity>
 				</View>
@@ -163,7 +163,7 @@ class Message extends Component {
 												alignContent:'flex-start',
 												width:100,
 												height:40}}
-												onPress={()=>this.props.navigation.navigate('LimitedTimeGroupPurchase')}>
+												onPress={()=>this.props.navigation.push('LimitedTimeGroupPurchase')}>
 						<Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>牙材採購</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={{marginTop:Dimensions.get('window').height*0.01,
@@ -172,7 +172,7 @@ class Message extends Component {
 												alignItems:'flex-end',
 												width:100,
 												height:40}}
-												onPress={()=>this.props.navigation.navigate('LimitedTimeGroupPurchase')}>
+												onPress={()=>this.props.navigation.push('LimitedTimeGroupPurchase')}>
 						<Text style={{marginTop:12,fontSize:15,color:'#3FEEEA',textAlign:'center'}}>限時團購</Text>
 					</TouchableOpacity>
 				</View>
@@ -219,7 +219,7 @@ class Message extends Component {
 					alignItems:'center',
 					marginStart: Dimensions.get('window').width*0.02,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+				}} onPress={()=>this.props.navigation.push('MainMenu')}>
 						<Image source={require('../assets/footerIcon/Home.png')}></Image>
 				</TouchableOpacity> 
 				<TouchableOpacity style={styles.button,{
@@ -228,7 +228,7 @@ class Message extends Component {
 					alignItems:'center',
 					marginStart: Dimensions.get('window').width*0.03,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('Search')}>
+				}} onPress={()=>this.props.navigation.push('Search')}>
 						<Image source={require('../assets/footerIcon/Search.png')}></Image>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.button,{
@@ -237,7 +237,7 @@ class Message extends Component {
 					alignItems:'center',
 					marginStart: Dimensions.get('window').width*0.08,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+				}} onPress={()=>this.props.navigation.push('OverviewMap')}>
 						<Image source={require('../assets/footerIcon/Map.png')} 
 								style={{resizeMode:'stretch',
 										marginTop:10,
@@ -251,7 +251,7 @@ class Message extends Component {
 					alignItems:'center',
 					marginStart: Dimensions.get('window').width*0.07,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+				}} onPress={()=>this.props.navigation.push('Notifycation')}>
 						<Image source={require('../assets/footerIcon/Msg.png')}></Image>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.button,{
@@ -261,7 +261,7 @@ class Message extends Component {
 					marginStart: Dimensions.get('window').width*0.03,
 					marginEnd: Dimensions.get('window').width*0.01,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('Profile')}>
+				}} onPress={()=>this.props.navigation.push('Profile')}>
 						<Image style={{
 										marginTop:10,
 										marginStart:5,

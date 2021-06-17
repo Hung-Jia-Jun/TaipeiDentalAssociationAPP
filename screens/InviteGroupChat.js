@@ -125,7 +125,7 @@ class Message extends Component {
     }
     onSelectMemberToGroup()
     {
-        this.props.navigation.navigate('CreateChatRoom',{ToggleBtn : JSON.stringify(this.state.ToggleBtn)});
+        this.props.navigation.push('CreateChatRoom',{ToggleBtn : JSON.stringify(this.state.ToggleBtn)});
     }
   render() {
     const renderItem = ({ item }) => (
@@ -178,7 +178,7 @@ class Message extends Component {
                                 height:50,
                                 width:50,
                             }} 
-                            onPress={()=>this.props.navigation.navigate("Message")}>
+                            onPress={()=>this.props.navigation.push("Message")}>
                                 <Image source={require('../assets/sdfghkjlgfd.png')}></Image>
                             </TouchableOpacity>
                         }
@@ -204,7 +204,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate("CreateChatRoom",{ToggleBtn:JSON.stringify(this.state.ToggleBtn)})}
+						onPress={()=>this.props.navigation.push("CreateChatRoom",{ToggleBtn:JSON.stringify(this.state.ToggleBtn)})}
 						>
 						 <Text style={{
                                 fontSize:15,

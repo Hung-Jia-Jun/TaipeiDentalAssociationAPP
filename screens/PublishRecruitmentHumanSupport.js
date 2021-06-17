@@ -29,7 +29,7 @@ const [shortDimension, longDimension] = width < height ? [width, height] : [heig
 const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
 const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
 
-//求才
+//求職
 class Message extends Component {
     constructor(props) {
 		super(props);
@@ -38,7 +38,6 @@ class Message extends Component {
             point : global.point,
             doctorType : '請選擇    ',
             showDoctorType : false,
-            numberOfPeople : 0,
             keyboardOpen : false,
 
             //全職醫師
@@ -50,11 +49,16 @@ class Message extends Component {
             //工讀生
             studentParTime : false,
 
+            //將上面的選項寫入是否想找PGY診所
+            PGYType : undefined,
+
             //工作說明
             jobDescription :'',
 
             //將上面的選項寫入工作類型
             jobType : '',
+
+            
 
             //發布徵才消息需要多少
             PublishClinicRecruitPoint : 0,
@@ -78,39 +82,10 @@ class Message extends Component {
         //更新現在發布一則求才文要多少點數
         this.getFirebaseGlobalVar();
         this.setState({
-            numberOfPeople : 0,
             jobDescription : '',
             jobType : '',
             doctorType : '請選擇    ',
         })
-        try
-        {
-            if (global.clinic==undefined || global.clinic=='')
-            {
-                Alert.alert("尚未設定所屬診所，請至修改個人資料頁面補齊");
-            }
-        }
-        catch
-        {
-            if (global.clinic=='')
-            {
-                Alert.alert("尚未設定所屬診所，請至修改個人資料頁面補齊");
-            }
-        }
-        try
-        {
-            if (global.clinicAddr==undefined || global.clinicAddr=='')
-            {
-                Alert.alert("尚未設定所屬診所地址，請至修改個人資料頁面補齊");
-            }
-        }
-        catch
-        {
-            if (global.clinicAddr=='')
-            {
-                Alert.alert("尚未設定所屬診所地址，請至修改個人資料頁面補齊");
-            }
-        }
     }
     //取得徵才點數扣除額
     getFirebaseGlobalVar()
@@ -120,13 +95,13 @@ class Message extends Component {
 		//加入該用戶的所屬群組列表
 		dbRef.child("firebaseGlobalVar").get().then((result)=>{
                 var user = result.val();
-                var _PublishClinicRecruitPoint =  user.PublishClinicRecruitPoint
-                that.setState({PublishClinicRecruitPoint : _PublishClinicRecruitPoint,
+                var _PublishJobHuntingPoint =  user.PublishJobHuntingPoint
+                that.setState({PublishJobHuntingPoint : _PublishJobHuntingPoint,
                                 showNeedPoint: true,
                                 },()=>{
-                                    if (global.point<this.state.PublishClinicRecruitPoint)
+                                    if (global.point<this.state.PublishJobHuntingPoint)
                                     {
-                                        Alert.alert("剩餘點數 : "+global.point+"點\n"+"目前點數不足，無法刊登求才訊息")
+                                        Alert.alert("剩餘點數 : "+global.point+"點\n"+"目前點數不足，無法刊登求職訊息")
                                     }
                                 });
         });
@@ -148,22 +123,18 @@ class Message extends Component {
             that.setState({point : user.point});
         });
     }
-    publishJobRequest()
+    //求職找診所訊息
+    publishClinicRequest()
     {
-        var numberOfPeople = this.state.numberOfPeople;
         var jobDescription = this.state.jobDescription;
         var jobType = this.state.jobType;
         var doctorType = this.state.doctorType;
-
-        if (numberOfPeople==0)
-        {
-            Alert.alert("請輸入需求人數");
-            return;
-        }
-
+        var PGYType = this.state.PGYType;
+        
+        console.log(this.state.PGYType);
         if (jobDescription=='')
         {
-            Alert.alert("請輸入求才說明");
+            Alert.alert("請輸入求職說明");
             return;
         }
 
@@ -179,6 +150,11 @@ class Message extends Component {
             return;
         }
 
+        if (PGYType==undefined)
+        {
+            Alert.alert("請選擇是否想找PGY診所");
+            return;
+        }
         var JobTypeText = '';
         switch(this.state.jobType)
         {
@@ -191,18 +167,17 @@ class Message extends Component {
             case 'studentParTime' :
                 JobTypeText = '工讀生';
                 break;
-
-
-
         }
-        global.point = global.point-this.state.PublishClinicRecruitPoint;
+        global.point = global.point-this.state.PublishJobHuntingPoint;
         var NowPoint = global.point;
+        var PGYText = this.state.PGYType==true?"是":"否";
         Alert.alert(
-			"確認發布求才訊息？",
+			"確認發布求職訊息？",
 			"工作型態 : " + JobTypeText + "\n" + 
 			"科別 : " + this.state.doctorType + "\n" + 
-			"需求人數 : " + this.state.numberOfPeople + "\n"+
-            "本次使用點數 : " + this.state.PublishClinicRecruitPoint.toString() + "\n"+
+			"是否想找PGY診所 : " + PGYText + "\n" + 
+            
+            "本次使用點數 : " + this.state.PublishJobHuntingPoint.toString() + "\n"+
             "剩餘點數 : " + (NowPoint).toString(),
 			[
 			  {
@@ -216,19 +191,20 @@ class Message extends Component {
                     var that = this;
                     var dbRef = database.ref();
                     //加入該用戶的所屬群組列表
-                    dbRef.child("recruitmentList").push({
+                    dbRef.child("jobRequestList").push({
+                        //發布者名稱，要顯示在求職列表內
+                        publishAccount : global.username,
+                        userIcon : global.userIcon,
                         jobType : this.state.jobType,
                         doctorType : this.state.doctorType,
-                        numberOfPeople : this.state.numberOfPeople,
                         jobDescription : this.state.jobDescription,
-                        publishAccount : global.username,
-                        publishClinicName : global.clinic,
-                        publishClinicAddr: global.clinicAddr,
-                        clinicPGYType : global.clinicPGYType,
                         jobTypeText : JobTypeText,
+                        
+                        //求職者對PGY診所的需求
+                        PGYType : this.state.PGYType,
                         publishDate : this.YYYYMMDD(new Date()),
                     },()=>{
-                        Alert.alert("完成","\n發布成功，請至求才列表查看");
+                        Alert.alert("完成","\n發布成功，請至求職列表查看");
                         this.props.navigation.push('ClinicRecruitment');
                         });
 					
@@ -321,7 +297,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.push('ClinicRecruitment')}>
+						onPress={()=>this.props.navigation.push('ClinicRecruitmentHumanSupport')}>
                             <Image source={require('../assets/sdfghkjlgfd.png')}></Image> 
 					</TouchableOpacity>
 				</View>
@@ -332,7 +308,7 @@ class Message extends Component {
 									fontSize:18,
 									textAlign:'center',
 									zIndex:0,
-								color:'white'}}>我要求才</Text>
+								color:'white'}}>我要求職</Text>
 				</View>
 				
 				<View style={{
@@ -365,10 +341,10 @@ class Message extends Component {
                                             fontSize:18,
                                             textAlign:'center',
                                             zIndex:0,
-                                            color:'white'}}>刊登持續兩週，求才每則需
+                                            color:'white'}}>刊登持續兩週，求職每則需
                                             <Text style={{
                                                 color:'#FFD883',
-                                            }}>  -{this.state.PublishClinicRecruitPoint} </Text>
+                                            }}>  -{this.state.PublishJobHuntingPoint} </Text>
                                             <Image source={require('../assets/money.png')}></Image>
                                             <Text style={{
                                                 color:'#FFF',
@@ -603,83 +579,7 @@ class Message extends Component {
                     </View>
                 </View>
                 <View style={{
-                                flex:0.07,
-                                marginTop:15,
-                                flexDirection:'row',
-                                marginStart:25,
-                                alignItems:'center',
-                            }}>
-                    <View style={{
-                                    justifyContent:'center',
-                                    marginEnd:30,
-                                }}>
-                        <Text style={{fontSize:17,color:'black'}}> 人數</Text>
-                    </View>
-                    <View style={{
-                                flexDirection:'row',
-                                }}>
-                        <TouchableOpacity   style={{
-                                                    alignItems:'center',
-                                                    justifyContent:'center',
-                                                    width:50,            
-                                                    height:50,
-                                                }}
-                                            onPress={()=>{
-                                                if (this.state.numberOfPeople>0)
-                                                {
-                                                    this.setState({numberOfPeople:this.state.numberOfPeople - 1})
-                                                }
-                                            }}
-                                            >
-                            
-                            <View style={{
-                                    justifyContent:'center',
-                                }}>
-                                <Text style={{fontSize:25,color:'black'}}>-</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <View style={{
-                                        justifyContent:'center',
-                                        alignItems:'center', 
-                                        }}>
-                            <View style={{
-                                        backgroundColor:'#FFF',
-                                        width : 60,
-                                        height : 35,
-                                        borderRadius:10,
-                                        borderWidth:1,
-                                        borderColor:'#B9C2CC',
-                                        justifyContent:'center',
-                                        alignItems:'center',
-                                        }}>
-                            
-                                <Text style={{  fontSize:20,
-                                                color:this.state.numberOfPeople=='0'?'gray':'black',
-                                                textAlign:'center'}}>
-                                                    {this.state.numberOfPeople}
-
-                                </Text>
-                            </View>
-                        </View>
-                        <TouchableOpacity style={{
-                                                    alignItems:'center',
-                                                    justifyContent:'center',
-                                                    width:50,            
-                                                    height:50,
-                                                }}
-                                            onPress={()=>this.setState({numberOfPeople:this.state.numberOfPeople + 1})}
-                                            >
-                            
-                            <View style={{
-                                    justifyContent:'center',
-                                }}>
-                                <Text style={{fontSize:25,color:'black'}}>+</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={{
-                                flex:0.6,
+                                flex:0.4,
                                 marginTop:15,
                                 flexDirection:'row',
                                 marginStart:25,
@@ -714,7 +614,133 @@ class Message extends Component {
                         </View>
                     </View>
                 </View>
+                <View style={{
+                                marginTop:20,
+                                alignItems:'center',
+                                flex:0.08,
+                                }}>
+                    <View style={{
+                        marginTop:10,
+                        borderBottomWidth:3,
+                        width:WidthScale(380),
+                        borderColor:'#E2EBF6',
+                        justifyContent:'flex-end'
+                    }}>
+                        
+                        <Text style={{
+                                        marginBottom:10,
+                                        marginStart:5,
+                                        color:'#43D1E3',
+                                        fontSize:18,
+                                            }}>是否想找PGY診所</Text>
+                    </View>
+                </View>
+                <View style={{
+                                flex:0.07,
+                                marginTop:0,
+                                flexDirection:'row',
+                                marginStart:25,
+                                alignItems:'flex-start',
+                                }}>
+                    <View style={{
+                        alignItems:'center',
+                        justifyContent:'center'}}>
+                        <TouchableOpacity style={styles.button,{
+                                                flexDirection: 'row',
+                                                height:50,
+                                                marginTop:0,
+                                            }}
+                                            // 設定工作類型
+                                            onPress={()=>this.setState({
+                                                PGYType : true,
+                                            })}
+                                            >
+                            <View style={{
+                                justifyContent:'center',
+                                }}>
+                                <View style={{
+                                    marginStart:10,
+                                    borderWidth:1,
+                                    borderColor:'#B9C2CC',
+                                    borderRadius:100,
+                                    width:20,
+                                    height:20,
+                                    backgroundColor:'#FFF',
+                                    alignItems:'center',
+                                    justifyContent:'center'}}>
+                                    {this.state.PGYType==true?
+                                        <View style={{
+                                            padding:5,
+                                            borderColor:'gray',
+                                            borderRadius:100,
+                                            width:12,
+                                            height:12,
+                                            backgroundColor:'#43D1E3',
+                                            alignItems:'center',
+                                            justifyContent:'center'}}>
+                                        </View>
+                                    :null}
+                                </View>
+                            </View>
+                            <View style={{  
+                                            justifyContent:'center',
+                                            }}>
+                                <Text style={{fontSize:17,color:'#5C6A6C'}}> 是</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{
+                        marginStart:10,
+                        alignItems:'center',
+                        justifyContent:'center'}}>
+                        <TouchableOpacity style={styles.button,{
+                                                flexDirection: 'row',
+                                                height:50,
+                                                marginTop:0,
+                                            }}
+                                            //設定工作類型
+                                            onPress={()=>this.setState({
+                                                PGYType : false,
+                                            })}
+                                            >
+                            <View style={{
+                                justifyContent:'center',
+                                }}>
+                                <View style={{
+                                    marginStart:10,
+                                    borderWidth:1,
+                                    borderColor:'#B9C2CC',
+                                    borderRadius:100,
+                                    width:20,
+                                    height:20,
+                                    backgroundColor:'#FFF',
+                                    alignItems:'center',
+                                    justifyContent:'center'}}>
+                                    {this.state.PGYType==false?
+                                        <View style={{
+                                            padding:5,
+                                            borderColor:'gray',
+                                            borderRadius:100,
+                                            width:12,
+                                            height:12,
+                                            backgroundColor:'#43D1E3',
+                                            alignItems:'center',
+                                            justifyContent:'center'}}>
+                                        </View>
+                                    :null}
+                                </View>
+                            </View>
+                            <View style={{  
+                                            justifyContent:'center',
+                                            }}>
+                                <Text style={{fontSize:17,color:'#5C6A6C'}}> 否</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    
+                </View>
             </View>
+
             {this.state.keyboardOpen == true?
             
                 <View style={{
@@ -805,17 +831,17 @@ class Message extends Component {
                 <TouchableOpacity style={styles.button,{
                         justifyContent:'center',
                         flex:1,
-                        backgroundColor:global.point<this.state.PublishClinicRecruitPoint?'gray':'#01C5DE',
+                        backgroundColor:global.point<this.state.PublishJobHuntingPoint?'gray':'#01C5DE',
                         alignItems:'center',
                     }} onPress={()=> {
-                                        {global.point<this.state.PublishClinicRecruitPoint?null:this.publishJobRequest()}
+                                        {global.point<this.state.PublishJobHuntingPoint?null:this.publishClinicRequest()}
                                         }}>
                             <Text style={{
                                 textAlign:'center',
                                 color:'#FFF',
                                 fontSize:20,
                                 }}>
-                                    {global.point<this.state.PublishClinicRecruitPoint?"點數不足無法刊登":"確認"}
+                                    {global.point<this.state.PublishJobHuntingPoint?"點數不足無法刊登":"確認"}
                                 </Text>
                 </TouchableOpacity> 
 			</View>

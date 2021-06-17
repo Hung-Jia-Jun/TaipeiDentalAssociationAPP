@@ -144,7 +144,7 @@ class Index extends Component {
 									// borderRadius: 63,
 									paddingVertical: 10,
 									paddingHorizontal: 12
-								}} onPress={()=>this.props.navigation.navigate('Index')}>
+								}} onPress={()=>this.props.navigation.push('Index')}>
 									<Text style={ {fontSize: 18,
 												color: "#B9C2CC",
 												fontWeight: "bold",
@@ -164,7 +164,7 @@ class Index extends Component {
 									// borderRadius: 63,
 									paddingVertical: 10,
 									paddingHorizontal: 12
-								}} onPress={()=>this.props.navigation.navigate('Register')}>
+								}} onPress={()=>this.props.navigation.push('Register')}>
 									<Text style={ {fontSize: 18,
 												color: "#27D0E5",
 												fontWeight: "bold",

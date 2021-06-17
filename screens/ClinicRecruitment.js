@@ -18,7 +18,7 @@ const NotifycationTopper_image = require('../assets/NotifycationTopper.png');
 const Footer_image = require('../assets/Footer_blank.png');
 const Back_image = require('../assets/Announcement_icon/Back.png')
 
-
+//求才
 class Message extends Component {
     constructor(props) {
 		super(props);
@@ -37,6 +37,7 @@ class Message extends Component {
         var that = this;
 		var dbRef = database.ref();
 		//加入該用戶的所屬群組列表
+        //此為求才列表
 		dbRef.child("recruitmentList").get().then((result)=>{
                 //取得所有求才列表訊息
                 var posted = result.val();
@@ -68,6 +69,9 @@ class Message extends Component {
                             //診所地址
                             clinicAddr : e.publishClinicAddr,
                             
+                            //具備PGY診所訓練資格
+                            clinicPGYType : e.clinicPGYType,
+
                             //診所名稱
                             publishClinicName : e.publishClinicName,
 
@@ -169,7 +173,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate('MainMenu')}>
+						onPress={()=>this.props.navigation.push('MainMenu')}>
                             <Image source={require('../assets/leftArrow.png')}></Image> 
 					</TouchableOpacity>
 				</View>
@@ -216,16 +220,18 @@ class Message extends Component {
                                                 borderBottomWidth:3,
                                                 borderColor:'#E2EBF6',
                                                 height:40}}
-                                                onPress={()=>this.props.navigation.navigate('ClinicRecruitmentHumanSupport')}>
+                                                onPress={()=>this.props.navigation.push('ClinicRecruitmentHumanSupport')}>
                         <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>求職</Text>
                     </TouchableOpacity>
+                    
                     <TouchableOpacity style={{marginTop:Dimensions.get('window').height*0,
                                                 marginEnd: Dimensions.get('window').width*0.12,
                                                 zIndex:0,
                                                 width:100,
                                                 borderBottomWidth:3,
                                                 borderColor:'#43D1E3',
-                                                height:40}} >
+                                                height:40}} 
+                                                onPress={()=>this.props.navigation.push('ClinicRecruitment')}>
                         <Text style={{marginTop:12,fontSize:15,color:'#43D1E3',textAlign:'center'}}>求才</Text>
                     </TouchableOpacity>
                 </View>
@@ -273,7 +279,7 @@ class Message extends Component {
                     alignItems:'center',
                     marginStart: Dimensions.get('window').width*0.02,
                     marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                }} onPress={()=>this.props.navigation.push('MainMenu')}>
                         <Image source={require('../assets/footerIcon/Home.png')}></Image>
                 </TouchableOpacity> 
                 <TouchableOpacity style={styles.button,{
@@ -282,7 +288,7 @@ class Message extends Component {
                     alignItems:'center',
                     marginStart: Dimensions.get('window').width*0.03,
                     marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Search')}>
+                }} onPress={()=>this.props.navigation.push('Search')}>
                         <Image source={require('../assets/footerIcon/Search.png')}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button,{
@@ -291,7 +297,7 @@ class Message extends Component {
                     alignItems:'center',
                     marginStart: Dimensions.get('window').width*0.08,
                     marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                }} onPress={()=>this.props.navigation.push('OverviewMap')}>
                         <Image source={require('../assets/footerIcon/Map.png')} 
                                 style={{resizeMode:'stretch',
                                         marginTop:10,
@@ -305,7 +311,7 @@ class Message extends Component {
                     alignItems:'center',
                     marginStart: Dimensions.get('window').width*0.07,
                     marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                }} onPress={()=>this.props.navigation.push('Notifycation')}>
                         <Image source={require('../assets/footerIcon/Msg.png')}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button,{
@@ -315,7 +321,7 @@ class Message extends Component {
                     marginStart: Dimensions.get('window').width*0.03,
                     marginEnd: Dimensions.get('window').width*0.01,
                     marginTop:12,
-                }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                }} onPress={()=>this.props.navigation.push('Profile')}>
                         <Image style={{
                                         marginTop:10,
                                         marginStart:5,
@@ -347,7 +353,7 @@ const Item = ({ _this,item,title,item_image,sceneName }) => (
                 width:Dimensions.get('window').width*0.8,
                 marginStart: 0,
                 marginTop:0,
-            }} onPress={() => _this.props.navigation.push('ClinicRecruitmentHumanSupportDetail',{item:item})}>
+            }} onPress={() => _this.props.navigation.push('ClinicRecruitmentDetail',{item:item})}>
                 <View style={{flex:1,
                             flexDirection:'column'}}>
                     <View style={{flex:0.1,

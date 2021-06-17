@@ -60,7 +60,7 @@ class FilterStroe extends Component {
     }
     filterMap()
     {
-        this.props.navigation.navigate('OverviewMap',{mapParameter : JSON.stringify(this.state.ToggleBtn)});
+        this.props.navigation.push('OverviewMap',{mapParameter : JSON.stringify(this.state.ToggleBtn)});
     }
   render() {
     const renderItem = ({ item }) => (

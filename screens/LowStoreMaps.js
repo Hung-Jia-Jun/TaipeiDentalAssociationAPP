@@ -52,7 +52,7 @@ class HightStoreMaps extends Component {
                                     height: 38,
                                     width:86,
                                     borderColor:'black',
-                                }} onPress={()=>this.props.navigation.navigate('LowStoreMaps')}>
+                                }} onPress={()=>this.props.navigation.push('LowStoreMaps')}>
                                 </TouchableOpacity>
                         </View>
                         <View style={{
@@ -65,7 +65,7 @@ class HightStoreMaps extends Component {
                                     height: 38,
                                     width:86,
                                     borderColor:'black',
-                                }} onPress={()=>this.props.navigation.navigate('MediumStoreMaps')}>
+                                }} onPress={()=>this.props.navigation.push('MediumStoreMaps')}>
                                 </TouchableOpacity>
                         </View>
                         <View style={{
@@ -78,7 +78,7 @@ class HightStoreMaps extends Component {
                                     height: 38,
                                     width:86,
                                     borderColor:'black',
-                                }} onPress={()=>this.props.navigation.navigate('HightStoreMaps')}>
+                                }} onPress={()=>this.props.navigation.push('HightStoreMaps')}>
                                 </TouchableOpacity>
                         </View>
                         <View style={{
@@ -97,7 +97,7 @@ class HightStoreMaps extends Component {
                         marginStart: 60,
                         marginTop:68,
                         borderColor:'black',    
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                    }} onPress={()=>this.props.navigation.push('OverviewMap')}>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>

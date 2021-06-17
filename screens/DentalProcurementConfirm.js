@@ -15,7 +15,7 @@ class Page extends Component {
 						height:50,
 						borderWidth:1,
 						borderColor:'black',
-					}} onPress={()=>this.props.navigation.navigate('DentalGroupPurchase')}>
+					}} onPress={()=>this.props.navigation.push('DentalGroupPurchase')}>
 					</TouchableOpacity>
 				</View>
 				<View style={{flex:0.7, flexDirection: 'row' ,  flexWrap: 'wrap' }}>
@@ -26,7 +26,7 @@ class Page extends Component {
 							height: 30,
 							borderWidth:1,
 							borderColor:'black',
-					}} onPress={()=>this.props.navigation.navigate('DentalProcurementSussful')}>
+					}} onPress={()=>this.props.navigation.push('DentalProcurementSussful')}>
 					</TouchableOpacity>
 				</View>
 				<View style={{flex: 0.5, flexDirection: 'row'}}>

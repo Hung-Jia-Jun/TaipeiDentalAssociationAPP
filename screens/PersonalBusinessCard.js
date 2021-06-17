@@ -157,7 +157,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate('Profile')}>
+						onPress={()=>this.props.navigation.push('Profile')}>
 						<Image source={require('../assets/adsfsdfsdfdxcvcxv.png')}></Image>
 					</TouchableOpacity>
 				</View>
@@ -181,7 +181,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate('EditBusinessCard')}>
+						onPress={()=>this.props.navigation.push('EditBusinessCard')}>
 						<Text style={{  fontSize:35,
                                         color:'#FFF',
                                         justifyContent:'center',
@@ -220,7 +220,7 @@ class Message extends Component {
                                             shadowColor: 'black',
                                             shadowOpacity: 0.1,
                                         }}
-                                        onPress={()=>this.props.navigation.navigate('EditBusinessCard')}
+                                        onPress={()=>this.props.navigation.push('EditBusinessCard')}
                                         >
                                 <View style={{flex: 1,
                                                 justifyContent:'center',
@@ -255,7 +255,7 @@ class Message extends Component {
 					alignItems:'center',
 					marginStart: Dimensions.get('window').width*0.02,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+				}} onPress={()=>this.props.navigation.push('MainMenu')}>
 						<Image source={require('../assets/footerIcon/Home.png')}></Image>
 				</TouchableOpacity> 
 				<TouchableOpacity style={styles.button,{
@@ -264,7 +264,7 @@ class Message extends Component {
 					alignItems:'center',
 					marginStart: Dimensions.get('window').width*0.03,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('Search')}>
+				}} onPress={()=>this.props.navigation.push('Search')}>
 						<Image source={require('../assets/footerIcon/Search.png')}></Image>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.button,{
@@ -273,7 +273,7 @@ class Message extends Component {
 					alignItems:'center',
 					marginStart: Dimensions.get('window').width*0.08,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+				}} onPress={()=>this.props.navigation.push('OverviewMap')}>
 						<Image source={require('../assets/footerIcon/Map.png')} 
 								style={{resizeMode:'stretch',
 										marginTop:10,
@@ -287,7 +287,7 @@ class Message extends Component {
 					alignItems:'center',
 					marginStart: Dimensions.get('window').width*0.07,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+				}} onPress={()=>this.props.navigation.push('Notifycation')}>
 						<Image source={require('../assets/footerIcon/Msg.png')}></Image>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.button,{
@@ -297,7 +297,7 @@ class Message extends Component {
 					marginStart: Dimensions.get('window').width*0.03,
 					marginEnd: Dimensions.get('window').width*0.01,
 					marginTop:12,
-				}} onPress={()=>this.props.navigation.navigate('Profile')}>
+				}} onPress={()=>this.props.navigation.push('Profile')}>
 						<Image style={{
 										marginTop:10,
 										marginStart:5,
@@ -314,7 +314,7 @@ class Message extends Component {
 
 const Item = ({ _this,item}) => (
     <TouchableOpacity style={{flex: 1}}
-    onPress={()=>_this.props.navigation.navigate('EditBusinessCard',{cardId:item.id})}
+    onPress={()=>_this.props.navigation.push('EditBusinessCard',{cardId:item.id})}
     style={{flexDirection:'column', 
     shadowOffset:{  width:4,  height:4},
     shadowColor: 'black',

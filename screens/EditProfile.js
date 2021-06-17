@@ -54,6 +54,9 @@ class Message extends Component {
 
             showGender : false,
             gender : global.gender,
+            
+            //具備PGY診所訓練資格
+            clinicPGYType : global.clinicPGYType,
 
             keyboardOpen : false,
 
@@ -113,20 +116,27 @@ class Message extends Component {
                 },
                 {
                     key : 7,
+                    title : '具備PGY診所訓練資格',
+                    value : global.clinicPGYType,
+                    //要做的彈出框類型
+                    popupVar : "clinicPGYTypeSelect",
+                },
+                {
+                    key : 8,
                     title : '信箱',
                     value : global.Email,
                     //要做的彈出框類型
                     popupVar : "textInput",
                 },
                 {
-                    key : 8,
+                    key : 9,
                     title : 'LineID',
                     value : global.LineID,
                     //要做的彈出框類型
                     popupVar : "textInput",
                 },
                 {
-                    key : 9,
+                    key : 10,
                     title : 'WechatID',
                     value : global.WechatID,
                     //要做的彈出框類型
@@ -204,9 +214,11 @@ class Message extends Component {
                 global.phoneNumber = this.state.userInfo[4].value == undefined ? '' : this.state.userInfo[4].value;
                 global.clinic = this.state.userInfo[5].value == undefined ? '' : this.state.userInfo[5].value;
                 global.clinicAddr = this.state.userInfo[6].value == undefined ? '' : this.state.userInfo[6].value;
-                global.Email = this.state.userInfo[7].value == undefined ? '' : this.state.userInfo[7].value;
-                global.LineID = this.state.userInfo[8].value == undefined ? '' : this.state.userInfo[8].value;
-                global.WechatID = this.state.userInfo[9].value == undefined ? '' : this.state.userInfo[9].value;
+                global.clinicPGYType = this.state.userInfo[7].value == undefined ? '' : this.state.userInfo[7].value;
+
+                global.Email = this.state.userInfo[8].value == undefined ? '' : this.state.userInfo[8].value;
+                global.LineID = this.state.userInfo[9].value == undefined ? '' : this.state.userInfo[9].value;
+                global.WechatID = this.state.userInfo[10].value == undefined ? '' : this.state.userInfo[10].value;
                 
                 global.belongGroup = user.belongGroups;
                 global.groupBuyItem = user.groupBuyItems;
@@ -232,13 +244,14 @@ class Message extends Component {
                     phoneNumber : global.phoneNumber ,
                     clinic : global.clinic,
                     clinicAddr : global.clinicAddr,
+                    clinicPGYType : global.clinicPGYType,
                     Email : global.Email ,
                     LineID : global.LineID ,
                     WechatID : global.WechatID ,
                 });
 
                 //回到設定頁面，並去更新Global值
-                this.props.navigation.navigate('Profile',{username:username});
+                this.props.navigation.push('Profile',{username:username});
             }
             })
             .catch(function(error) {
@@ -287,7 +300,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.navigate('Profile')}>
+						onPress={()=>this.props.navigation.push('Profile')}>
                             <Image source={require('../assets/leftArrow.png')}></Image> 
 					</TouchableOpacity>
 				</View>
@@ -495,6 +508,63 @@ class Message extends Component {
                     </View>
                 </View>
             :null}  
+            
+            {this.state.showClinicPGYType?
+                <View style={{
+                                width:Dimensions.get('window').width,
+                                flex:0.01,
+                                justifyContent:'flex-end',
+                                marginBottom:10,
+                                flexDirection:'column',
+                                        }}>
+                    <View style={{
+                                    justifyContent:'center',
+                                    borderTopWidth:3,
+                                    borderTopColor:'#B9C2CC',
+                                    alignItems:'flex-end',
+                                    backgroundColor:'#FFF',
+                                    height:50}}>
+                        <TouchableOpacity style={{alignContent:'center',
+                                                    justifyContent:'center',
+                                                    marginEnd:15,
+                                                    textAlign:'center',
+                                                    flex:1,
+                                                    justifyContent:'center',
+                                                    height:40,
+                                                    width:60,
+                                                    }}
+                                            onPress={()=>{
+                                                            this.setState({showClinicPGYType:false,showGender : false , showEnrollmentYear:false,showBirthDay:false})
+                                                            this.state.userInfo.forEach(e=>{
+                                                                    if (e.title=='具備PGY診所訓練資格')
+                                                                    {
+                                                                        e.value=this.state.clinicPGYType
+                                                                    } 
+                                                            });
+                                                            this.setState({userInfo:this.state.userInfo});
+                                                            }}
+                                        >
+                            <Text style={{textAlign:'center',fontSize:20,}}>確認</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    <View style={{
+                                    backgroundColor:'#FFF',
+                                    height:200}}>
+                        <Picker
+                            selectedValue={this.state.clinicPGYType}
+                            onValueChange={(itemValue, itemIndex) =>{
+                                    global.clinicPGYType = itemValue;
+                                    this.setState({clinicPGYType:itemValue});
+                                }
+                            }
+                            >
+                            <Picker.Item label="是" value="是" />
+                            <Picker.Item label="否" value="否" />
+                        </Picker>
+                    </View>
+                </View>
+            :null}  
             {this.state.showGender?
                 <View style={{
                                 width:Dimensions.get('window').width,
@@ -644,7 +714,7 @@ const Item = ({ _this,item,popupVar}) => (
                                 textAlign:'center',
                                 zIndex:0}}>{item.title}</Text>
             </View>
-            <View style={{alignItems:'flex-end',justifyContent:'center',flex:1}}>
+            <View style={{alignItems:'flex-end',justifyContent:'center',flex:0.5}}>
                 <TouchableOpacity style={{
                                             padding:8,
                                             minWidth:250,
@@ -664,6 +734,8 @@ const Item = ({ _this,item,popupVar}) => (
                                                 break;
                                             case 'gender':
                                                 _this.setState({showGender:true});
+                                            case 'clinicPGYTypeSelect':
+                                                _this.setState({showClinicPGYType:true});
                                             case 'textInput':
                                                 break;
                                         }
@@ -674,7 +746,6 @@ const Item = ({ _this,item,popupVar}) => (
                                             flexDirection:'row'}}>
                                 <TextInput style={{
                                     paddingStart:5,
-                                    height:43,
                                     fontSize:18,
                                     minWidth:250,
                                     textAlign:'right',

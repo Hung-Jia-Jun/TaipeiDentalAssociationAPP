@@ -15,7 +15,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 23,
                         marginTop:60,
-                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    }} onPress={()=>this.props.navigation.push('MainMenu')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -24,7 +24,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 236,
                         marginTop:60,
-                    }} onPress={()=>this.props.navigation.navigate('Schedule')}>
+                    }} onPress={()=>this.props.navigation.push('Schedule')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.6, flexDirection: 'row'}}>
@@ -35,7 +35,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 0,
                         marginTop:0,
-                    }} onPress={()=>this.props.navigation.navigate('DentalGroupPurchase')}>
+                    }} onPress={()=>this.props.navigation.push('DentalGroupPurchase')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.5, flexDirection: 'row'}}>
@@ -46,7 +46,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 24,
                         marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                    }} onPress={()=>this.props.navigation.push('MainMenu')}>
                     </TouchableOpacity> 
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -55,7 +55,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 11,
                         marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('Search')}>
+                    }} onPress={()=>this.props.navigation.push('Search')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -64,7 +64,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 28,
                         marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                    }} onPress={()=>this.props.navigation.push('OverviewMap')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -73,7 +73,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 24,
                         marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('Notifycation')}>
+                    }} onPress={()=>this.props.navigation.push('Notifycation')}>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
@@ -82,7 +82,7 @@ class Page extends Component {
                         borderColor:'black',
                         marginStart: 15,
                         marginTop:230,
-                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                    }} onPress={()=>this.props.navigation.push('Profile')}>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>

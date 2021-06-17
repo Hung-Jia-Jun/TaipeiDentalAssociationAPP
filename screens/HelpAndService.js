@@ -41,7 +41,7 @@ class Page extends Component {
                             marginStart: 0,
                             marginTop:0,
                             marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('MainMenu')}>
+                        }} onPress={()=>this.props.navigation.push('MainMenu')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
@@ -55,7 +55,7 @@ class Page extends Component {
                             width:50,
                             marginTop:0,
                             marginEnd: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('Schedule')}>
+                        }} onPress={()=>this.props.navigation.push('Schedule')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>

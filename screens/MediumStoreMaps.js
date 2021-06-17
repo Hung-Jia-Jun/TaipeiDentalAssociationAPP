@@ -53,7 +53,7 @@ class HightStoreMaps extends Component {
                                     width:86,
                                     borderWidth:1,
                                     borderColor:'black',
-                                }} onPress={()=>this.props.navigation.navigate('LowStoreMaps')}>
+                                }} onPress={()=>this.props.navigation.push('LowStoreMaps')}>
                                 </TouchableOpacity>
                         </View>
                         <View style={{
@@ -67,7 +67,7 @@ class HightStoreMaps extends Component {
                                     width:86,
                                     borderWidth:1,
                                     borderColor:'black',
-                                }} onPress={()=>this.props.navigation.navigate('MediumStoreMaps')}>
+                                }} onPress={()=>this.props.navigation.push('MediumStoreMaps')}>
                                 </TouchableOpacity>
                         </View>
                         <View style={{
@@ -81,7 +81,7 @@ class HightStoreMaps extends Component {
                                     width:86,
                                     borderWidth:1,
                                     borderColor:'black',
-                                }} onPress={()=>this.props.navigation.navigate('HightStoreMaps')}>
+                                }} onPress={()=>this.props.navigation.push('HightStoreMaps')}>
                                 </TouchableOpacity>
                         </View>
                         <View style={{
@@ -101,7 +101,7 @@ class HightStoreMaps extends Component {
                         marginTop:68,
                         borderWidth:1,
                         borderColor:'black',    
-                    }} onPress={()=>this.props.navigation.navigate('OverviewMap')}>
+                    }} onPress={()=>this.props.navigation.push('OverviewMap')}>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>

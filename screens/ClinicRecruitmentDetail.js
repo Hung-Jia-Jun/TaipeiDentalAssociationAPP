@@ -18,7 +18,7 @@ const NotifycationTopper_image = require('../assets/NotifycationTopper.png');
 const Footer_image = require('../assets/Footer_blank.png');
 const Back_image = require('../assets/Announcement_icon/Back.png')
 
-//求職
+//求才
 class Message extends Component {
     constructor(props) {
 		super(props);
@@ -39,11 +39,18 @@ class Message extends Component {
     {
         var item = this.props.navigation.getParam('item');
         this.setState({
-            item:item
+            item:item,
+            title: item.publishClinicName,
+            item_image : require('../assets/Announcement_icon/listicon2.png'),
+            numberOfPeople:item.numberOfPeople,
+            jobTypeText : item.jobTypeText,
+            doctorType : item.doctorType,
+            clinicPGYType : item.clinicPGYType,
+            publishDate : item.publishDate,
         },()=>console.log(this.state.item));
     }
     //把診所負責人加到群組裡面
-    startContactHumanSupport()
+    startContactClinic()
     {
         var dbRef = database.ref();
         //將時間戳當作ＩＤ
@@ -55,7 +62,7 @@ class Message extends Component {
         
         var publishAccount;
         var selfInfo;
-
+            
         //將發布該職缺的診所負責人名稱從用戶資料那邊撈出來
         dbRef.child("user").once('value').then((result) => {
             if (result.exists()) {
@@ -107,7 +114,7 @@ class Message extends Component {
                                                             //設定群組為跟診所求職的通知，或是求職者發訊息給診所
                                                             groupType : 'clinicNotify',
                                                             //此聯繫的發起人是我，所以我要發給toUser那端的訊息
-                                                            toUser : this.state.item.publishAccount,
+                                                            toUser :  this.state.item.publishClinicName,
                                                     });
                             //更新用戶所屬群組的資訊
                             var GroupListRef = database.ref('/user'+"/" + _user.username);
@@ -125,12 +132,10 @@ class Message extends Component {
                                                         //設定群組為跟診所求職的通知，或是求職者發訊息給診所
                                                         groupType : 'clinicNotify',
                                                     },()=>{
-                                                        this.props.navigation.push('GroupChat',{GroupID : chatID , GroupName : this.state.item.publishAccount==global.username?global.username:this.state.item.publishAccount,groupType:'clinicNotify'});
+                                                        this.props.navigation.push('GroupChat',{GroupID : chatID , GroupName : this.state.item.publishAccount==global.username?global.username:this.state.item.publishClinicName,groupType:'clinicNotify'});
                                                     });
             }
         });
-
-        
     }
   render() {
     return (
@@ -170,7 +175,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.push('ClinicRecruitmentHumanSupport')}>
+						onPress={()=>this.props.navigation.push('ClinicRecruitment')}>
                             <Image source={require('../assets/leftArrow.png')}></Image> 
 					</TouchableOpacity>
 				</View>
@@ -181,8 +186,9 @@ class Message extends Component {
 									fontSize:18,
 									textAlign:'center',
 									zIndex:0,
-								color:'white'}}>聯繫求職者</Text>
+								color:'white'}}>{this.state.item.title}</Text>
 				</View>
+				
 				<View style={{
 						flex:0.3,
 						alignItems:'flex-end',
@@ -197,7 +203,7 @@ class Message extends Component {
                             paddingEnd:20,
                             marginTop:0}}>
                     <View style={{flex:0.45,flexDirection:'row'}}>
-                        <Image source={{uri : this.state.item.userIcon}} style={{
+                        <Image source={this.state.item.item_image} style={{
                             width: Dimensions.get('window').width*0.3,
                             height: Dimensions.get('window').height*0.33,
                             flex:1,
@@ -206,78 +212,28 @@ class Message extends Component {
                     </View>
                     <View style={{flex:0.55}}>
                         <View style={{
-                                    flex:0.2
-                                    }}>
-                            <Text style={{
-                                        fontSize:30,
-                                        color:'#5C6A6C'
-                                        }}>
-                                {this.state.item.publishAccount}
-                            </Text>
-                        </View>
-                        <View style={{
                                     flex:0.1
                                     }}>
                             <Text style={{
-                                        fontSize:15,
+                                        fontSize:24,
                                         color:'#5C6A6C'
                                         }}>
                                 {this.state.item.doctorType}
-
                             </Text>
                         </View>
-                        
                         <View style={{
-                                    flex:0.2,
+                                    flex:0.1,
                                     flexDirection:'row',
                                     alignItems:'center',
                                     }}>
-                            {this.state.item.jobTypeText=='全職醫師'?
-                                <View style={{
-                                                marginEnd:15,
-                                                borderRadius:30,
-                                                backgroundColor:'rgba(69, 209, 227, 0.15)',
-                                                }}>
-                                    <Text style={{
-                                                    padding:5,
-                                                    fontSize:16,
-                                                    color:'#45d1e3'
-                                                }}>
-                                                    {this.state.item.jobTypeText}
-                                    </Text>
-                                </View>
-                            :null}
-                            {this.state.item.jobTypeText=='兼職醫師'?
-                                <View style={{
-                                                marginEnd:15,
-                                                borderRadius:30,
-                                                backgroundColor:'rgba(89,101,112,0.1)',
-                                                }}>
-                                    <Text style={{
-                                                    padding:5,
-                                                    fontSize:16,
-                                                    color:'#596570'
-                                                }}>
-                                                    {this.state.item.jobTypeText}
-                                    </Text>
-                                </View>
-                            :null}
-                            {this.state.item.jobTypeText=='工讀生'?
-                                <View style={{
-                                                marginEnd:15,
-                                                borderRadius:30,
-                                                backgroundColor:'rgba(90,29,208,0.1)',
-                                                }}>
-                                    <Text style={{
-                                                    padding:5,
-                                                    fontSize:16,
-                                                    color:'#5A1DD0'
-                                                }}>
-                                                    {this.state.item.jobTypeText}
-                                    </Text>
-                                </View>
-                            :null}
-                            {this.state.item.PGYType==true?
+                            <Text style={{
+                                        fontSize:15,
+                                        color:'#5C6A6C',
+                                        marginEnd:20,
+                                        }}>
+                                {this.state.item.title}
+                            </Text>
+                            {this.state.item.clinicPGYType=="是"?
                                 <View style={{
                                                 marginEnd:15,
                                                 borderRadius:30,
@@ -285,14 +241,36 @@ class Message extends Component {
                                                 }}>
                                     <Text style={{
                                                     padding:5,
-                                                    fontSize:16,
                                                     color:'#F5A623'
                                                 }}>
-                                                    {"PGY"}
+                                                    {"具備PGY診所訓練資格"}
                                     </Text>
                                 </View>
                             :null}
                         </View>
+                        
+                        <View style={{
+                                    flex:0.1,
+                                    flexDirection:'row',
+                                    alignItems:'center',
+                                    }}>
+                            <Image source={require('../assets/doctorIcon.png')}></Image>
+                            <Text style={{
+                                        marginStart:10,
+                                        fontSize:18,
+                                        color:'#5C6A6C'
+                                        }}>
+                                {this.state.item.numberOfPeople}
+                            </Text>
+                            <Text style={{
+                                        marginStart:10,
+                                        fontSize:18,
+                                        color:'#01C5DE'
+                                        }}>
+                                {this.state.item.jobTypeText}
+                            </Text>
+                        </View>
+                        
                         <View style={{
                                     flex:0.1
                                     }}>
@@ -310,7 +288,6 @@ class Message extends Component {
                             <TextInput 
                                     multiline={true}
                                     editable={false}
-                                    selection={false}
                                     contextMenuHidden={true}
                                     style={{
                                         fontSize:18,
@@ -332,14 +309,14 @@ class Message extends Component {
                         backgroundColor:'#01C5DE',
                         alignItems:'center',
                     }} onPress={()=> {
-                                            this.startContactHumanSupport();
+                                            this.startContactClinic();
                                         }}>
                             <Text style={{
                                 textAlign:'center',
                                 color:'#FFF',
                                 fontSize:20,
                                 }}>
-                                    聯繫求職者
+                                    聯繫診所
                                 </Text>
                 </TouchableOpacity> 
 			</View>
@@ -347,7 +324,6 @@ class Message extends Component {
     );
   }
 }
-
 
 
 const styles = StyleSheet.create({

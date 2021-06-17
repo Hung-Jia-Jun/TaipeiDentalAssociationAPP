@@ -13,7 +13,7 @@ class Page extends Component {
                         marginTop: 37,
                         height:50,
                         width: 50,
-                    }} onPress={()=>this.props.navigation.navigate('Profile')}>
+                    }} onPress={()=>this.props.navigation.push('Profile')}>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 0.6, flexDirection: 'row'}}>

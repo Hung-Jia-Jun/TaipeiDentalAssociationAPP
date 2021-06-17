@@ -95,7 +95,7 @@ class Page extends Component {
                             marginStart: 0,
                             marginTop:0,
                             marginStart: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate('ActivityInformation')}>
+                        }} onPress={()=>this.props.navigation.push('ActivityInformation')}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
@@ -109,7 +109,7 @@ class Page extends Component {
                             width:50,
                             marginTop:0,
                             marginEnd: Dimensions.get('window').width*0.02,
-                        }} onPress={()=>this.props.navigation.navigate()}>
+                        }} onPress={()=>this.props.navigation.push()}>
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
