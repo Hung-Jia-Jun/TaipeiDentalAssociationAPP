@@ -1,13 +1,13 @@
 // import * as React from 'react';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker,animateToRegion } from 'react-native-maps';
 import React, { Component , useState} from "react";
 import { Dimensions,Linking,Alert,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
 const image = require('../assets/b-圖資-資訊.png');
 const filterButton_image = require('../assets/filterButton.png');
 const overviewMapTopper_image = require('../assets/overviewMapTopper.png');
-const arrow_image = require('../assets/arrow.png');
 const footer_image = require('../assets/Footer.png');
+const arrow_image = require('../assets/arrow.png');
 const MapDetail = require('../assets/MapDetail.png');
 const MapDetail_clinic = require('../assets/MapDetail_clinic.png');
 
@@ -25,31 +25,213 @@ class OverviewMap extends Component {
         super(props);
         const MemberStoreList = require('../MemberStoreList.json');
         const ClinicTEL_List = require('../ClinicTEL_List.json');
-        const CarParkList = require('../CarParkList.json');
+        const carParkList = require('../CarParkList.json');
 
         this.state = {
+            outline:false,
+            region:null,
+            zoomLevel:null,
             showDetail: false,
+            showParkOrder : false,
             detailAddress: "台北市中山區",
             phone : "0225356756",
             opentime:"",
             status:"營業中",
+            hireInfo : "徵才資訊 : 牙醫助理 1位 /  矯正醫師 1位",
+            clinicURL : "官方網站 : https:/abcd.music.com.tw",
             education:"",
 
             DetailImage:require('../assets/DetailImage.png'),
             TaipeiGroupMarkerSize:{
-                width:82,
-                height:82
+                width:60,
+                height:60
             },
             normalMarkerSize:{
                 width:32,
                 height:40
             },
-            markers: MemberStoreList,
+            baseMarkers: MemberStoreList,
+            markers: [],
+            markerRadius: null,
             ClinicTELs : ClinicTEL_List,
-            CarParkMarkers : CarParkList,
+            CarParkMark : carParkList,
+            mapParameter : [
+                            //地區
+                            {key : 0 , text : "中正區" , toggled : false},
+                            {key : 1 , text : "大同區" , toggled : false},
+                            {key : 2 , text : "中山區" , toggled : false},
+                            {key : 3 , text : "松山區" , toggled : false},
+                            {key : 4 , text : "大安區" , toggled : false},
+                            {key : 5 , text : "萬華區" , toggled : false},
+                            {key : 6 , text : "信義區" , toggled : false},
+                            {key : 7 , text : "士林區" , toggled : false},
+                            {key : 8 , text : "北投區" , toggled : false},
+                            {key : 9 , text : "內湖區" , toggled : false},
+                            {key : 10 , text : "南港區" , toggled : false},
+                            {key : 11 , text : "文山區" , toggled : false},
+
+                            //搜尋類別
+                            {key : 12 , text : '一般牙科', toggled : false},
+                            {key : 13 , text : '矯正醫師', toggled : false},
+                            {key : 14 , text : '兒童牙科', toggled : false},
+                            {key : 15 , text : '口腔外科', toggled : false},
+                            
+                            //食衣住行育樂診所
+                            {key : 16 , text: '食' , toggled : true},
+                            {key : 17 , text: '衣' , toggled : false},
+                            {key : 18 , text: '住' , toggled : false},
+                            {key : 19 , text: '行' , toggled : false},
+                            {key : 20 , text: '育' , toggled : false},
+                            {key : 21 , text: '樂' , toggled : false},
+                            {key : 22 , text: '診所' , toggled : false},
+
+                            //Uspace
+                            {key : 23 , text: '車位' , toggled : false}
+                        ],
+            mapviewCenter : {
+                latitude: 25.034934,
+                longitude: 121.522222,
+            },
+           
+           
         }
         
+        
     }
+    onRegionChange(region){
+        try
+        {
+            this.setState({mapParameter : JSON.parse(this.props.navigation.state.params.mapParameter)});
+            // console.log(this.state.mapParameter);
+        }
+        catch (error)
+        {
+            // console.log(error);
+        }
+        this.setState({region:region,markers:[]});
+        //最初始值是14左右，隨著放大會到18
+        try {
+            this.state.zoomLevel = Math.log2(360 * (Dimensions.get('window').width/ 256 / region.longitudeDelta)) + 1
+        } catch (error) {
+            return
+        }
+    } 
+    RegionChangeComplete(region) {
+        //要做最近距離估算的排序
+        var markDistance = {}
+        var showKM = (this.state.zoomLevel*(-0.5))+10
+        showKM = showKM > 3 ? 3 : showKM
+        //顯示附近診所數量的限制值
+        var showLimit = 100
+        // var randomIndex;
+        //如果他拉很遠
+        if (this.state.zoomLevel < 15.5)
+        {
+            //那就只顯示北醫的Point
+            this.state.outline = true;
+
+            //顯示所有台北市的診所
+            showKM = 100;
+            showLimit = this.state.zoomLevel * 25
+            this.state.markerRadius = 20;
+            //地圖的上下邊界
+            var marginTopLat = region.latitude + region.latitudeDelta
+            var marginBottomLat = region.latitude - region.latitudeDelta
+
+            //地圖的左右邊界
+            var marginRightLng = region.longitude + region.longitudeDelta
+            var marginLeftLng = region.longitude - region.longitudeDelta
+            
+            for (let index = 0; index < showLimit; index++) {
+                const element = this.state.baseMarkers[index];
+                for (var i = 0; i < this.state.mapParameter.length - 1; i++) 
+                {
+                    if (element.Area == this.state.mapParameter[i].text)
+                    {
+                        if (this.state.mapParameter[i].toggled == true)
+                        {
+                            this.state.markers.push(element);
+                            continue;
+                        }
+                    }
+                }
+            }
+
+            this.setState({markers:this.state.markers})
+            return;
+        }
+        //近距離的顯示要多一點內容
+        //顯示詳細資訊
+        this.state.outline = false;
+        this.state.baseMarkers.map((marker,index) => {
+            // √ (a1 - b1)^2 + (a2-b2)^2
+            var distance = Math.sqrt(Math.pow((marker.coordinates.latitude - region.latitude),2) + Math.pow((marker.coordinates.longitude - region.longitude),2))*100
+            //依照動態zoom調整顯示範圍
+            //y=-0.5x+10
+            // 在zoom level 14時，要顯示3公里內的mark
+            // 在zoom level 18時，要顯示1公里內的mark
+            if (distance < showKM )
+            {
+                markDistance[index] = distance;
+            }
+        })
+        // Create items array
+        var items = Object.keys(markDistance).map(function(key) {
+            return [key, markDistance[key]];
+        });
+
+        // Sort the array based on the second element
+        items.sort(function(first, second) {
+            return second[1] - first[1];
+        });
+        items.reverse();
+    
+        markDistance = items.slice(0, showLimit);
+        // console.log(this.state.mapParameter);
+
+        markDistance.map((marker,index) => {
+            var marker = this.state.baseMarkers[parseInt(marker[0])];
+            // 使用List篩選是否為要出現的區域
+            var InArea = false
+            try
+            {
+                for (var i = 0; i < this.state.mapParameter.length - 1; i++) 
+                {
+                    if (marker.Area == this.state.mapParameter[i].text)
+                    {
+                        if (this.state.mapParameter[i].toggled == true)
+                        {
+                            this.state.markers.push(marker);
+                            continue;
+                        }
+                    }
+                }
+            }
+            catch (error)
+            {
+                console.log(error);
+            }
+            
+        })
+        console.log("showKM : " + showKM , region);
+        console.log("Zoom : " + this.state.zoomLevel);
+        this.setState({markers:this.state.markers})
+        console.log("marker count : " + this.state.markers.length)
+        return;
+        
+    }
+
+    OrderUspacePark = () =>{
+        let UspaceUrl = "https://uspace.app.link/WDk6EQIyteb";
+        Linking.canOpenURL(UspaceUrl).then((supported) => {
+            if (!supported) {
+                console.log('Can not handle UspaceUrl:' + UspaceUrl)
+            } else {
+                return Linking.openURL(UspaceUrl)
+            }
+        }).catch(error => console.log('tel error', error))
+    }
+
     callTELToClinic = () =>{
         let tel = 'tel:' + this.state.phone;
         Linking.canOpenURL(tel).then((supported) => {
@@ -71,42 +253,138 @@ class OverviewMap extends Component {
         }).catch(err => console.error('An error occurred', err)); 
     }
     ClinicOnClick = (marker) => {
-        var i;
-        var phone = "尚未提供電話";
-        for (i = 0; i < this.state.ClinicTELs.length; i++) {
-            //找到符合的診所了
-            if (this.state.ClinicTELs[i]["clinicName"] == marker.title)
-            {
-                phone = this.state.ClinicTELs[i]["TEL"];
-                break
-            }
+       
+        if (marker.type == "park")
+        {
+            this.state.clinicURL = "";
+            this.state.hireInfo = "";
+
+            //關閉顯示牙醫診所的更多資訊
+            this.state.showDetail = false;
+
+            //打開可以讓客戶預約停車位的Button
+            this.state.showParkOrder = true;
         }
-        this.setState({ showDetail: true,
+        else
+        {
+            var i;
+            var phone = "尚未提供電話";
+            this.state.hireInfo = "徵才資訊 : 牙醫助理 1位 /  矯正醫師 1位";
+            this.state.clinicURL = "官方網站 : https:/abcd.music.com.tw";
+            for (i = 0; i < this.state.ClinicTELs.length; i++) {
+                //找到符合的診所了
+                if (this.state.ClinicTELs[i]["clinicName"] == marker.title)
+                {
+                    phone = this.state.ClinicTELs[i]["TEL"];
+                    break
+                }
+            }
+            this.state.showDetail = true;
+            this.state.showParkOrder = false;
+
+        }
+        this.setState({ showDetail: this.state.showDetail,
                         title : marker.title,
                         opentime : marker.opentime,
                         detailAddress : marker.detailAddress,
                         education : marker.education,
                         phone : phone,
+                        hireInfo : this.state.hireInfo,
+                        clinicURL : this.state.clinicURL,
+                        showParkOrder : this.state.showParkOrder,
                     });
+        this.mapView.animateToRegion({ latitude : marker.coordinates.latitude,
+                                        longitude : marker.coordinates.longitude,
+                                        latitudeDelta : this.state.region.latitudeDelta, 
+                                        longitudeDelta : this.state.region.longitudeDelta, 
+                                    }, 0)
+                    
+                    
+    }
+    componentDidMount()
+    {
+        var newbaseMark = [];
+        for (var index = 0; index < this.state.baseMarkers.length; index++) 
+        {
+            var clinic = this.state.baseMarkers[index];
+            clinic["type"] = "clinic";
+            clinic["key"] = index;
+            newbaseMark.push(clinic);
+        }
+        for (var index = 0; index < this.state.CarParkMark.length; index++) 
+        {
+            var park = this.state.CarParkMark[index];
+            park["type"] = "park";
+            park["key"] = this.state.baseMarkers.length + index;
+            newbaseMark.push(park);
+        }
+        this.setState({baseMarkers : newbaseMark});
     }
     render() {
 
         return (
-            <ImageBackground  style={styles.borderBlackLine,{flex:1}}>
+            <View  style={styles.borderBlackLine,{flex:1}}>
             <View style={styles.container,{flex: 3, flexDirection: 'column',borderWidth:1,
                                         borderColor:'black'}}>
-                <View style={{flexDirection: 'column',zIndex: 1}}>
+                <View style={{flexDirection: 'column',
+                                zIndex: 1,
+                                flex:0.84,
+                                }}>
                     <Image source={overviewMapTopper_image} style={
-                                        {marginTop: height < guidelineBaseHeight ? HeightScale(-170) : HeightScale(-85),
+                                        {
+                                        marginTop: -(height /10)*1,
                                         resizeMode:'stretch',
                                         width:width}}></Image>
-                    <Text style={{marginStart:WidthScale(65),
-                                    color:'#47DCEF',
-                                    fontSize:28,
-                                    marginTop:height < guidelineBaseHeight ? HeightScale(-180) : HeightScale(-140),
-                                    }}>Hi Ethan</Text>
+                        <View style={{
+                                        flex:1,
+                                        
+                                        flexDirection:'row',
+                                    }}>
+                            <View style={{flex:0.1,
+                                        }}></View>
+                            <View style={{flex:0.5,
+                                            alignItems:'flex-start'
+                                        }}>
+                                <Text style={{
+                                                justifyContent:'center',
+                                                alignContent:'center',
+                                                color:'#47DCEF',
+                                                flex:0.5,
+                                                fontSize:28,
+                                                height:60,
+                                                marginTop: -(height/10) *1.5,
+                                                }}>Hi {global.username}</Text>
+                            </View>
+                            <View style={{flex:0.5,
+                                        }}></View>
+                            <View style={{flex:0.5,
+                                            alignItems:'flex-end'
+                                        }}>
+                                <TouchableOpacity style={{
+                                        alignItems:'center',
+                                        justifyContent:'center',
+                                        
+                                        height:60,
+                                        width:60,
+                                        marginTop: -(height/10) *1.5,
+                                    }} 
+                                    onPress={()=>{
+                                            let UspaceUrl = "https://uspace.app.link/WDk6EQIyteb";
+                                            Linking.canOpenURL(UspaceUrl).then((supported) => {
+                                                if (!supported) {
+                                                    console.log('Can not handle UspaceUrl:' + UspaceUrl)
+                                                } else {
+                                                    return Linking.openURL(UspaceUrl)
+                                                }
+                                            }).catch(error => console.log('url error', error))
+                                    }}>
+                                        <Image source={require('../assets/uspaceLogo.png')}></Image>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{flex:0.1}}></View>
+                        </View>
                 </View>
-                <View style={styles.borderBlackLine,{flex: 0.14, flexDirection: 'row',
+                <View style={styles.borderBlackLine,{flex: 0.01, flexDirection: 'row',
                         zIndex: 1,}}>
                     <TouchableOpacity style={styles.button,{
                         height:HeightScale(50),
@@ -117,10 +395,10 @@ class OverviewMap extends Component {
                         shadowColor: 'black',
                         shadowOpacity: 0.3,
                         marginStart:width < guidelineBaseWidth ? WidthScale(20) : WidthScale(29) ,
-                        marginTop:HeightScale(35),
+                        // marginTop:(height /10)*0,
                     }} 
                     onPress={()=>this.props.navigation.push('OverviewMap')}>
-                    <Text style={styles.borderBlackLine,{marginStart:WidthScale(23),fontSize:16,marginTop:HeightScale(15),color:'black'}}>診所/人力/車位</Text>
+                    <Text style={styles.borderBlackLine,{marginStart:WidthScale(23),fontSize:16,marginTop:HeightScale(15)}}>診所/人力/車位</Text>
                     </TouchableOpacity>
                     <TouchableOpacity id={'foodFilterBtn'} style={styles.button,{
                         height:HeightScale(50),
@@ -131,9 +409,9 @@ class OverviewMap extends Component {
                         shadowColor: 'black',
                         shadowOpacity: 0.3,
                         marginStart:width < guidelineBaseWidth ? WidthScale(10) : WidthScale(15) ,
-                        marginTop:HeightScale(35),
+                        // marginTop:(height /10)*0.5,
                     }} onPress={()=>this.props.navigation.push('Food')}>
-                    <Text style={styles.borderBlackLine,{marginStart:WidthScale(40),color:'white',fontSize:16,marginTop:HeightScale(15)}}>食衣住行</Text>
+                    <Text style={styles.borderBlackLine,{marginStart:WidthScale(40),fontSize:16,marginTop:HeightScale(15),color:'white'}}>食衣住行</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
                         height:HeightScale(50),
@@ -142,13 +420,35 @@ class OverviewMap extends Component {
                         shadowColor: 'black',
                         shadowOpacity: 0.3,
                         marginStart:WidthScale(15),
-                        marginTop:HeightScale(30),
+                        // marginTop:(height /10)*0.5,
                     }} onPress={()=>this.props.navigation.push('FilterStroe')}>
                     <Image source={filterButton_image} style={styles.borderBlackLine,{marginStart:WidthScale(5)}}></Image>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.borderBlackLine,{flex: 0.14, flexDirection: 'row',
                         zIndex: 1,}}>
+                    {this.state.showParkOrder ? (
+                            <TouchableOpacity style={styles.button,{
+                                    backgroundColor:'#4A68E2',
+                                    borderRadius : 50,
+                                    borderWidth : 3,
+                                    borderColor : 'white',
+                                    marginTop : (height / 10) * 6.5 ,
+                                    marginStart : (width / 10) * 3.7,
+                                    height: HeightScale(60),
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    zIndex:1,        
+                                    width:WidthScale(120),
+                                }} onPress={()=>this.OrderUspacePark()}>
+                                    
+                                <Text style={{ 
+                                        color:'white' ,
+                                        fontSize : 18,
+                                        zIndex:1,        
+                                                }}>立即預約</Text>
+                            </TouchableOpacity>
+                    ) :null}
                     {this.state.showDetail ? (
                         <View>
                             <Image
@@ -156,7 +456,7 @@ class OverviewMap extends Component {
                                 style={styles.borderBlackLine,{resizeMode:'cover',
                                         width:WidthScale(415),  
                                         height:height < guidelineBaseHeight ? HeightScale(315) : HeightScale(279),
-                                        marginTop:height < guidelineBaseHeight ? HeightScale(410) : HeightScale(455),
+                                        marginTop:(height/10)*4.6,
                                         marginStart:WidthScale(6) }}>
                             </Image>
                             <Image
@@ -208,7 +508,6 @@ class OverviewMap extends Component {
                                     width:WidthScale(210),
                                     color:'#00606C',
                                     fontSize:20}}>{this.state.title}</Text>
-                                    {/* this.state.title */}
                                 <Text style={styles.borderBlackLine,{marginTop:HeightScale(-10),
                                     marginStart:WidthScale(210),
                                     width:WidthScale(180),
@@ -253,13 +552,13 @@ class OverviewMap extends Component {
                                     width:WidthScale(380),
                                     height:HeightScale(25),
                                     fontSize:15,
-                                    color:'#00606C'}}>{"徵才資訊 : 牙醫助理 1位 /  矯正醫師 1位"}</Text>
+                                    color:'#00606C'}}>{this.state.hireInfo}</Text>
                                 <Text style={styles.borderBlackLine,{marginTop:HeightScale(0),
                                     marginStart:WidthScale(30),
                                     width:WidthScale(380),
                                     height:HeightScale(25),
                                     fontSize:15,
-                                    color:'#00606C'}}>{"官方網站 : https:/abcd.music.com.tw"}</Text>
+                                    color:'#00606C'}}>{this.state.clinicURL}</Text>
                             </View>
                             <TouchableOpacity style={styles.borderBlackLine,{
                                     height: height < guidelineBaseHeight ?  HeightScale(350) : HeightScale(400),
@@ -271,20 +570,26 @@ class OverviewMap extends Component {
                         </View>
                     ) : null}
                 </View>
-                <View style={styles.borderBlackLine,{flex: 5,  
+                <View style={styles.borderBlackLine,{flex: 5.15,
+                        borderWidth:1,  
+                        backgroundColor:'white',
                         flexDirection: 'column', 
-                        height:Dimensions.get('screen').height,
-                        width:width,
+                        // height:Dimensions.get('screen').height*0.8,
+                        // width:width,
                         // marginStart:WidthScale(27),
-                        marginTop:HeightScale(-45),
+                        marginTop:HeightScale(-200),
                         zIndex:0
                         }}>
                     <MapView 
+                        ref = {(ref)=>this.mapView=ref}
                         provider="google"
                         customMapStyle={mapStyle}
+                        onRegionChange = {this.onRegionChange.bind(this)}
+                        onRegionChangeComplete={this.RegionChangeComplete.bind(this)}
+
                         initialRegion={{
-                            latitude: 25.034934,
-                            longitude: 121.522222,
+                            latitude: this.state.mapviewCenter.latitude,
+                            longitude: this.state.mapviewCenter.longitude,
                             latitudeDelta: 0.04,
                             longitudeDelta: 0.05
                         }}
@@ -292,6 +597,48 @@ class OverviewMap extends Component {
                             flexDirection: 'column', 
                             height:Dimensions.get('screen').height,
                             width:width}}>
+                        {this.state.markers.map((marker,index) => (<View>
+                                <Marker coordinate={marker.coordinates} 
+                                    key={index}
+                                    title={this.state.outline == false ? marker.title : null}
+                                    onPress={() => {this.state.outline == false ? this.ClinicOnClick(marker) : null}}
+                                    >
+                                    {marker.education == "北醫" ? ( <Image
+                                        source={this.state.outline == false ? require('../assets/Marker_TaipeiGroup.png') : null}
+                                        style={styles.borderBlackLine,{width:this.state.outline == false ? this.state.TaipeiGroupMarkerSize.width : this.state.markerRadius,
+                                                                        height:this.state.outline == false ? this.state.TaipeiGroupMarkerSize.height : this.state.markerRadius,
+                                                                        zIndex:1,
+                                                                        borderRadius: this.state.outline == true ?  200 : null,
+                                                                        backgroundColor: this.state.outline == true ? '#01C5DE' : null,
+                                                                        borderWidth: this.state.outline == true ? 3 : null,
+                                                                        borderColor: this.state.outline == true ? '#FFFF' : null,
+                                                                        }}
+                                        resizeMode="contain"
+                                    />): marker.type == "park" ?
+                                    (
+                                        <Image
+                                            source={this.state.outline == false ? require('../assets/uspace.png') : null}
+                                            style={{
+                                                width:this.state.normalMarkerSize.width + 10,
+                                                height:this.state.normalMarkerSize.height + 10,
+                                                fontSize:20,
+                                                zIndex:1}}
+                                                resizeMode="contain"
+                                                />
+                                    )
+                                     : 
+                                    (
+                                        <Image
+                                            source={this.state.outline == false ? require('../assets/otherStore.png') : null}
+                                            style={styles.borderBlackLine,{width:this.state.normalMarkerSize.width,height:this.state.normalMarkerSize.height,zIndex:1}}
+                                            resizeMode="contain"
+                                        />
+                                    )
+                                }
+                                </Marker> 
+
+                            </View>
+                            ))}
                     </MapView>
                     
                 </View>
@@ -344,7 +691,7 @@ class OverviewMap extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
-        </ImageBackground>
+        </View>
     );
   }
 }

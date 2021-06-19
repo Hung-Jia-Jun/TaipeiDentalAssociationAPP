@@ -28,7 +28,9 @@ class Page extends Component {
                    
                     <View style={{flex: 0.02,
                                      flexDirection: 'row',}}>
-                        <TextInput style={{marginStart:30,
+                        <TextInput 
+                                returnKeyType='go'
+                                style={{marginStart:30,
                                             paddingHorizontal:30,
                                             marginTop:0,
                                             backgroundColor:'#ECF0F6',

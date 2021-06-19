@@ -323,21 +323,68 @@ class OverviewMap extends Component {
     render() {
 
         return (
-            <ImageBackground  style={styles.borderBlackLine,{flex:1}}>
+            <View  style={styles.borderBlackLine,{flex:1}}>
             <View style={styles.container,{flex: 3, flexDirection: 'column',borderWidth:1,
                                         borderColor:'black'}}>
-                <View style={{flexDirection: 'column',zIndex: 1}}>
+                <View style={{flexDirection: 'column',
+                                zIndex: 1,
+                                flex:0.84,
+                                }}>
                     <Image source={overviewMapTopper_image} style={
-                                        {marginTop: height < guidelineBaseHeight ? HeightScale(-170) : HeightScale(-85),
+                                        {
+                                        marginTop: -(height /10)*1,
                                         resizeMode:'stretch',
                                         width:width}}></Image>
-                    <Text style={{marginStart:WidthScale(65),
-                                    color:'#47DCEF',
-                                    fontSize:28,
-                                    marginTop:height < guidelineBaseHeight ? HeightScale(-180) : HeightScale(-140),
-                                    }}>Hi {global.username}</Text>
+                        <View style={{
+                                        flex:1,
+                                        
+                                        flexDirection:'row',
+                                    }}>
+                            <View style={{flex:0.1,
+                                        }}></View>
+                            <View style={{flex:0.5,
+                                            alignItems:'flex-start'
+                                        }}>
+                                <Text style={{
+                                                justifyContent:'center',
+                                                alignContent:'center',
+                                                color:'#47DCEF',
+                                                flex:0.5,
+                                                fontSize:28,
+                                                height:60,
+                                                marginTop: -(height/10) *1.5,
+                                                }}>Hi {global.username}</Text>
+                            </View>
+                            <View style={{flex:0.5,
+                                        }}></View>
+                            <View style={{flex:0.5,
+                                            alignItems:'flex-end'
+                                        }}>
+                                <TouchableOpacity style={{
+                                        alignItems:'center',
+                                        justifyContent:'center',
+                                        
+                                        height:60,
+                                        width:60,
+                                        marginTop: -(height/10) *1.5,
+                                    }} 
+                                    onPress={()=>{
+                                            let UspaceUrl = "https://uspace.app.link/WDk6EQIyteb";
+                                            Linking.canOpenURL(UspaceUrl).then((supported) => {
+                                                if (!supported) {
+                                                    console.log('Can not handle UspaceUrl:' + UspaceUrl)
+                                                } else {
+                                                    return Linking.openURL(UspaceUrl)
+                                                }
+                                            }).catch(error => console.log('url error', error))
+                                    }}>
+                                        <Image source={require('../assets/uspaceLogo.png')}></Image>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{flex:0.1}}></View>
+                        </View>
                 </View>
-                <View style={styles.borderBlackLine,{flex: 0.14, flexDirection: 'row',
+                <View style={styles.borderBlackLine,{flex: 0.01, flexDirection: 'row',
                         zIndex: 1,}}>
                     <TouchableOpacity style={styles.button,{
                         height:HeightScale(50),
@@ -348,7 +395,7 @@ class OverviewMap extends Component {
                         shadowColor: 'black',
                         shadowOpacity: 0.3,
                         marginStart:width < guidelineBaseWidth ? WidthScale(20) : WidthScale(29) ,
-                        marginTop:HeightScale(35),
+                        // marginTop:(height /10)*0,
                     }} 
                     onPress={()=>this.props.navigation.push('OverviewMap')}>
                     <Text style={styles.borderBlackLine,{marginStart:WidthScale(23),fontSize:16,marginTop:HeightScale(15),color:'white'}}>診所/人力/車位</Text>
@@ -362,7 +409,7 @@ class OverviewMap extends Component {
                         shadowColor: 'black',
                         shadowOpacity: 0.3,
                         marginStart:width < guidelineBaseWidth ? WidthScale(10) : WidthScale(15) ,
-                        marginTop:HeightScale(35),
+                        // marginTop:(height /10)*0.5,
                     }} onPress={()=>this.props.navigation.push('Food')}>
                     <Text style={styles.borderBlackLine,{marginStart:WidthScale(40),fontSize:16,marginTop:HeightScale(15)}}>食衣住行</Text>
                     </TouchableOpacity>
@@ -373,7 +420,7 @@ class OverviewMap extends Component {
                         shadowColor: 'black',
                         shadowOpacity: 0.3,
                         marginStart:WidthScale(15),
-                        marginTop:HeightScale(30),
+                        // marginTop:(height /10)*0.5,
                     }} onPress={()=>this.props.navigation.push('FilterStroe')}>
                     <Image source={filterButton_image} style={styles.borderBlackLine,{marginStart:WidthScale(5)}}></Image>
                     </TouchableOpacity>
@@ -386,7 +433,7 @@ class OverviewMap extends Component {
                                     borderRadius : 50,
                                     borderWidth : 3,
                                     borderColor : 'white',
-                                    marginTop : (height / 10) * 7 ,
+                                    marginTop : (height / 10) * 6.5 ,
                                     marginStart : (width / 10) * 3.7,
                                     height: HeightScale(60),
                                     alignItems:'center',
@@ -409,7 +456,7 @@ class OverviewMap extends Component {
                                 style={styles.borderBlackLine,{resizeMode:'cover',
                                         width:WidthScale(415),  
                                         height:height < guidelineBaseHeight ? HeightScale(315) : HeightScale(279),
-                                        marginTop:height < guidelineBaseHeight ? HeightScale(410) : HeightScale(455),
+                                        marginTop:(height/10)*4.6,
                                         marginStart:WidthScale(6) }}>
                             </Image>
                             <Image
@@ -644,7 +691,7 @@ class OverviewMap extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
-        </ImageBackground>
+        </View>
     );
   }
 }
