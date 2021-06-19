@@ -9,10 +9,21 @@ const addressIcon_image = require('../assets/addressIcon.png');
 
 //TODO 新增診所停車場篩選
 class Page extends Component {
-  render() {
-    const renderItem = ({ item }) => (
-        <Item _this={this} title={item.title} item_image={item.item_image} address = {item.address} status = {item.status} openTime = {item.openTime} />
-    );
+    constructor(props) {
+        super(props);
+        const MemberStoreList = require('../MemberStoreList.json');
+        const ClinicTEL_List = require('../ClinicTEL_List.json');
+        const carParkList = require('../CarParkList.json');
+        this.state={
+            MemberStoreList: MemberStoreList,
+            ClinicTELs : ClinicTEL_List,
+            CarParkMark : carParkList,
+        }
+    }
+    render() {
+        const renderItem = ({ item }) => (
+            <Item _this={this} title={item.title} item_image={item.item_image} address = {item.address} status = {item.status} openTime = {item.openTime} />
+        );
     return (
         <View style={styles.container,{flex: 1, flexDirection: 'column'}}>
                 <View style={{flex: 0.3, flexDirection: 'column'}}>
@@ -56,27 +67,33 @@ class Page extends Component {
                 </View>
                 <View style={{flex: 0.05,
                                 flexDirection: 'column'}}>
-                    <View style={{flex: 0.01, flexDirection: 'row'}}>
+                    <View style={{flex: 0.01,borderWidth:1, flexDirection: 'row'}}>
                         <TouchableOpacity style={{marginTop:0,
+                                                    borderWidth:1,
                                                     marginStart:30,
                                                     zIndex:0,
                                                     width:100,
-                                                    height:40}}>
-                            <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>全部</Text>
+                                                    height:40}}
+                                            onPress={()=>this.loadAll()}>
+                            <Text style={{justifyContent:'center',textAlign:'center',fontSize:15,color:'gray',textAlign:'center'}}>全部</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{marginTop:0,
+                                                    alignItems:'center',
+                                                    borderWidth:1,
                                                     marginStart:0,
                                                     zIndex:0,
                                                     width:100,
                                                     height:40}}>
-                            <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>診所/停車場</Text>
+                            <Text style={{justifyContent:'center',textAlign:'center',fontSize:15,color:'gray',textAlign:'center'}}>診所/停車場</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{marginTop:0,
+                                                    alignItems:'center',
+                                                    borderWidth:1,
                                                     marginStart:3,
                                                     zIndex:0,
                                                     width:100,
                                                     height:40}}>
-                            <Text style={{marginTop:12,fontSize:15,color:'#3FEEEA',textAlign:'center',textAlignVertical:'auto'}}>食衣住行</Text>
+                            <Text style={{justifyContent:'center',textAlign:'center',fontSize:15,color:'#3FEEEA',textAlign:'center'}}>食衣住行</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -152,7 +169,6 @@ class Page extends Component {
                                     source={require('../assets/footerIcon/Profile.png')}></Image>
                     </TouchableOpacity>
                 </View>
-            {/* </ImageBackground> */}
         </View>
     );
   }

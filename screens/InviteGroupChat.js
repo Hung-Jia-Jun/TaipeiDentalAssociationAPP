@@ -53,7 +53,6 @@ class Message extends Component {
                             toggled:false,
                             //可以在好友列表內出現，因為自己的帳號一定要在群組裡面，但又不用出現在好友列表防止選錯
                             visible:true,
-                            //TODO 用戶大頭貼功能要是動態的
                             item_image : require('../assets/MessageIcon.png'),//user[element].userIcon,
                         };
                 if (selfName == user[element].username)
