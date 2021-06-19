@@ -332,7 +332,7 @@ class OverviewMap extends Component {
                                 }}>
                     <Image source={overviewMapTopper_image} style={
                                         {
-                                        marginTop: -(height /10)*1,
+                                        marginTop: (height /10)*0.4,
                                         resizeMode:'stretch',
                                         width:width}}></Image>
                         <View style={{
@@ -395,7 +395,7 @@ class OverviewMap extends Component {
                         shadowColor: 'black',
                         shadowOpacity: 0.3,
                         marginStart:width < guidelineBaseWidth ? WidthScale(20) : WidthScale(29) ,
-                        // marginTop:(height /10)*0,
+                        marginTop:(height /10)*0.32,
                     }} 
                     onPress={()=>this.props.navigation.push('OverviewMap')}>
                     <Text style={styles.borderBlackLine,{marginStart:WidthScale(23),fontSize:16,marginTop:HeightScale(15),color:'white'}}>診所/人力/車位</Text>
@@ -409,7 +409,7 @@ class OverviewMap extends Component {
                         shadowColor: 'black',
                         shadowOpacity: 0.3,
                         marginStart:width < guidelineBaseWidth ? WidthScale(10) : WidthScale(15) ,
-                        // marginTop:(height /10)*0.5,
+                        marginTop:(height /10)*0.32,
                     }} onPress={()=>this.props.navigation.push('Food')}>
                     <Text style={styles.borderBlackLine,{marginStart:WidthScale(40),fontSize:16,marginTop:HeightScale(15)}}>食衣住行</Text>
                     </TouchableOpacity>
@@ -420,7 +420,7 @@ class OverviewMap extends Component {
                         shadowColor: 'black',
                         shadowOpacity: 0.3,
                         marginStart:WidthScale(15),
-                        // marginTop:(height /10)*0.5,
+                        marginTop:(height /10)*0.32,
                     }} onPress={()=>this.props.navigation.push('FilterStroe')}>
                     <Image source={filterButton_image} style={styles.borderBlackLine,{marginStart:WidthScale(5)}}></Image>
                     </TouchableOpacity>
@@ -570,14 +570,13 @@ class OverviewMap extends Component {
                         </View>
                     ) : null}
                 </View>
-                <View style={styles.borderBlackLine,{flex: 5.15,
-                        borderWidth:1,  
+                <View style={{flex: 5.15,
                         backgroundColor:'white',
                         flexDirection: 'column', 
                         // height:Dimensions.get('screen').height*0.8,
                         // width:width,
                         // marginStart:WidthScale(27),
-                        marginTop:HeightScale(-200),
+                        marginTop:HeightScale(-100),
                         zIndex:0
                         }}>
                     <MapView 

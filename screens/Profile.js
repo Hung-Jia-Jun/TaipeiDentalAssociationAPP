@@ -38,7 +38,6 @@ class Page extends Component {
 										height:Dimensions.get('window').height*0.2,
                                         resizeMode:'stretch',
                                         width:Dimensions.get('window').width}}></Image>
-                    
                 </View>
 				<View style={{flex:0.5,
 							flexDirection: 'column',
