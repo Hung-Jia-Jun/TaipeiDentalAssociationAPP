@@ -303,6 +303,13 @@ class OverviewMap extends Component {
     }
     componentDidMount()
     {
+        //從其他頁面要顯示過來的Marker
+        //一般都是從Search那邊過來的
+        var passMarker = this.props.navigation.getParam('passMarker')
+        // if (passMarker!=undefined)
+        // {
+            this.ClinicOnClick(passMarker);
+        // }
         var newbaseMark = [];
         for (var index = 0; index < this.state.baseMarkers.length; index++) 
         {

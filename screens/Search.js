@@ -15,18 +15,82 @@ class Page extends Component {
         const ClinicTEL_List = require('../ClinicTEL_List.json');
         const carParkList = require('../CarParkList.json');
         this.state={
+            showItem : true,
             MemberStoreList: MemberStoreList,
             ClinicTELs : ClinicTEL_List,
             CarParkMark : carParkList,
+
+            //篩選
+            filterShowAll:true,
+            filterClinic:false,
+            filterFood:false,
+            DATA : [
+                // {
+                //     key: '0',
+                //     title: '泰泰茶餐廳 內湖店',
+                //     item_image : require('../assets/Bitmap.png'),
+                //     address:'台北市中山區內湖路一段99號',
+                //     status : '營業中',
+                //     openTime:'下午5:00-下午9:00',
+                // },
+            ]
+        }
+    }
+    componentDidMount()
+    {
+        this.loadAllListData()
+    }
+    loadAllListData()
+    {
+        this.state.MemberStoreList.forEach(e=>{
+            this.state.DATA.push({
+                key:this.state.DATA.length,
+                title : e.title,
+                address : e.detailAddress,
+                item_image : e.education=="北醫"?require('../assets/Marker_TaipeiGroup.png'):require('../assets/otherStore.png'),
+                status : '營業中',
+                openTime : e.opentime,
+                TEL : this.clinicGetTEL(e.title),
+                education : e.education,
+            });
+        })
+
+        //停車位
+        this.state.CarParkMark.forEach(e=>{
+            this.state.DATA.push({
+                key:this.state.DATA.length,
+                title : e.title,
+                address : e.detailAddress,
+                item_image : require('../assets/uspaceLogo.png'),
+                status : '',
+                openTime : '',
+                TEL : '',
+            });
+        })
+        this.setState({
+                        DATA : this.state.DATA,
+                        })
+    }
+
+    //從診所名稱輸出電話
+    clinicGetTEL(clinicName)
+    {
+        var i=0;
+        for (i = 0; i < this.state.ClinicTELs.length; i++) {
+            //找到符合的診所了
+            if (this.state.ClinicTELs[i]["clinicName"] == clinicName)
+            {
+                return this.state.ClinicTELs[i]["TEL"];
+            }
         }
     }
     render() {
         const renderItem = ({ item }) => (
-            <Item _this={this} title={item.title} item_image={item.item_image} address = {item.address} status = {item.status} openTime = {item.openTime} />
+            <Item _this={this} item={item} title={item.title} TEL={item.TEL} item_image={item.item_image} address = {item.address} status = {item.status} openTime = {item.openTime} />
         );
     return (
         <View style={styles.container,{flex: 1, flexDirection: 'column'}}>
-                <View style={{flex: 0.3, flexDirection: 'column'}}>
+                <View style={{flex: 0.07, flexDirection: 'column'}}>
                     <Image source={searchTopper_image} style={styles.image,
                                                                 {zIndex:1,
                                                                     resizeMode:'stretch',
@@ -34,7 +98,7 @@ class Page extends Component {
                                                                     width:Dimensions.get('window').width,
                                                                     marginTop:0}}></Image>
                 </View>
-                <View style={{flex: 0.3,
+                <View style={{flex: 0.05,
                                 flexDirection: 'column'}}>
                    
                     <View style={{flex: 0.02,
@@ -67,52 +131,68 @@ class Page extends Component {
                 </View>
                 <View style={{flex: 0.05,
                                 flexDirection: 'column'}}>
-                    <View style={{flex: 0.01,borderWidth:1, flexDirection: 'row'}}>
+                    <View style={{flex: 1, flexDirection: 'row'}}>
                         <TouchableOpacity style={{marginTop:0,
-                                                    borderWidth:1,
                                                     marginStart:30,
+                                                    alignItems:'center',
                                                     zIndex:0,
+                                                    justifyContent:'center',
                                                     width:100,
                                                     height:40}}
-                                            onPress={()=>this.loadAll()}>
-                            <Text style={{justifyContent:'center',textAlign:'center',fontSize:15,color:'gray',textAlign:'center'}}>全部</Text>
+                                            onPress={()=>{
+                                                    this.setState({filterShowAll:true,filterClinic:false,filterFood:false});
+                                                    this.loadAllListData()}}>
+                            <Text style={{justifyContent:'center',
+                                            textAlign:'center',
+                                            fontSize:15,
+                                            color:this.state.filterShowAll==true?'#3FEEEA':'gray',
+                                            textAlign:'center'}}>全部</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{marginTop:0,
                                                     alignItems:'center',
-                                                    borderWidth:1,
                                                     marginStart:0,
+                                                    justifyContent:'center',
                                                     zIndex:0,
                                                     width:100,
                                                     height:40}}>
-                            <Text style={{justifyContent:'center',textAlign:'center',fontSize:15,color:'gray',textAlign:'center'}}>診所/停車場</Text>
+                            <Text style={{justifyContent:'center',
+                                            textAlign:'center',
+                                            fontSize:15,
+                                            color:this.state.filterClinic==true?'#3FEEEA':'gray',
+                                            textAlign:'center'}}>診所/停車場</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{marginTop:0,
                                                     alignItems:'center',
-                                                    borderWidth:1,
                                                     marginStart:3,
+                                                    justifyContent:'center',
                                                     zIndex:0,
                                                     width:100,
                                                     height:40}}>
-                            <Text style={{justifyContent:'center',textAlign:'center',fontSize:15,color:'#3FEEEA',textAlign:'center'}}>食衣住行</Text>
+                            <Text style={{justifyContent:'center',
+                                            textAlign:'center',
+                                            fontSize:15,
+                                            color:this.state.filterFood==true?'#3FEEEA':'gray',
+                                            textAlign:'center'}}>食衣住行</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={{flex:4, 
+                <View style={{flex:0.735, 
                                 flexDirection: 'column',
                                 }}>
-                    <FlatList
-                        style={{marginTop:60,width:Dimensions.get('window').width,marginStart:0,backgroundColor:'#EBF0F3'}}
+                    {this.state.showItem?
+                        <FlatList
+                        style={{width:Dimensions.get('window').width,marginStart:0,backgroundColor:'#EBF0F3'}}
                         contentContainerStyle={{ marginTop: 0}}
-                        data={DATA}
+                        data={this.state.DATA}
                         renderItem={renderItem}
                         keyExtractor={item => item.key.toString()}
                         />
-
+                    :null}
                 </View>
                 <View style={{flex: 0.01, flexDirection: 'column'}}>
                     <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
                 </View>
-                <View style={{flex: 0.5, flexDirection: 'row',justifyContent:'space-between'}}>
+                <View style={{flex: 0.05, flexDirection: 'row',justifyContent:'space-between'}}>
                     <TouchableOpacity style={styles.button,{
                         height: 50,
                         width:50,justifyContent:'center',
@@ -177,98 +257,81 @@ class Page extends Component {
 
 
 
-const Item = ({ _this,title,item_image,address, status, openTime }) => (
-    <View style={styles.container,{flex: 1, flexDirection: 'row',height:110}}>
-        <ImageBackground style={{marginTop:0,width:Dimensions.get('window').width,height:100,backgroundColor:'white'}}>
-            <View style={{width:Dimensions.get('window').width,height:100}}>
-                <View style={styles.container,{flex: 1, flexDirection: 'row'}}>
-                    <Image source={ item_image } style={{marginStart:15,marginTop:10,width:105,height:70}}></Image>
-                </View>
-                <View style={styles.container,{flex: 0.1, flexDirection: 'column'}}>
-                    <Text style={{
-                        width:230,
-                        height:30,
-                        marginTop: 10,
-                        marginLeft: 130,
-                        fontSize:18,
-                        color:'black'}}>
-                            {title}
-                    </Text>
-                    <Image source={addressIcon_image} 
-                            style={{marginStart:132,width:15,height:15}}>
-                    </Image>
-                    <Text style={{
-                        width:230,
-                        height:30,
-                        marginTop: -15,
-                        marginLeft: 150,
-                        fontSize:12,
-                        color:'black'}}>
-                            {address}
-                    </Text>
-                    <Text style={{
-                        width:230,
-                        height:30,
-                        marginTop: 0,
-                        marginLeft: 130,
-                        fontSize:14,
-                        color:'#3FEEEA'}}>
-                            {status}
-                    </Text>
-                    <Text style={{
-                        width:230,
-                        height:30,
-                        marginTop: -31,
-                        marginLeft: 180,
-                        fontSize:12,
-                        color:'black'}}>
-                            {openTime}
-                    </Text>
-                </View>
-                <TouchableOpacity style={styles.button,{
-                        height: 100,
-                        shadowOffset:{  width: 5,  height: 5},
-                        shadowColor: 'black',
-                        shadowOpacity: 0.01,
+const Item = ({ _this,title,item,item_image,address, status, openTime,TEL }) => (
+        <TouchableOpacity style={{  marginTop:0,
+                        flex: 1,
                         width:Dimensions.get('window').width,
-                        borderColor:'black',
-                        marginStart: 0,
-                        zIndex:0,
-                        marginTop:0,
-                    }} onPress={() => _this.props.navigation.push('Search')}>
-                    </TouchableOpacity>
-            </View> 
-        </ImageBackground>
-    </View>
+                        flexDirection:'row',
+                        height:100,
+                        marginBottom:10,
+                        backgroundColor:'white'}}
+                        onPress={() => _this.props.navigation.push('OverviewMap',{passMarker:item})}>
+            <View style={styles.container,{ 
+                                            flex: 0.2,
+                                            flexDirection: 'row',
+                                            justifyContent:'center',
+                                            alignItems:'center',
+                                            }}>
+                <Image source={ item_image } style={{  
+                                                        width:item.education=="北醫"?80:50,
+                                                        height:item.education=="北醫"?80:50,
+                                                        resizeMode:'contain',
+                                                        }}></Image>
+            </View>
+            <View style={styles.container,{flex: 0.8,flexDirection: 'column'}}>
+                <Text style={{
+                    width:230,
+                    height:30,
+                    marginTop: 10,
+                    fontSize:18,
+                    color:'black'}}>
+                        {title}
+                </Text>
+                <Image source={addressIcon_image} 
+                        style={{marginStart:5,width:15,height:15}}>
+                </Image>
+                <Text style={{
+                    width:230,
+                    height:30,
+                    marginTop: -15,
+                    marginLeft: 20,
+                    fontSize:12,
+                    color:'black'}}>
+                        {address}
+                </Text>
+                <Text style={{
+                    width:230,
+                    height:20,
+                    marginTop: -15,
+                    marginLeft: 20,
+                    fontSize:12,
+                    color:'black'}}>
+                        {TEL}
+                </Text>
+                <Text style={{
+                    width:230,
+                    height:30,
+                    marginTop: 0,
+                    fontSize:14,
+                    color:'#3FEEEA'}}>
+                        {status}
+                </Text>
+                <Text style={{
+                    width:230,
+                    height:30,
+                    marginTop: -31,
+                    marginLeft: 50,
+                    fontSize:12,
+                    color:'black'}}>
+                        {openTime}
+                </Text>
+            </View>
+            
+        </TouchableOpacity>
+    // </View>
 );
 
-const DATA = [
-    {
-        key: '0',
-        title: '泰泰茶餐廳 內湖店',
-        item_image : require('../assets/Bitmap.png'),
-        address:'台北市中山區內湖路一段99號',
-        status : '營業中',
-        openTime:'下午5:00-下午9:00',
-    },
-    {
-        key: '1',
-        title: '好歡樂餐酒館 民生店',
-        item_image : require('../assets/Bitmap2.png'),
-        address:'台北市中山區民生東路五段68號',
-        status : '營業中',
-        openTime:'下午5:00-下午10:00',
-    },
-    {
-        key: '2',
-        title: '情豆花開豆花店 圓環民生店',
-        item_image : require('../assets/Bitmap3.png'),
-        address:'台北市中山區民生東路五段40號',
-        status : '閉業中',
-        openTime:'中午12:00-下午7:30',
-    },
-    
-];
+
 const styles = StyleSheet.create({
     title:{},
     container: {
