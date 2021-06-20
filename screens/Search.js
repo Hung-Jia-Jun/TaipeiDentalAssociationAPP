@@ -59,6 +59,7 @@ class Page extends Component {
                 education : e.education,
                 coordinates : { latitude : e.coordinates.latitude,
                                 longitude : e.coordinates.longitude},
+                type:'clinic',
             });
         })
 
@@ -72,6 +73,9 @@ class Page extends Component {
                 status : '',
                 openTime : '',
                 TEL : '',
+                coordinates : { latitude : e.coordinates.latitude,
+                                longitude : e.coordinates.longitude},
+                type:'park',
             });
         })
         this.setState({

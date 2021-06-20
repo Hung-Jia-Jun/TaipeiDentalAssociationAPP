@@ -329,7 +329,6 @@ class OverviewMap extends Component {
         var passMarker = this.props.navigation.getParam('passMarker');
         if (passMarker!=undefined)
         {
-            console.log(passMarker.coordinates);
             this.ClinicOnClick(passMarker,true);
         }
     }
