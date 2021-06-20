@@ -35,7 +35,7 @@ class OverviewMap extends Component {
             showParkOrder : false,
             detailAddress: "台北市中山區",
             phone : "0225356756",
-            opentime:"",
+            openTime:"",
             status:"營業中",
             hireInfo : "徵才資訊 : 牙醫助理 1位 /  矯正醫師 1位",
             clinicURL : "官方網站 : https:/abcd.music.com.tw",
@@ -285,7 +285,7 @@ class OverviewMap extends Component {
         }
         this.setState({ showDetail: this.state.showDetail,
                         title : marker.title,
-                        opentime : marker.opentime,
+                        openTime : marker.openTime,
                         detailAddress : marker.detailAddress,
                         education : marker.education,
                         phone : phone,

@@ -46,12 +46,14 @@ class Page extends Component {
             this.state.DATA.push({
                 key:this.state.DATA.length,
                 title : e.title,
-                address : e.detailAddress,
+                detailAddress : e.detailAddress,
                 item_image : e.education=="北醫"?require('../assets/Marker_TaipeiGroup.png'):require('../assets/otherStore.png'),
                 status : '營業中',
-                openTime : e.opentime,
+                openTime : e.openTime,
                 TEL : this.clinicGetTEL(e.title),
                 education : e.education,
+                coordinates : { latitude : e.coordinates.latitude,
+                                longitude : e.coordinates.longitude},
             });
         })
 
@@ -60,7 +62,7 @@ class Page extends Component {
             this.state.DATA.push({
                 key:this.state.DATA.length,
                 title : e.title,
-                address : e.detailAddress,
+                detailAddress : e.detailAddress,
                 item_image : require('../assets/uspaceLogo.png'),
                 status : '',
                 openTime : '',
@@ -86,7 +88,7 @@ class Page extends Component {
     }
     render() {
         const renderItem = ({ item }) => (
-            <Item _this={this} item={item} title={item.title} TEL={item.TEL} item_image={item.item_image} address = {item.address} status = {item.status} openTime = {item.openTime} />
+            <Item _this={this} item={item} title={item.title} TEL={item.TEL} item_image={item.item_image} detailAddress = {item.detailAddress} status = {item.status} openTime = {item.openTime} />
         );
     return (
         <View style={styles.container,{flex: 1, flexDirection: 'column'}}>
@@ -257,7 +259,7 @@ class Page extends Component {
 
 
 
-const Item = ({ _this,title,item,item_image,address, status, openTime,TEL }) => (
+const Item = ({ _this,title,item,item_image,detailAddress, status, openTime,TEL }) => (
         <TouchableOpacity style={{  marginTop:0,
                         flex: 1,
                         width:Dimensions.get('window').width,
@@ -265,7 +267,9 @@ const Item = ({ _this,title,item,item_image,address, status, openTime,TEL }) => 
                         height:100,
                         marginBottom:10,
                         backgroundColor:'white'}}
-                        onPress={() => _this.props.navigation.push('OverviewMap',{passMarker:item})}>
+                        onPress={() => {
+                                            _this.props.navigation.push('OverviewMap',{passMarker:item});
+                                        }}>
             <View style={styles.container,{ 
                                             flex: 0.2,
                                             flexDirection: 'row',
@@ -297,7 +301,7 @@ const Item = ({ _this,title,item,item_image,address, status, openTime,TEL }) => 
                     marginLeft: 20,
                     fontSize:12,
                     color:'black'}}>
-                        {address}
+                        {detailAddress}
                 </Text>
                 <Text style={{
                     width:230,

@@ -30,12 +30,12 @@ class OverviewMap extends Component {
         this.state = {
             outline:false,
             region:null,
-            zoomLevel:null,
+            zoomLevel:14,
             showDetail: false,
             showParkOrder : false,
             detailAddress: "台北市中山區",
             phone : "0225356756",
-            opentime:"",
+            openTime:"",
             status:"營業中",
             hireInfo : "徵才資訊 : 牙醫助理 1位 /  矯正醫師 1位",
             clinicURL : "官方網站 : https:/abcd.music.com.tw",
@@ -110,13 +110,20 @@ class OverviewMap extends Component {
         }
         this.setState({region:region,markers:[]});
         //最初始值是14左右，隨著放大會到18
-        try {
-            this.state.zoomLevel = Math.log2(360 * (Dimensions.get('window').width/ 256 / region.longitudeDelta)) + 1
-        } catch (error) {
-            return
-        }
+        this.setState({zoomLevel : Math.log2(360 * (Dimensions.get('window').width/ 256 / region.longitudeDelta)) + 1});
+      
     } 
     RegionChangeComplete(region) {
+        //如果頁面過早載入，Region有機率是Undefined這時就要重建他
+        if (region.latitudeDelta == undefined)
+        {
+            var region={
+                latitude: this.state.mapviewCenter.latitude,
+                longitude: this.state.mapviewCenter.longitude,
+                latitudeDelta: 0.04,
+                longitudeDelta: 0.05
+            };
+        }
         //要做最近距離估算的排序
         var markDistance = {}
         var showKM = (this.state.zoomLevel*(-0.5))+10
@@ -134,6 +141,7 @@ class OverviewMap extends Component {
             showKM = 100;
             showLimit = this.state.zoomLevel * 25
             this.state.markerRadius = 20;
+
             //地圖的上下邊界
             var marginTopLat = region.latitude + region.latitudeDelta
             var marginBottomLat = region.latitude - region.latitudeDelta
@@ -285,7 +293,7 @@ class OverviewMap extends Component {
         }
         this.setState({ showDetail: this.state.showDetail,
                         title : marker.title,
-                        opentime : marker.opentime,
+                        openTime : marker.openTime,
                         detailAddress : marker.detailAddress,
                         education : marker.education,
                         phone : phone,
@@ -293,23 +301,55 @@ class OverviewMap extends Component {
                         clinicURL : this.state.clinicURL,
                         showParkOrder : this.state.showParkOrder,
                     });
-        this.mapView.animateToRegion({ latitude : marker.coordinates.latitude,
-                                        longitude : marker.coordinates.longitude,
-                                        latitudeDelta : this.state.region.latitudeDelta, 
-                                        longitudeDelta : this.state.region.longitudeDelta, 
-                                    }, 0)
+        if (this.state.region==undefined)
+        {
+            this.setState({region:{latitudeDelta : 0.04,
+                                    longitudeDelta : 0.05
+                                    }},()=>{
+                                        this.mapView.animateToRegion({ latitude : marker.coordinates.latitude,
+                                            longitude : marker.coordinates.longitude,
+                                            latitudeDelta : this.state.region.latitudeDelta, 
+                                            longitudeDelta : this.state.region.longitudeDelta, 
+                                        }, 0)
+                                    });
+        }
+        else
+        {
+            this.mapView.animateToRegion({ latitude : marker.coordinates.latitude,
+                                            longitude : marker.coordinates.longitude,
+                                            latitudeDelta : this.state.region.latitudeDelta, 
+                                            longitudeDelta : this.state.region.longitudeDelta, 
+                                        }, 0)
+        }
                     
                     
     }
-    componentDidMount()
+    showPassMarker()
     {
         //從其他頁面要顯示過來的Marker
         //一般都是從Search那邊過來的
-        var passMarker = this.props.navigation.getParam('passMarker')
-        // if (passMarker!=undefined)
-        // {
+        var passMarker = this.props.navigation.getParam('passMarker');
+        if (passMarker!=undefined)
+        {
+            console.log(passMarker.coordinates);
             this.ClinicOnClick(passMarker);
-        // }
+        }
+    }
+    debounce(fun, delay) {
+		return function (args) {
+			let that = this
+			let _args = args
+			// 每次執行的時候重置setTimeout
+			clearTimeout(fun.time)
+			fun.time = setTimeout(function () {
+				// 執行傳入的fun1(透過call方法傳遞參數_args)
+				fun.call(that, _args)
+			}, delay)
+		}
+	}
+    componentDidMount()
+    {
+       
         var newbaseMark = [];
         for (var index = 0; index < this.state.baseMarkers.length; index++) 
         {
@@ -325,7 +365,7 @@ class OverviewMap extends Component {
             park["key"] = this.state.baseMarkers.length + index;
             newbaseMark.push(park);
         }
-        this.setState({baseMarkers : newbaseMark});
+        this.setState({baseMarkers : newbaseMark},()=>this.RegionChangeComplete(this));
     }
     render() {
 
@@ -587,65 +627,74 @@ class OverviewMap extends Component {
                         zIndex:0
                         }}>
                     <MapView 
-                        ref = {(ref)=>this.mapView=ref}
+                        ref = {this.mapRef}
                         provider="google"
                         customMapStyle={mapStyle}
                         onRegionChange = {this.onRegionChange.bind(this)}
                         onRegionChangeComplete={this.RegionChangeComplete.bind(this)}
-
+                       
                         initialRegion={{
                             latitude: this.state.mapviewCenter.latitude,
                             longitude: this.state.mapviewCenter.longitude,
                             latitudeDelta: 0.04,
                             longitudeDelta: 0.05
                         }}
+                        // onMapReady={()=>{
+                        //     console.log("Done");
+                        //     this.RegionChangeComplete(this);
+                        // }}
                         style={styles.borderBlackLine,{
                             flexDirection: 'column', 
                             height:Dimensions.get('screen').height,
                             width:width}}>
-                        {this.state.markers.map((marker,index) => (<View>
-                                <Marker coordinate={marker.coordinates} 
-                                    key={index}
-                                    title={this.state.outline == false ? marker.title : null}
-                                    onPress={() => {this.state.outline == false ? this.ClinicOnClick(marker) : null}}
-                                    >
-                                    {marker.education == "北醫" ? ( <Image
-                                        source={this.state.outline == false ? require('../assets/Marker_TaipeiGroup.png') : null}
-                                        style={styles.borderBlackLine,{width:this.state.outline == false ? this.state.TaipeiGroupMarkerSize.width : this.state.markerRadius,
-                                                                        height:this.state.outline == false ? this.state.TaipeiGroupMarkerSize.height : this.state.markerRadius,
-                                                                        zIndex:1,
-                                                                        borderRadius: this.state.outline == true ?  200 : null,
-                                                                        backgroundColor: this.state.outline == true ? '#01C5DE' : null,
-                                                                        borderWidth: this.state.outline == true ? 3 : null,
-                                                                        borderColor: this.state.outline == true ? '#FFFF' : null,
-                                                                        }}
-                                        resizeMode="contain"
-                                    />): marker.type == "park" ?
-                                    (
-                                        <Image
-                                            source={this.state.outline == false ? require('../assets/uspace.png') : null}
-                                            style={{
-                                                width:this.state.normalMarkerSize.width + 10,
-                                                height:this.state.normalMarkerSize.height + 10,
-                                                fontSize:20,
-                                                zIndex:1}}
-                                                resizeMode="contain"
-                                                />
-                                    )
-                                     : 
-                                    (
-                                        <Image
-                                            source={this.state.outline == false ? require('../assets/otherStore.png') : null}
-                                            style={styles.borderBlackLine,{width:this.state.normalMarkerSize.width,height:this.state.normalMarkerSize.height,zIndex:1}}
+                              
+                        {this.state.markers.map((marker,index) => (
+                                <View>
+                                    <Marker coordinate={marker.coordinates} 
+                                        key={index}
+                                        title={this.state.outline == false ? marker.title : null}
+                                        onPress={() => {this.state.outline == false ? this.ClinicOnClick(marker) : null}}
+                                        >
+                                        {marker.education == "北醫" ? ( <Image
+                                            source={this.state.outline == false ? require('../assets/Marker_TaipeiGroup.png') : null}
+                                            style={styles.borderBlackLine,{width:this.state.outline == false ? this.state.TaipeiGroupMarkerSize.width : this.state.markerRadius,
+                                                                            height:this.state.outline == false ? this.state.TaipeiGroupMarkerSize.height : this.state.markerRadius,
+                                                                            zIndex:1,
+                                                                            borderRadius: this.state.outline == true ?  200 : null,
+                                                                            backgroundColor: this.state.outline == true ? '#01C5DE' : null,
+                                                                            borderWidth: this.state.outline == true ? 3 : null,
+                                                                            borderColor: this.state.outline == true ? '#FFFF' : null,
+                                                                            }}
                                             resizeMode="contain"
-                                        />
-                                    )
-                                }
-                                </Marker> 
+                                        />): marker.type == "park" ?
+                                        (
+                                            <Image
+                                                source={this.state.outline == false ? require('../assets/uspace.png') : null}
+                                                style={{
+                                                    width:this.state.normalMarkerSize.width + 10,
+                                                    height:this.state.normalMarkerSize.height + 10,
+                                                    fontSize:20,
+                                                    zIndex:1}}
+                                                    resizeMode="contain"
+                                                    />
+                                        )
+                                        : 
+                                        (
+                                            <Image
+                                                source={this.state.outline == false ? require('../assets/otherStore.png') : null}
+                                                style={{width:this.state.normalMarkerSize.width,height:this.state.normalMarkerSize.height,zIndex:1}}
+                                                resizeMode="contain"
+                                            />
+                                        )
+                                    }
+                                    </Marker> 
 
-                            </View>
+                                </View>
                             ))}
+                        
+                            
                     </MapView>
+                    
                     
                 </View>
                 <View style={styles.borderBlackLine,{flex: 0.01,zIndex:3, flexDirection: 'column'}}>
