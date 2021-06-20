@@ -24,6 +24,8 @@ class Page extends Component {
             filterShowAll:true,
             filterClinic:false,
             filterFood:false,
+
+            searchString:'',
             DATA : [
                 // {
                 //     key: '0',
@@ -33,7 +35,10 @@ class Page extends Component {
                 //     status : '營業中',
                 //     openTime:'下午5:00-下午9:00',
                 // },
-            ]
+            ],
+
+            //備用的，要顯示所有診所用的篩選
+            baseDATA:[],
         }
     }
     componentDidMount()
@@ -71,6 +76,7 @@ class Page extends Component {
         })
         this.setState({
                         DATA : this.state.DATA,
+                        baseDATA : this.state.DATA,
                         })
     }
 
@@ -86,10 +92,41 @@ class Page extends Component {
             }
         }
     }
+    doSearch()
+    {
+        var searchStr = this.state.searchString.toString();
+        
+        //顯示所有內容，因為搜尋列沒有文字了
+        if (searchStr=='')
+        {
+            this.setState({DATA : this.state.baseDATA});
+        }
+        else
+        {
+            //每次篩選前都要回歸原本的列表，不然可能會找不到
+            this.setState({DATA : this.state.baseDATA},()=>{
+                //要進行篩選的內容
+                var filterData=[]
+                this.state.DATA.forEach(e=>{
+                    //用正則表達式搜尋
+                    var re = searchStr;
+                    var matchArr = e.title.match(re);
+        
+                    //只要matchArr有內容，就代表有這個物件，那就加入新的列表
+                    if (matchArr != null)
+                    {
+                        filterData.push(e);
+                    }
+                });
+                this.setState({DATA : filterData});
+            });
+        }
+    }
     render() {
         const renderItem = ({ item }) => (
             <Item _this={this} item={item} title={item.title} TEL={item.TEL} item_image={item.item_image} detailAddress = {item.detailAddress} status = {item.status} openTime = {item.openTime} />
         );
+    
     return (
         <View style={styles.container,{flex: 1, flexDirection: 'column'}}>
                 <View style={{flex: 0.07, flexDirection: 'column'}}>
@@ -118,6 +155,12 @@ class Page extends Component {
                                             zIndex:2}}
                                 placeholder = '搜尋'
                                 class = 'placeholder'
+                                onChangeText={(text) => {
+                                    // this.setState({searchString:text});
+                                    this.setState({searchString:text},()=>this.doSearch());
+                                }}
+                                // onSubmitEditing = {()=>{this.doSearch()}}
+                                value={this.state.searchString}
                         />    
                         <TouchableOpacity style={{marginTop:0,
                                                     marginStart:20,
