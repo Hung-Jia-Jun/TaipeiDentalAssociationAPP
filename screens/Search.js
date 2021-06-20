@@ -268,7 +268,7 @@ const Item = ({ _this,title,item,item_image,detailAddress, status, openTime,TEL 
                         marginBottom:10,
                         backgroundColor:'white'}}
                         onPress={() => {
-                                            _this.props.navigation.push('OverviewMap',{passMarker:item});
+                                            _this.props.navigation.push('OverviewMap',{passMarker:item,zoomLevel:18});
                                         }}>
             <View style={styles.container,{ 
                                             flex: 0.2,

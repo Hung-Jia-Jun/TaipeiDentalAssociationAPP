@@ -30,7 +30,7 @@ class OverviewMap extends Component {
         this.state = {
             outline:false,
             region:null,
-            zoomLevel:14,
+            zoomLevel:this.props.navigation.getParam('zoomLevel')==undefined?14:this.props.navigation.getParam('zoomLevel'),
             showDetail: false,
             showParkOrder : false,
             detailAddress: "台北市中山區",
@@ -92,7 +92,12 @@ class OverviewMap extends Component {
                 latitude: 25.034934,
                 longitude: 121.522222,
             },
-           
+            region:{
+                latitude: 25.034934,
+                longitude: 121.522222,
+                latitudeDelta: 0.04,
+                longitudeDelta: 0.05
+            },
            
         }
         
@@ -113,19 +118,15 @@ class OverviewMap extends Component {
         this.setState({zoomLevel : Math.log2(360 * (Dimensions.get('window').width/ 256 / region.longitudeDelta)) + 1});
       
     } 
-    RegionChangeComplete(region) {
-        //如果頁面過早載入，Region有機率是Undefined這時就要重建他
-        if (region.latitudeDelta == undefined)
-        {
-            var region={
-                latitude: this.state.mapviewCenter.latitude,
-                longitude: this.state.mapviewCenter.longitude,
-                latitudeDelta: 0.04,
-                longitudeDelta: 0.05
-            };
-        }
+    RegionChangeComplete() {
         //要做最近距離估算的排序
         var markDistance = {}
+
+        //使用完後要清空
+        if (this.props.navigation.getParam('zoomLevel')!=undefined)
+        {
+            this.props.navigation.setParams({zoomLevel: null});
+        }
         var showKM = (this.state.zoomLevel*(-0.5))+10
         showKM = showKM > 3 ? 3 : showKM
         //顯示附近診所數量的限制值
@@ -143,12 +144,12 @@ class OverviewMap extends Component {
             this.state.markerRadius = 20;
 
             //地圖的上下邊界
-            var marginTopLat = region.latitude + region.latitudeDelta
-            var marginBottomLat = region.latitude - region.latitudeDelta
+            var marginTopLat = this.state.region.latitude + this.state.region.latitudeDelta
+            var marginBottomLat = this.state.region.latitude - this.state.region.latitudeDelta
 
             //地圖的左右邊界
-            var marginRightLng = region.longitude + region.longitudeDelta
-            var marginLeftLng = region.longitude - region.longitudeDelta
+            var marginRightLng = this.state.region.longitude + this.state.region.longitudeDelta
+            var marginLeftLng = this.state.region.longitude - this.state.region.longitudeDelta
             
             for (let index = 0; index < showLimit; index++) {
                 const element = this.state.baseMarkers[index];
@@ -173,7 +174,7 @@ class OverviewMap extends Component {
         this.state.outline = false;
         this.state.baseMarkers.map((marker,index) => {
             // √ (a1 - b1)^2 + (a2-b2)^2
-            var distance = Math.sqrt(Math.pow((marker.coordinates.latitude - region.latitude),2) + Math.pow((marker.coordinates.longitude - region.longitude),2))*100
+            var distance = Math.sqrt(Math.pow((marker.coordinates.latitude - this.state.region.latitude),2) + Math.pow((marker.coordinates.longitude - this.state.region.longitude),2))*100
             //依照動態zoom調整顯示範圍
             //y=-0.5x+10
             // 在zoom level 14時，要顯示3公里內的mark
@@ -221,7 +222,7 @@ class OverviewMap extends Component {
             }
             
         })
-        console.log("showKM : " + showKM , region);
+        console.log("showKM : " + showKM , this.state.region);
         console.log("Zoom : " + this.state.zoomLevel);
         this.setState({markers:this.state.markers})
         console.log("marker count : " + this.state.markers.length)
@@ -260,7 +261,7 @@ class OverviewMap extends Component {
             }
         }).catch(err => console.error('An error occurred', err)); 
     }
-    ClinicOnClick = (marker) => {
+    ClinicOnClick = (marker,fromSearchPage) => {
        
         if (marker.type == "park")
         {
@@ -301,27 +302,24 @@ class OverviewMap extends Component {
                         clinicURL : this.state.clinicURL,
                         showParkOrder : this.state.showParkOrder,
                     });
-        if (this.state.region==undefined)
+        
+        //當從搜尋頁面過來時，就要拉近到一個程度，但是日常滑動就要可以自由讓用戶設定縮放大小
+        if (fromSearchPage==false)
         {
-            this.setState({region:{latitudeDelta : 0.04,
-                                    longitudeDelta : 0.05
-                                    }},()=>{
-                                        this.mapView.animateToRegion({ latitude : marker.coordinates.latitude,
+            this.mapRef.animateToRegion({ latitude : marker.coordinates.latitude,
                                             longitude : marker.coordinates.longitude,
-                                            latitudeDelta : this.state.region.latitudeDelta, 
-                                            longitudeDelta : this.state.region.longitudeDelta, 
-                                        }, 0)
-                                    });
+                                            latitudeDelta : this.state.region.latitudeDelta,
+                                            longitudeDelta : this.state.region.longitudeDelta,
+                                        }, 0);
         }
         else
         {
-            this.mapView.animateToRegion({ latitude : marker.coordinates.latitude,
-                                            longitude : marker.coordinates.longitude,
-                                            latitudeDelta : this.state.region.latitudeDelta, 
-                                            longitudeDelta : this.state.region.longitudeDelta, 
-                                        }, 0)
+            this.mapRef.animateToRegion({ latitude : marker.coordinates.latitude,
+                longitude : marker.coordinates.longitude,
+                latitudeDelta : 0.0027820971210203993,
+                longitudeDelta :  0.001419559121131897,
+            }, 0);
         }
-                    
                     
     }
     showPassMarker()
@@ -332,7 +330,7 @@ class OverviewMap extends Component {
         if (passMarker!=undefined)
         {
             console.log(passMarker.coordinates);
-            this.ClinicOnClick(passMarker);
+            this.ClinicOnClick(passMarker,true);
         }
     }
     debounce(fun, delay) {
@@ -366,6 +364,7 @@ class OverviewMap extends Component {
             newbaseMark.push(park);
         }
         this.setState({baseMarkers : newbaseMark},()=>this.RegionChangeComplete(this));
+        this.showPassMarker();
     }
     render() {
 
@@ -627,7 +626,11 @@ class OverviewMap extends Component {
                         zIndex:0
                         }}>
                     <MapView 
-                        ref = {this.mapRef}
+                        // ref = {this.mapRef}
+                        ref={ref => {
+                            this.mapRef = ref
+                        }}
+                        
                         provider="google"
                         customMapStyle={mapStyle}
                         onRegionChange = {this.onRegionChange.bind(this)}
@@ -639,10 +642,11 @@ class OverviewMap extends Component {
                             latitudeDelta: 0.04,
                             longitudeDelta: 0.05
                         }}
-                        // onMapReady={()=>{
-                        //     console.log("Done");
-                        //     this.RegionChangeComplete(this);
-                        // }}
+                        onMapReady={()=>{
+                            console.log("Done");
+                            // this.RegionChangeComplete(this);
+                            this.showPassMarker()
+                        }}
                         style={styles.borderBlackLine,{
                             flexDirection: 'column', 
                             height:Dimensions.get('screen').height,
@@ -653,7 +657,7 @@ class OverviewMap extends Component {
                                     <Marker coordinate={marker.coordinates} 
                                         key={index}
                                         title={this.state.outline == false ? marker.title : null}
-                                        onPress={() => {this.state.outline == false ? this.ClinicOnClick(marker) : null}}
+                                        onPress={() => {this.state.outline == false ? this.ClinicOnClick(marker,false) : null}}
                                         >
                                         {marker.education == "北醫" ? ( <Image
                                             source={this.state.outline == false ? require('../assets/Marker_TaipeiGroup.png') : null}
