@@ -83,7 +83,53 @@ class Page extends Component {
                         baseDATA : this.state.DATA,
                         })
     }
+    loadClinicListData()
+    {
+        this.state.MemberStoreList.forEach(e=>{
+            this.state.DATA.push({
+                key:this.state.DATA.length,
+                title : e.title,
+                detailAddress : e.detailAddress,
+                item_image : e.education=="北醫"?require('../assets/Marker_TaipeiGroup.png'):require('../assets/otherStore.png'),
+                status : '營業中',
+                openTime : e.openTime,
+                TEL : this.clinicGetTEL(e.title),
+                education : e.education,
+                coordinates : { latitude : e.coordinates.latitude,
+                                longitude : e.coordinates.longitude},
+                type:'clinic',
+            });
+        })
 
+        //停車位
+        this.state.CarParkMark.forEach(e=>{
+            this.state.DATA.push({
+                key:this.state.DATA.length,
+                title : e.title,
+                detailAddress : e.detailAddress,
+                item_image : require('../assets/uspaceLogo.png'),
+                status : '',
+                openTime : '',
+                TEL : '',
+                coordinates : { latitude : e.coordinates.latitude,
+                                longitude : e.coordinates.longitude},
+                type:'park',
+            });
+        })
+        this.setState({
+                        DATA : this.state.DATA,
+                        baseDATA : this.state.DATA,
+                        });
+    }
+
+    //只載入食物的內容
+    loadFoodListData()
+    {
+        this.setState({
+            DATA : [],
+            baseDATA : [],
+            });
+    }
     //從診所名稱輸出電話
     clinicGetTEL(clinicName)
     {
@@ -172,7 +218,12 @@ class Page extends Component {
                                                     backgroundColor:'#ECF0F6',
                                                     borderRadius:30,
                                                     width:Dimensions.get('window').width*0.11,
-                                                    height:40}}>
+                                                    height:40}}
+                                                    onPress={()=>{
+                                                                this.setState({searchString:''},()=>this.doSearch());
+                                                                
+                                                            }}
+                                                    >
                             <Text style={{marginTop:12,fontSize:15,color:'gray',textAlign:'center'}}>取消</Text>
                         </TouchableOpacity>
                     </View>                
@@ -203,7 +254,10 @@ class Page extends Component {
                                                     justifyContent:'center',
                                                     zIndex:0,
                                                     width:100,
-                                                    height:40}}>
+                                                    height:40}}
+                                                    onPress={()=>{
+                                                        this.setState({filterShowAll:false,filterClinic:true,filterFood:false});
+                                                        this.loadClinicListData()}}>
                             <Text style={{justifyContent:'center',
                                             textAlign:'center',
                                             fontSize:15,
@@ -216,7 +270,11 @@ class Page extends Component {
                                                     justifyContent:'center',
                                                     zIndex:0,
                                                     width:100,
-                                                    height:40}}>
+                                                    height:40}}
+                                                    onPress={()=>{
+                                                        this.setState({filterShowAll:false,filterClinic:false,filterFood:true});
+                                                        this.loadFoodListData()}}>
+                                                        
                             <Text style={{justifyContent:'center',
                                             textAlign:'center',
                                             fontSize:15,
