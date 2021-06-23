@@ -82,3 +82,8 @@ web-build/
 # @end expo-cli
 android/*
 ios/*
+watchman-v2021.05.17.00-linux/bin/watchman
+watchman-*
+*.log
+yarn.lock
+yarn-error.log

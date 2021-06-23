@@ -155,7 +155,6 @@ class Page extends Component {
 							ref.groupBuyItems = []
 						}
 						var _orderID = new Date().getTime().toString();
-						console.log(_orderID);
 						ref.groupBuyItems.push({
 												seledtedSpec : this.state.seledtedSpec,
 												seledtedAmount : this.state.seledtedAmount,

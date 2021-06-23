@@ -78,6 +78,7 @@ import EditBusinessCard from "./screens/EditBusinessCard";
 import PublishRecruitment from "./screens/PublishRecruitment";
 import PublishRecruitmentHumanSupport from "./screens/PublishRecruitmentHumanSupport";
 import ClinicRecruitmentDetail from "./screens/ClinicRecruitmentDetail";
+import MapDetail from "./screens/MapDetail";
 
 const AppNavigator = createStackNavigator({
 	Index: {
@@ -545,6 +546,13 @@ const AppNavigator = createStackNavigator({
 	},
 	ClinicRecruitmentDetail : {
 		screen: ClinicRecruitmentDetail,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
+	MapDetail : {
+		screen: MapDetail,
 		navigationOptions: {
 			animationEnabled: false,
 			headerShown: false

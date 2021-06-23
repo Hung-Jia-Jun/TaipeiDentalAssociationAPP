@@ -2152,10 +2152,10 @@
   "resolved" "https://registry.npmjs.org/@react-native-firebase/storage/-/storage-12.1.0.tgz"
   "version" "12.1.0"
 
-"@react-native-picker/picker@^1.16.0":
-  "integrity" "sha1-zF0FsNZRRFr6UZxngk2K8+Q/oQw="
-  "resolved" "https://registry.nlark.com/@react-native-picker/picker/download/@react-native-picker/picker-1.16.1.tgz"
-  "version" "1.16.1"
+"@react-native-picker/picker@1.9.11":
+  "integrity" "sha512-E7whvvMIl9Ln1sxgug7OAEVWQ69n82iV0d2OWWp5VV52+RW3azKh1IFm4rxdW5/oByMfl7FFL0eHNelGgY4BMQ=="
+  "resolved" "https://registry.npmjs.org/@react-native-picker/picker/-/picker-1.9.11.tgz"
+  "version" "1.9.11"
 
 "@react-navigation/core@^3.7.9":
   "integrity" "sha1-P3ug/LbI10p3oFc4KvGY2Ex8Tjs="
@@ -6581,6 +6581,13 @@
   "resolved" "https://registry.nlark.com/react-native-dropdown/download/react-native-dropdown-0.0.6.tgz"
   "version" "0.0.6"
 
+"react-native-geojson@^0.1.1":
+  "integrity" "sha1-0DifXWtQNienp/faBYIx5iAXDrE="
+  "resolved" "https://registry.npmjs.org/react-native-geojson/-/react-native-geojson-0.1.1.tgz"
+  "version" "0.1.1"
+  dependencies:
+    "uuid" "3.0.1"
+
 "react-native-gesture-handler@~1.10.2":
   "integrity" "sha1-lCu/KWO79J+nlZNgDunXtdqzz8A="
   "resolved" "https://registry.npm.taobao.org/react-native-gesture-handler/download/react-native-gesture-handler-1.10.3.tgz"
@@ -6609,7 +6616,7 @@
   dependencies:
     "prop-types" "^15.6.0"
 
-"react-native-maps@0.27.1":
+"react-native-maps@>=0.15.2", "react-native-maps@0.27.1":
   "integrity" "sha1-LxDNQXuy/ZOMngFbHJttmxpEuX8="
   "resolved" "https://registry.nlark.com/react-native-maps/download/react-native-maps-0.27.1.tgz"
   "version" "0.27.1"
@@ -6712,7 +6719,7 @@
     "prop-types" "^15.6.0"
     "react-timer-mixin" "^0.13.4"
 
-"react-native@*", "react-native@~0.63.4":
+"react-native@*", "react-native@>=0.40", "react-native@>=0.57", "react-native@~0.63.4":
   "integrity" "sha1-IhD91ATJSl+mtCPG3ob45IgQ7DY="
   "resolved" "https://registry.nlark.com/react-native/download/react-native-0.63.4.tgz"
   "version" "0.63.4"
@@ -6776,7 +6783,7 @@
   "resolved" "https://registry.npm.taobao.org/react-zlib-js/download/react-zlib-js-1.0.5.tgz"
   "version" "1.0.5"
 
-"react@*", "react@16.13.1":
+"react@*", "react@^16.0", "react@>=15.4.0", "react@16.13.1":
   "integrity" "sha1-LoGIIvGpdDEiwGPWQQ2FweOv5I4="
   "resolved" "https://registry.nlark.com/react/download/react-16.13.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact%2Fdownload%2Freact-16.13.1.tgz"
   "version" "16.13.1"
@@ -7941,6 +7948,11 @@
   "integrity" "sha1-gNW1ztJxu5r2xEXyGhoExgbO++I="
   "resolved" "https://registry.nlark.com/uuid/download/uuid-8.3.2.tgz?cache=0&sync_timestamp=1622213399220&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fuuid%2Fdownload%2Fuuid-8.3.2.tgz"
   "version" "8.3.2"
+
+"uuid@3.0.1":
+  "integrity" "sha1-ZUS7ot/ajBzxfmKaOjBeK7H+5sE="
+  "resolved" "https://registry.npmjs.org/uuid/-/uuid-3.0.1.tgz"
+  "version" "3.0.1"
 
 "uuid@7.0.2":
   "integrity" "sha1-f/XCA0Z+kfXg2Fz8uq99LrvKm+Y="

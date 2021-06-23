@@ -325,36 +325,36 @@ const DATA = [
 		item_image : require('../assets/profileIcon/Profile_0.png'),
 		sceneName:'ShoppingCart',
 	},
+	// {
+	// 	key: '1',
+	// 	title: '領取獎勵',
+	// 	item_image : require('../assets/profileIcon/Profile_1.png'),
+    //     sceneName:'ReceiveAward',
+	// },
 	{
 		key: '1',
-		title: '領取獎勵',
-		item_image : require('../assets/profileIcon/Profile_1.png'),
-        sceneName:'ReceiveAward',
-	},
-	{
-		key: '2',
 		title: '修改個人資訊',
 		item_image : require('../assets/profileIcon/Profile_2.png'),
         sceneName:'EditProfile',
 	},
 	{
-		key: '3',
+		key: '2',
 		title: '個人名片',
 		item_image : require('../assets/profileIcon/Profile_3.png'),
         sceneName:'PersonalBusinessCard',
   	},
 	{
-		key: '4',
+		key: '3',
 		title: '我的收藏',
 		item_image : require('../assets/profileIcon/Profile_4.png'),
         sceneName:'MyFavourite',
 	},
-	{
-		key: '5',
-		title: '我的商場',
-		item_image : require('../assets/profileIcon/Profile_5.png'),
-        sceneName:'MyStore',
-	},
+	// {
+	// 	key: '4',
+	// 	title: '我的商場',
+	// 	item_image : require('../assets/profileIcon/Profile_5.png'),
+    //     sceneName:'MyStore',
+	// },
 	
 ];
 const Item = ({ _this,title,item_image,sceneName }) => (

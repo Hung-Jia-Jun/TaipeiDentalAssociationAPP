@@ -84,7 +84,8 @@ class Index extends Component {
 
 				global.clinic = user.clinic;
 				global.clinicAddr = user.clinicAddr;
-				this.props.navigation.push('OverviewMap');
+				this.props.navigation.push('HightStoreMaps');
+				// this.props.navigation.push('OverviewMap');
 			}
 		} else {
 			Alert.alert("帳號或密碼錯誤");

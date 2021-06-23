@@ -10,6 +10,15 @@ const footer_image = require('../assets/Footer.png');
 const arrow_image = require('../assets/arrow.png');
 const MapDetail = require('../assets/MapDetail.png');
 const MapDetail_clinic = require('../assets/MapDetail_clinic.png');
+import * as firebase from 'firebase';
+const appConfig = require('../app.json');
+const config = {
+	databaseURL : appConfig.databaseURL,
+}
+if (!firebase.apps.length) {
+	firebase.initializeApp(config);
+}
+const database = firebase.database();
 
 //iphone 12 pro max 
 const guidelineBaseWidth = 428
@@ -33,10 +42,10 @@ class OverviewMap extends Component {
             zoomLevel:this.props.navigation.getParam('zoomLevel')==undefined?14:this.props.navigation.getParam('zoomLevel'),
             showDetail: false,
             showParkOrder : false,
-            detailAddress: "台北市中山區",
-            phone : "0225356756",
+            detailAddress: "",
+            phone : "",
             openTime:"",
-            status:"營業中",
+            status:"",
             hireInfo : "徵才資訊 : 牙醫助理 1位 /  矯正醫師 1位",
             clinicURL : "官方網站 : https:/abcd.music.com.tw",
             education:"",
@@ -50,6 +59,7 @@ class OverviewMap extends Component {
                 width:32,
                 height:40
             },
+            Like:false,
             baseMarkers: MemberStoreList,
             markers: [],
             markerRadius: null,
@@ -118,6 +128,38 @@ class OverviewMap extends Component {
         this.setState({zoomLevel : Math.log2(360 * (Dimensions.get('window').width/ 256 / region.longitudeDelta)) + 1});
       
     } 
+    onClickLike()
+    {
+        var dbRef = database.ref();
+
+        //代表原本沒有收藏，現在要收藏了
+        if (this.state.Like == false)
+        {
+            //加入該用戶的收藏清單
+            dbRef.child("user").child(global.username).child('favoritesLi').push({
+                    clinicName : this.state.title,
+                    type:'clinic',
+            });
+        }
+        else
+        {
+            //TODO 要做切換到其他診所後，回到剛剛收藏的診所時，能自動顯示目前收藏狀態的功能
+            var _favoritesLi=[]
+            dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+                var favoritesLi = result.val();
+                Object.keys(favoritesLi).forEach(key=>{
+                    if (favoritesLi[key].clinicName == this.state.title)
+                    {
+                        dbRef.child("user").child(global.username).child('favoritesLi').child(key).remove();
+                    }
+                });
+            },()=>console.log(_favoritesLi));
+            
+            // Object.values(favoritesLi).forEach(element => {
+            // });
+        }
+        this.setState({Like:!this.state.Like})
+    }
     RegionChangeComplete() {
         //要做最近距離估算的排序
         var markDistance = {}
@@ -299,6 +341,7 @@ class OverviewMap extends Component {
                         education : marker.education,
                         phone : phone,
                         hireInfo : this.state.hireInfo,
+                        Like: false,
                         clinicURL : this.state.clinicURL,
                         showParkOrder : this.state.showParkOrder,
                     });
@@ -496,14 +539,17 @@ class OverviewMap extends Component {
                     ) :null}
                     {this.state.showDetail ? (
                         <View>
-                            <Image
-                                source={MapDetail_clinic}
-                                style={styles.borderBlackLine,{resizeMode:'cover',
-                                        width:WidthScale(415),  
-                                        height:height < guidelineBaseHeight ? HeightScale(315) : HeightScale(279),
-                                        marginTop:(height/10)*4.6,
-                                        marginStart:WidthScale(6) }}>
-                            </Image>
+                            <View style={{}}>
+                                <Image
+                                    source={MapDetail_clinic}
+                                    style={{resizeMode:'contain',
+                                            padding:20,
+                                            height:height < guidelineBaseHeight ? HeightScale(315) : HeightScale(279),
+                                            marginTop:(height/10)*4.6,
+                                            width:width,
+                                            }}>
+                                </Image>
+                            </View>
                             <Image
                                 source={this.state.DetailImage}
                                 style={styles.borderBlackLine,{marginTop:height < guidelineBaseHeight ?  HeightScale(-230) : HeightScale(-200),
@@ -519,34 +565,102 @@ class OverviewMap extends Component {
                                     <TouchableOpacity style={styles.borderBlackLine,{marginTop:HeightScale(-102),
                                                                                     marginStart:WidthScale(210),
                                                                                     width:WidthScale(80),
+                                                                                    justifyContent:'center',
+                                                                                    flexDirection:'row',
+                                                                                    alignItems:'center',
+                                                                                    backgroundColor:'#FFF',
+                                                                                    borderRadius:10,
                                                                                     height:HeightScale(35)}}
                                                         onPress={() => this.callToGoogleMapNavigation()}>
-                                        <Text style={styles.borderBlackLine,{marginTop:height < guidelineBaseHeight ? HeightScale(-25) : HeightScale(12),
-                                                                            marginStart:width < guidelineBaseWidth ? WidthScale(27) : WidthScale(30),
-                                                                            fontSize:16,
+                                        <Image source={require('../assets/navIcon.png')}
+                                                style={{
+                                                    height:25,
+                                                    width:25,
+                                                    resizeMode:'stretch',
+                                                }}
+                                                ></Image>
+                                        <Text style={styles.borderBlackLine,{
+                                                                           fontSize:16,
+                                                                            textAlign:'center',
                                                                             color:'#47DCEF'}}>導航</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.borderBlackLine,{marginTop:HeightScale(-102),
-                                                                marginStart:WidthScale(5),
-                                                                width:WidthScale(80),
-                                                                height:HeightScale(35),
-                                                                }}
-                                                        onPress={() => this.callTELToClinic()}
-                                                        >
-                                        <Text style={styles.borderBlackLine,{marginTop:height < guidelineBaseHeight ? HeightScale(-25) : HeightScale(12),
-                                                                            marginStart:width < guidelineBaseWidth ? WidthScale(30) : WidthScale(40),
+                                    {this.state.phone=="尚未提供電話"?null:
+                                        <TouchableOpacity style={styles.borderBlackLine,{marginTop:HeightScale(-102),
+                                                                    marginStart:WidthScale(5),
+                                                                    width:WidthScale(80),
+                                                                    backgroundColor:'#FFF',
+                                                                    justifyContent:'center',
+                                                                    flexDirection:'row',
+                                                                    alignItems:'center',
+                                                                    borderRadius:10,
+                                                                    height:HeightScale(35),
+                                                                    }}
+                                                            onPress={() => this.callTELToClinic()}
+                                                            >
+                                            <Image source={require('../assets/phoneIcon.png')}
+                                                    style={{
+                                                        height:25,
+                                                        width:25,
+                                                        resizeMode:'stretch',
+                                                    }}
+                                                    ></Image>
+                                            <Text style={styles.borderBlackLine,{
                                                                             fontSize:16,
-                                                                            color:'#47DCEF'}}>電話</Text>
+                                                                                textAlign:'center',
+                                                                                color:'#47DCEF'}}>致電</Text>
+                                        </TouchableOpacity>
+                                    }
+                                </View>
+                                <View style={{
+                                    marginTop:height < guidelineBaseHeight ?  HeightScale(-110) : HeightScale(-75),
+                                    justifyContent:'center',
+                                    flexDirection:'row',
+                                    alignItems:'center',
+                                    backgroundColor:'#FFF',
+                                    borderRadius:10,
+                                    height:HeightScale(20),
+                                    width: WidthScale(80), 
+                                    marginStart: width < guidelineBaseWidth ? WidthScale(30) :  WidthScale(23),
+                                }}>
+                                    <Text style={{
+                                                    textAlign:'center',
+                                                    fontSize:15,
+                                                    color:'#00606C'}}>{this.state.education}</Text>
+                                </View>
+                                <View style={{
+                                }}>
+                                    <TouchableOpacity style={{
+                                        height:50,
+                                        width:50,
+                                        marginStart: width < guidelineBaseWidth ? WidthScale(30) :  WidthScale(105),
+                                        marginTop:height < guidelineBaseHeight ?  HeightScale(-110) : HeightScale(-35),
+                                        justifyContent:'center',
+                                    }}
+                                    onPress={()=>this.onClickLike()}
+                                    >
+                                        <View style={{
+                                            alignItems:'center',
+                                        }}>
+                                            {this.state.Like==false?
+                                                <Image source={require('../assets/Like_null.png')}
+                                                        style={{
+                                                            width:30,
+                                                            height:30,
+                                                            resizeMode:'contain',
+                                                        }}
+                                                        ></Image>
+                                            :
+                                                <Image source={require('../assets/Like.png')}
+                                                style={{
+                                                    width:30,
+                                                    height:30,
+                                                    resizeMode:'contain',
+                                                }}
+                                                ></Image>
+                                            }
+                                        </View>
                                     </TouchableOpacity>
                                 </View>
-                                <Text style={{marginTop:height < guidelineBaseHeight ?  HeightScale(-110) : HeightScale(-75),
-                                                textAlign:'center',
-                                                marginStart: width < guidelineBaseWidth ? WidthScale(30) :  WidthScale(23),
-                                                fontSize:15,
-                                                height:HeightScale(20),
-                                                width: WidthScale(80), 
-                                                color:'#00606C'}}>{this.state.education}</Text>
-
                                 <Text style={styles.borderBlackLine,{marginTop:HeightScale(20),
                                     marginStart:WidthScale(187),
                                     height:HeightScale(50),
