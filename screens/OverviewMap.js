@@ -129,22 +129,23 @@ class OverviewMap extends Component {
       
     } 
     onClickLike()
-    {
+    {              
         var dbRef = database.ref();
 
         //代表原本沒有收藏，現在要收藏了
         if (this.state.Like == false)
         {
-            //加入該用戶的收藏清單
+            //加入該用戶的收藏清單  
             dbRef.child("user").child(global.username).child('favoritesLi').push({
                     clinicName : this.state.title,
+                    education : this.state.education,
+                    address : this.state.detailAddress,
+                    phone : this.state.phone,
                     type:'clinic',
             });
         }
         else
         {
-            //TODO 要做切換到其他診所後，回到剛剛收藏的診所時，能自動顯示目前收藏狀態的功能
-            var _favoritesLi=[]
             dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
                 var favoritesLi = result.val();
                 Object.keys(favoritesLi).forEach(key=>{
@@ -153,7 +154,7 @@ class OverviewMap extends Component {
                         dbRef.child("user").child(global.username).child('favoritesLi').child(key).remove();
                     }
                 });
-            },()=>console.log(_favoritesLi));
+            });
             
             // Object.values(favoritesLi).forEach(element => {
             // });
@@ -334,10 +335,25 @@ class OverviewMap extends Component {
             this.state.showParkOrder = false;
 
         }
+
+        //負責顯示這間診所是否為收藏狀態的控制
+        var clinicFavorites = false;
+        var dbRef = database.ref();
+        dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+            var favoritesLi = result.val();
+            console.log(favoritesLi);
+            Object.keys(favoritesLi).forEach(key=>{
+                if (favoritesLi[key].clinicName == marker.title)
+                {
+                    this.setState({ Like : true});
+                }
+            });
+        });
+
         this.setState({ showDetail: this.state.showDetail,
                         title : marker.title,
                         openTime : marker.openTime,
-                        detailAddress : marker.detailAddress,
+                        detailAddress : marker.detailAddress,        
                         education : marker.education,
                         phone : phone,
                         hireInfo : this.state.hireInfo,
