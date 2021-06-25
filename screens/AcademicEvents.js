@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View, Alert } from "react-native";
-import * as firebase from 'firebase';
 import Swiper from 'react-native-swiper'
+import * as firebase from 'firebase';
 
 const appConfig = require('../app.json');
 const config = {

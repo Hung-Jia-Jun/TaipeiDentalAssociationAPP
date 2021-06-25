@@ -1,7 +1,16 @@
 import React, { Component } from "react";
-import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import { Dimensions,StyleSheet,Image,Alert,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 import Swiper from 'react-native-swiper'
+import * as firebase from 'firebase';
 
+const appConfig = require('../app.json');
+const config = {
+	databaseURL : appConfig.databaseURL,
+}
+if (!firebase.apps.length) {
+	firebase.initializeApp(config);
+}
+const database = firebase.database();
 
 
 
@@ -26,11 +35,89 @@ class Page extends Component {
 		super(props);
 		this.state = {
 			DATA : [],
+            Like : false,
             showDetail : false,
 		}
 	}
+    signUpEvent=(title,date) =>
+    {
+        var signUpEventRef = database.ref('/signUpEvent');
+        
+        //控制是否報名的變數
+        var haveSign = false;
+        signUpEventRef.once('value', function (snapshot) {
+			var i=0;
+			snapshot.forEach((childSnapshot) => {
+                if (haveSign)
+                {
+                    return;
+                }
+                //檢查有沒有報名過
+                if (global.username == childSnapshot.val().user && 
+                        date == childSnapshot.val().date &&
+                        title == childSnapshot.val().title)
+                {
+                    haveSign = true;
+                }
+			});
+            if (haveSign==false)
+            {
+                signUpEventRef.push({
+                    "user" : global.username,
+                    "title" : title,
+                    "date" : date,
+                });
+                Alert.alert(
+                        "學術活動報名",
+                        "\n" + title + " \n\n日期" + date + "\n\n報名成功!!");
+            }
+            else
+            {
+                Alert.alert(
+                    "學術活動報名",
+                    "\n" + title + " \n\n日期" + date + "\n\n您已報名過此活動\n請準時參加謝謝！");
+            }
+            
+        });
+    }
+    onClickLike()
+    {              
+        var dbRef = database.ref();
+
+        //代表原本沒有收藏，現在要收藏了
+        if (this.state.Like == false)
+        {
+            //加入該用戶的收藏清單  
+            dbRef.child("user").child(global.username).child('favoritesLi').push({
+                    description:this.state.DATA[0].description,
+                    item_image :this.state.DATA[0].item_image,
+                    subTitle :this.state.DATA[0].subTitle,
+                    date :this.state.DATA[0].date,
+                    title :this.state.DATA[0].title,
+                    type:'academicEvent',
+            });
+        }
+        else
+        {
+            dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+                var favoritesLi = result.val();
+                Object.keys(favoritesLi).forEach(key=>{
+                    if (favoritesLi[key].type=='academicEvent')
+                    {
+                        if (favoritesLi[key].title == this.state.DATA[0].title)
+                        {
+                            dbRef.child("user").child(global.username).child('favoritesLi').child(key).remove();
+                        }
+                    }
+                });
+            });
+        }
+        this.setState({Like:!this.state.Like})
+    }
     componentDidMount()
     {
+        var dbRef = database.ref();
+
         var _DATA = [];
         _DATA = [
             {
@@ -39,9 +126,23 @@ class Page extends Component {
                 item_image : this.props.navigation.getParam('subPageImage'),
                 subTitle : this.props.navigation.getParam('subTitle'),
                 date : this.props.navigation.getParam('date'),
+                title : this.props.navigation.getParam('title'),
             }
         ];
-        this.setState({DATA:_DATA , showDetail:true});
+        this.setState({DATA:_DATA , showDetail:true},()=>{
+            dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+                var favoritesLi = result.val();
+                Object.keys(favoritesLi).forEach(key=>{
+                    if (favoritesLi[key].type=='academicEvent')
+                    {
+                        if (favoritesLi[key].title == this.state.DATA[0].title)
+                        {
+                            this.setState({Like:true});
+                        }
+                    }
+                });
+            });
+        });
     }
     showScrollImage = (_this) => {
         const imageScrollViews = [];
@@ -66,7 +167,7 @@ class Page extends Component {
     }
    render() {
 	const renderItem = ({ item }) => (
-		<Item _this={this} date={item.date} endDate={item.endDate} description={item.description} location={item.location} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
+		<Item _this={this} date={item.date} item={item} endDate={item.endDate} description={item.description} location={item.location} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
 	);
     return (
         <View style={{flex: 3, flexDirection: 'column'}}>
@@ -136,7 +237,50 @@ class Page extends Component {
             </View>
             <View style={{flex: 0.5,
                             flexDirection: 'row',
+                            backgroundColor:'#43D1E3',
                             justifyContent:'space-between'}}>
+                <TouchableOpacity style={styles.button,{
+                    flex:0.2,
+                    justifyContent:'center',
+                    alignItems:'center',
+                    // marginStart: Dimensions.get('window').width*0.051,
+                    backgroundColor:'#FFF',
+                }} onPress={()=>this.onClickLike()}>
+                    {this.state.Like==true?
+                        <Image source={require('../assets/GrayLike_Fill.png')}
+                        style={{
+                                resizeMode:'stretch',
+                                width:45,
+                                height:45,
+                            }}
+                        ></Image>
+                    :
+                        <Image source={require('../assets/GrayLike.png')}
+                                style={{
+                                        resizeMode:'stretch',
+                                        width:45,
+                                        height:45,
+                                    }}
+                        ></Image>
+                    }
+                </TouchableOpacity> 
+                <TouchableOpacity style={styles.button,{
+                    flex:0.9,
+                    justifyContent:'center',
+                    alignItems:'center',
+                    marginStart: Dimensions.get('window').width*0.03,
+                }} onPress={()=>this.signUpEvent(this.state.DATA[0].title,this.state.DATA[0].date)}>
+                    <Text style={{
+                                position: 'absolute',
+                                justifyContent:'center',
+                                // marginTop: Dimensions.get('window').height*0,
+                                // marginStart: Dimensions.get('window').width*0,
+                                fontSize:18,
+                                color:'white'
+                                }}>
+                                    立即報名
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -144,7 +288,7 @@ class Page extends Component {
 }
 
 
-const Item = ({ _this,title,date,item_image,sceneName,description }) => (
+const Item = ({ _this,item,date,item_image,sceneName,description }) => (
          <View style={{flex: 5,
             marginStart:Dimensions.get('window').width*0.02,
             width:Dimensions.get('window').width*0.95,
@@ -163,7 +307,7 @@ const Item = ({ _this,title,date,item_image,sceneName,description }) => (
                             width:Dimensions.get('window').width*0.9,
                             color:'black'
                             }}>
-                                {title}
+                                {item.subTitle}
                 </Text>
                 <Text style={{
                             position: 'absolute',
@@ -191,7 +335,6 @@ const Item = ({ _this,title,date,item_image,sceneName,description }) => (
                                     {description}
                     </Text>
                 </View>
-             
         </View>
 
 );
