@@ -49,12 +49,12 @@ class Page extends Component {
 			showDescription:true,
 			showModelInfo:false,
 			showSpecInfo:false,
+			Like : false,
 		}
 	}
 	componentDidMount()
 	{
-		this.setState({});
-
+        var dbRef = database.ref();
 		var _DATA = [];
 		_DATA = [{
 					key: '0',
@@ -67,13 +67,26 @@ class Page extends Component {
 					//規格資訊
 					specInfo : this.props.navigation.getParam('specInfo'),
 				}];
-				this.setState({	DATA:_DATA ,
-								price : this.props.navigation.getParam('price'),
-								spec : this.props.navigation.getParam('spec'),
-								amount : this.props.navigation.getParam('amount'),
-								name : this.props.navigation.getParam('name'),
-								item_image : this.props.navigation.getParam('image'), 
-								showDetail:true});
+		this.setState({	DATA:_DATA ,
+						name : this.props.navigation.getParam('name'),
+						price : this.props.navigation.getParam('price'),
+						item_image : this.props.navigation.getParam('image'), 
+						spec : this.props.navigation.getParam('spec'),
+						amount : this.props.navigation.getParam('amount'),
+						showDetail:true},()=>{
+							dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+								var favoritesLi = result.val();
+								Object.keys(favoritesLi).forEach(key=>{
+									if (favoritesLi[key].type=='dentalProcurement')
+									{
+										if (favoritesLi[key].name == this.state.name)
+										{
+											this.setState({Like:true});
+										}
+									}
+								});
+							});
+						});
 	}
 	setSelectedAmount (value)
 	{
@@ -101,8 +114,38 @@ class Page extends Component {
 		});
 		return imageScrollViews;
 	}
-	
-	
+	onClickLike()
+    {              
+        var dbRef = database.ref();
+
+        //代表原本沒有收藏，現在要收藏了
+        if (this.state.Like == false)
+        {
+            //加入該用戶的收藏清單  
+            dbRef.child("user").child(global.username).child('favoritesLi').push({
+					name : this.state.name,
+					price : this.state.price,
+					item_image : this.state.item_image,
+                    type:'dentalProcurement',
+            });
+        }
+        else
+        {
+            dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+                var favoritesLi = result.val();
+                Object.keys(favoritesLi).forEach(key=>{
+                    if (favoritesLi[key].type=='dentalProcurement')
+                    {
+                        if (favoritesLi[key].name == this.state.name)
+                        {
+                            dbRef.child("user").child(global.username).child('favoritesLi').child(key).remove();
+                        }
+                    }
+                });
+            });
+        }
+        this.setState({Like:!this.state.Like})
+    }
 	showSpecBtn = (_this) => {
 		const scrollView = [];
 		var i = 0;
@@ -246,20 +289,59 @@ class Page extends Component {
 								flex:1,
 								marginTop:0,
 								}}>
-					<View style={{flexDirection:'row',flex:0.25}}>
-						<Text style={{
-							fontSize:14,
-							marginTop:8,
-							marginStart:35,
-							color:'#3BD2E4'}}>
-								$
-						</Text>
-						<Text style={{
-							fontSize:23,
-							marginStart:5,
-							color:'#3BD2E4'}}>
-								{this.state.price}
-						</Text>
+					<View style={{	flexDirection:'row',
+									flex:0.30}}>
+						<View style={{
+							flex:0.8,
+						}}>
+							<Text style={{
+								fontSize:14,
+								marginTop:8,
+								marginStart:35,
+								color:'#3BD2E4'}}>
+									$
+								<Text style={{
+									fontSize:23,
+									marginTop:5,
+									marginStart:5,
+									color:'#3BD2E4'}}>
+										{this.state.price}
+								</Text>
+							</Text>
+						</View>
+						<View style={{
+							flex:0.2,
+							flexDirection:'column',
+                                }}>
+							<TouchableOpacity style={{
+								flex:1,
+								justifyContent:'center',
+							}}
+							onPress={()=>this.onClickLike()}
+							>
+								<View style={{
+									alignItems:'center',
+								}}>
+									{this.state.Like==true?
+										<Image source={require('../assets/GrayLike_Fill.png')}
+										style={{
+												resizeMode:'stretch',
+												width:35,
+												height:35,
+											}}
+										></Image>
+									:
+										<Image source={require('../assets/GrayLike.png')}
+												style={{
+														resizeMode:'stretch',
+														width:35,
+														height:35,
+													}}
+										></Image>
+									}
+								</View>
+							</TouchableOpacity>
+						</View>
 					</View>
 					<Text style={{
 						flex:0.2,

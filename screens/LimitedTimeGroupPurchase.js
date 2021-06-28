@@ -34,6 +34,7 @@ class Message extends Component {
 		this.state = {
 			showFilterList:false,
 			DATA : [],
+			Like : false,
 		}
 	}
 
@@ -57,6 +58,7 @@ class Message extends Component {
                                 sceneName : childSnapshot.val().sceneName,
                                 modelInfo  : childSnapshot.val().modelInfo,
                                 specInfo  : childSnapshot.val().specInfo,
+								Like : false,
 									})
 				i+=1;
 			});
@@ -84,10 +86,49 @@ class Message extends Component {
         })
         return imageScrollViews;
     }
+	onClickLike(item)
+    {              
+        var dbRef = database.ref();
+
+        //代表原本沒有收藏，現在要收藏了
+        if (item.Like == false)
+        {
+            //加入該用戶的收藏清單  
+            dbRef.child("user").child(global.username).child('favoritesLi').push({
+					name : item.name,
+					price : item.price,
+					image : item.image,
+                    type:'dentalProcurement',
+            });
+        }
+        else
+        {
+            dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+                var favoritesLi = result.val();
+                Object.keys(favoritesLi).forEach(key=>{
+                    if (favoritesLi[key].type=='dentalProcurement')
+                    {
+                        if (favoritesLi[key].name == item.name)
+                        {
+                            dbRef.child("user").child(global.username).child('favoritesLi').child(key).remove();
+                        }
+                    }
+                });
+            });
+        }
+		this.state.DATA.forEach(e=>{
+			if (e.name == item.name)
+			{
+				e.Like=true;
+			}
+		})
+		this.setState({DATA:this.state.DATA});
+    }
 	render() {
 		const renderItem = ({ item }) => (
 			<Item   _this={this} 
                     name = {item.name}
+					item = {item}
                     price = {item.price}
                     amount = {item.amount}
                     manufacturerInformation = {item.manufacturerInformation}
@@ -278,6 +319,7 @@ class Message extends Component {
 
 
 const Item = ({ _this,
+				item,
                 name,
                 price,
                 amount,
@@ -306,7 +348,7 @@ const Item = ({ _this,
                             shadowOffset:{  width:WidthScale(0),  height:HeightScale(5)},
                             shadowColor: 'black',
                             shadowOpacity: 0.1,
-                            borderRadius:5,
+                            borderRadius:10,
                             marginEnd:8,
                             marginBottom:10,
                             flex:1,
@@ -325,22 +367,59 @@ const Item = ({ _this,
                 <View style={styles.container,{flex: 0.2, 
                                                 flexDirection: 'column',
                                                 backgroundColor:'#F4F9FD',
-                                                padding:10,
+                                                paddingLeft:20,
+                                                paddingBottom:20,
                                                 justifyContent:'center',
-                                                borderRadius:5,
+                                                borderBottomRightRadius:10,
+                                                borderBottomLeftRadius:10,
                                                 }}>
                     <View style={{flexDirection:'row'}}>
-                        <Text style={{
-                            fontSize:14,
-                            marginTop:8,
-                            color:'#3BD2E4'}}>
-                                $
-                        </Text>
-                        <Text style={{
-                            fontSize:23,
-                            color:'#3BD2E4'}}>
-                                {price}
-                        </Text>
+                        <View style={{flex:0.65}}>
+							<Text style={{
+								fontSize:14,
+								marginTop:8,
+								color:'#3BD2E4'}}>
+									$
+								<Text style={{
+									fontSize:23,
+									color:'#3BD2E4'}}>
+										{price}
+								</Text>
+							</Text>
+						</View>
+						<View style={{
+							flex:0.3,
+							flexDirection:'column',
+                                }}>
+							<TouchableOpacity style={{
+								flex:1,
+								justifyContent:'center',
+							}}
+							onPress={()=>_this.onClickLike(item)}
+							>
+								<View style={{
+									alignItems:'center',
+								}}>
+									{item.Like==true?
+										<Image source={require('../assets/GrayLike_Fill.png')}
+										style={{
+												resizeMode:'stretch',
+												width:25,
+												height:25,
+											}}
+										></Image>
+									:
+										<Image source={require('../assets/GrayLike.png')}
+												style={{
+														resizeMode:'stretch',
+														width:25,
+														height:25,
+													}}
+										></Image>
+									}
+								</View>
+							</TouchableOpacity>
+						</View>
                     </View>
                     <Text style={{
                         fontSize:17,

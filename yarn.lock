@@ -1640,8 +1640,8 @@
     "@types/yargs" "^13.0.0"
 
 "@jest/types@^25.5.0":
-  "integrity" "sha1-TWpHk/e5WZ/DaAh3uFapfbzPKp0="
-  "resolved" "https://registry.nlark.com/@jest/types/download/@jest/types-25.5.0.tgz"
+  "integrity" "sha512-OXD0RgQ86Tu3MazKo8bnrkDRaDXXMGUqd+kTtLtK1Zb7CRzQcaSRPPPV37SvYTdevXEBVxe0HXylEjs8ibkmCw=="
+  "resolved" "https://registry.npmjs.org/@jest/types/-/types-25.5.0.tgz"
   "version" "25.5.0"
   dependencies:
     "@types/istanbul-lib-coverage" "^2.0.0"
@@ -2087,8 +2087,8 @@
   "version" "4.10.1"
 
 "@react-native-community/cli@^4.10.0":
-  "integrity" "sha1-uxBqmDQb+i2zYGAJH/kL/oLqT1U="
-  "resolved" "https://registry.nlark.com/@react-native-community/cli/download/@react-native-community/cli-4.14.0.tgz"
+  "integrity" "sha512-EYJKBuxFxAu/iwNUfwDq41FjORpvSh1wvQ3qsHjzcR5uaGlWEOJrd3uNJDuKBAS0TVvbEesLF9NEXipjyRVr4Q=="
+  "resolved" "https://registry.npmjs.org/@react-native-community/cli/-/cli-4.14.0.tgz"
   "version" "4.14.0"
   dependencies:
     "@hapi/joi" "^15.0.3"
@@ -2461,8 +2461,8 @@
     "color-convert" "^1.9.0"
 
 "ansi-styles@^4.0.0", "ansi-styles@^4.1.0":
-  "integrity" "sha1-7dgDYornHATIWuegkG7a00tkiTc="
-  "resolved" "https://registry.nlark.com/ansi-styles/download/ansi-styles-4.3.0.tgz?cache=0&sync_timestamp=1618995651629&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fansi-styles%2Fdownload%2Fansi-styles-4.3.0.tgz"
+  "integrity" "sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg=="
+  "resolved" "https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz"
   "version" "4.3.0"
   dependencies:
     "color-convert" "^2.0.1"
@@ -2982,8 +2982,8 @@
     "supports-color" "^5.3.0"
 
 "chalk@^3.0.0":
-  "integrity" "sha1-P3PCv1JlkfV0zEksUeJFY0n4ROQ="
-  "resolved" "https://registry.nlark.com/chalk/download/chalk-3.0.0.tgz?cache=0&sync_timestamp=1618995278610&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fchalk%2Fdownload%2Fchalk-3.0.0.tgz"
+  "integrity" "sha512-4D3B6Wf41KOYRFdszmDqMCGq5VV/uMAB273JILmO+3jAlh8X4qDtdtgCR3fxtbLEMzSx22QdhnDcJvu2u1fVwg=="
+  "resolved" "https://registry.npmjs.org/chalk/-/chalk-3.0.0.tgz"
   "version" "3.0.0"
   dependencies:
     "ansi-styles" "^4.1.0"
@@ -3101,20 +3101,20 @@
     "color-name" "1.1.3"
 
 "color-convert@^2.0.1":
-  "integrity" "sha1-ctOmjVmMm9s68q0ehPIdiWq9TeM="
-  "resolved" "https://registry.npm.taobao.org/color-convert/download/color-convert-2.0.1.tgz"
+  "integrity" "sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ=="
+  "resolved" "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz"
   "version" "2.0.1"
   dependencies:
     "color-name" "~1.1.4"
 
 "color-name@^1.0.0", "color-name@1.1.3":
   "integrity" "sha1-p9BVi9icQveV3UIyj3QIMcpTvCU="
-  "resolved" "https://registry.npm.taobao.org/color-name/download/color-name-1.1.3.tgz"
+  "resolved" "https://registry.npmjs.org/color-name/-/color-name-1.1.3.tgz"
   "version" "1.1.3"
 
 "color-name@~1.1.4":
-  "integrity" "sha1-wqCah6y95pVD3m9j+jmVyCbFNqI="
-  "resolved" "https://registry.npm.taobao.org/color-name/download/color-name-1.1.4.tgz"
+  "integrity" "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA=="
+  "resolved" "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
   "version" "1.1.4"
 
 "color-string@^1.5.3", "color-string@^1.5.4":
@@ -3149,8 +3149,8 @@
   "version" "1.2.9"
 
 "commander@^2.19.0":
-  "integrity" "sha1-/UhehMA+tIgcIHIrpIA16FMa6zM="
-  "resolved" "https://registry.nlark.com/commander/download/commander-2.20.3.tgz"
+  "integrity" "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ=="
+  "resolved" "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
   "version" "2.20.3"
 
 "commander@^5.1.0":
@@ -3815,8 +3815,8 @@
   "version" "1.0.1"
 
 "expo-updates@~0.5.4":
-  "integrity" "sha1-lxGM4/zIzHfOdOyLfJGsTCncdww="
-  "resolved" "https://registry.nlark.com/expo-updates/download/expo-updates-0.5.5.tgz"
+  "integrity" "sha512-1R8EKkT3GoDjMRQnDaTYv31gIYIaYQGHOrjHJfwq8ai9f1W1AHux6KAH2/H6sc2o9a7roWVwjDn2kKwCm9AeHg=="
+  "resolved" "https://registry.npmjs.org/expo-updates/-/expo-updates-0.5.5.tgz"
   "version" "0.5.5"
   dependencies:
     "@expo/config-plugins" "^1.0.18"
@@ -3827,8 +3827,8 @@
     "uuid" "^3.4.0"
 
 "expo@^41.0.0":
-  "integrity" "sha1-JokAMhLcyUjQEPhtrfBVchpjFLQ="
-  "resolved" "https://registry.nlark.com/expo/download/expo-41.0.1.tgz"
+  "integrity" "sha512-Lk4Xdst+OfsLgBNeu89hxk0qFrZnHwwXFmBbJkYLlZkdC3tvNJ8jgGHsKg6jYpsnal/z0uVc+uk2ev91qXQykg=="
+  "resolved" "https://registry.npmjs.org/expo/-/expo-41.0.1.tgz"
   "version" "41.0.1"
   dependencies:
     "@babel/runtime" "^7.1.2"
@@ -3979,8 +3979,8 @@
     "ua-parser-js" "^0.7.18"
 
 "fbjs@^1.0.0":
-  "integrity" "sha1-UsIV4Ig6PIavKnp3btUVJa6OClo="
-  "resolved" "https://registry.npm.taobao.org/fbjs/download/fbjs-1.0.0.tgz"
+  "integrity" "sha512-MUgcMEJaFhCaF1QtWGnmq9ZDRAzECTCRAF7O6UZIlAlkTs1SasiX9aP0Iw7wfD2mJ7wDTNfg2w7u5fSCwJk1OA=="
+  "resolved" "https://registry.npmjs.org/fbjs/-/fbjs-1.0.0.tgz"
   "version" "1.0.0"
   dependencies:
     "core-js" "^2.4.1"
@@ -4082,8 +4082,8 @@
     "locate-path" "^3.0.0"
 
 "find-up@^4.1.0":
-  "integrity" "sha1-l6/n1s3AvFkoWEt8jXsW6KmqXRk="
-  "resolved" "https://registry.npm.taobao.org/find-up/download/find-up-4.1.0.tgz"
+  "integrity" "sha512-PpOwAdQ/YlXQ2vj8a3h8IipDuYRi3wceVQQGYWxNINccq40Anw7BlsEXCMbt1Zt+OLA6Fq9suIpIWD0OsnISlw=="
+  "resolved" "https://registry.npmjs.org/find-up/-/find-up-4.1.0.tgz"
   "version" "4.1.0"
   dependencies:
     "locate-path" "^5.0.0"
@@ -4182,8 +4182,8 @@
     "klaw" "^1.0.0"
 
 "fs-extra@^8.1.0":
-  "integrity" "sha1-SdQ8RaiM2Wd2aMt74bRu/bjS4cA="
-  "resolved" "https://registry.nlark.com/fs-extra/download/fs-extra-8.1.0.tgz"
+  "integrity" "sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g=="
+  "resolved" "https://registry.npmjs.org/fs-extra/-/fs-extra-8.1.0.tgz"
   "version" "8.1.0"
   dependencies:
     "graceful-fs" "^4.2.0"
@@ -4391,8 +4391,8 @@
   "version" "3.0.0"
 
 "has-flag@^4.0.0":
-  "integrity" "sha1-lEdx/ZyByBJlxNaUGGDaBrtZR5s="
-  "resolved" "https://registry.npm.taobao.org/has-flag/download/has-flag-4.0.0.tgz?cache=0&sync_timestamp=1618559755013&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhas-flag%2Fdownload%2Fhas-flag-4.0.0.tgz"
+  "integrity" "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ=="
+  "resolved" "https://registry.npmjs.org/has-flag/-/has-flag-4.0.0.tgz"
   "version" "4.0.0"
 
 "has-symbols@^1.0.1", "has-symbols@^1.0.2":
@@ -5109,6 +5109,8 @@
   "version" "4.0.0"
   dependencies:
     "graceful-fs" "^4.1.6"
+  optionalDependencies:
+    "graceful-fs" "^4.1.6"
 
 "jsonfile@^6.0.1":
   "integrity" "sha1-vFWyY0eTxnnsZAMJTrE2mKbsCq4="
@@ -5275,8 +5277,8 @@
     "path-exists" "^3.0.0"
 
 "locate-path@^5.0.0":
-  "integrity" "sha1-Gvujlq/WdqbUJQTQpno6frn2KqA="
-  "resolved" "https://registry.nlark.com/locate-path/download/locate-path-5.0.0.tgz"
+  "integrity" "sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g=="
+  "resolved" "https://registry.npmjs.org/locate-path/-/locate-path-5.0.0.tgz"
   "version" "5.0.0"
   dependencies:
     "p-locate" "^4.1.0"
@@ -5546,8 +5548,8 @@
     "rimraf" "^2.5.4"
 
 "metro-config@^0.59.0", "metro-config@0.59.0":
-  "integrity" "sha1-mETjiAaTId10A+SfDUlagfmqD+8="
-  "resolved" "https://registry.nlark.com/metro-config/download/metro-config-0.59.0.tgz?cache=0&sync_timestamp=1618914405342&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fmetro-config%2Fdownload%2Fmetro-config-0.59.0.tgz"
+  "integrity" "sha512-MDsknFG9vZ4Nb5VR6OUDmGHaWz6oZg/FtE3up1zVBKPVRTXE1Z+k7zypnPtMXjMh3WHs/Sy4+wU1xnceE/zdnA=="
+  "resolved" "https://registry.npmjs.org/metro-config/-/metro-config-0.59.0.tgz"
   "version" "0.59.0"
   dependencies:
     "cosmiconfig" "^5.0.5"
@@ -5670,8 +5672,8 @@
     "vlq" "^1.0.0"
 
 "metro@^0.59.0", "metro@0.59.0":
-  "integrity" "sha1-ZKh81hNXgUpPJ5UY4HgbHqtZNLg="
-  "resolved" "https://registry.nlark.com/metro/download/metro-0.59.0.tgz?cache=0&sync_timestamp=1618914405701&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fmetro%2Fdownload%2Fmetro-0.59.0.tgz"
+  "integrity" "sha512-OpVgYXyuTvouusFZQJ/UYKEbwfLmialrSCUUTGTFaBor6UMUHZgXPYtK86LzesgMqRc8aiuTQVO78iKW2Iz3wg=="
+  "resolved" "https://registry.npmjs.org/metro/-/metro-0.59.0.tgz"
   "version" "0.59.0"
   dependencies:
     "@babel/code-frame" "^7.0.0"
@@ -5924,8 +5926,8 @@
   "version" "2.1.0"
 
 "node-fetch@^1.0.1":
-  "integrity" "sha1-mA9vcthSEaU0fGsrwYxbhMPrR+8="
-  "resolved" "https://registry.npm.taobao.org/node-fetch/download/node-fetch-1.7.3.tgz"
+  "integrity" "sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ=="
+  "resolved" "https://registry.npmjs.org/node-fetch/-/node-fetch-1.7.3.tgz"
   "version" "1.7.3"
   dependencies:
     "encoding" "^0.1.11"
@@ -6148,8 +6150,8 @@
     "p-try" "^2.0.0"
 
 "p-limit@^2.2.0":
-  "integrity" "sha1-PdM8ZHohT9//2DWTPrCG2g3CHbE="
-  "resolved" "https://registry.npm.taobao.org/p-limit/download/p-limit-2.3.0.tgz"
+  "integrity" "sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w=="
+  "resolved" "https://registry.npmjs.org/p-limit/-/p-limit-2.3.0.tgz"
   "version" "2.3.0"
   dependencies:
     "p-try" "^2.0.0"
@@ -6176,8 +6178,8 @@
     "p-limit" "^2.0.0"
 
 "p-locate@^4.1.0":
-  "integrity" "sha1-o0KLtwiLOmApL2aRkni3wpetTwc="
-  "resolved" "https://registry.npm.taobao.org/p-locate/download/p-locate-4.1.0.tgz"
+  "integrity" "sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A=="
+  "resolved" "https://registry.npmjs.org/p-locate/-/p-locate-4.1.0.tgz"
   "version" "4.1.0"
   dependencies:
     "p-limit" "^2.2.0"
@@ -6195,8 +6197,8 @@
   "version" "1.0.0"
 
 "p-try@^2.0.0":
-  "integrity" "sha1-yyhoVA4xPWHeWPr741zpAE1VQOY="
-  "resolved" "https://registry.nlark.com/p-try/download/p-try-2.2.0.tgz"
+  "integrity" "sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ=="
+  "resolved" "https://registry.npmjs.org/p-try/-/p-try-2.2.0.tgz"
   "version" "2.2.0"
 
 "pako@^1.0.5":
@@ -6398,8 +6400,8 @@
     "react-is" "^16.12.0"
 
 "pretty-format@^25.2.0":
-  "integrity" "sha1-eHPB13T2gsNLjUi2dDor8qxVeRo="
-  "resolved" "https://registry.nlark.com/pretty-format/download/pretty-format-25.5.0.tgz?cache=0&sync_timestamp=1622290311384&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fpretty-format%2Fdownload%2Fpretty-format-25.5.0.tgz"
+  "integrity" "sha512-kbo/kq2LQ/A/is0PQwsEHM7Ca6//bGPPvU6UnsdDRSKTWxT/ru/xb88v4BJf6a69H+uTytOEsTusT9ksd/1iWQ=="
+  "resolved" "https://registry.npmjs.org/pretty-format/-/pretty-format-25.5.0.tgz"
   "version" "25.5.0"
   dependencies:
     "@jest/types" "^25.5.0"
@@ -6719,9 +6721,9 @@
     "prop-types" "^15.6.0"
     "react-timer-mixin" "^0.13.4"
 
-"react-native@*", "react-native@>=0.40", "react-native@>=0.57", "react-native@~0.63.4":
-  "integrity" "sha1-IhD91ATJSl+mtCPG3ob45IgQ7DY="
-  "resolved" "https://registry.nlark.com/react-native/download/react-native-0.63.4.tgz"
+"react-native@*", "react-native@>=0.40", "react-native@>=0.57", "react-native@>=0.62.0-rc.0 <0.64.0", "react-native@~0.63.4":
+  "integrity" "sha512-I4kM8kYO2mWEYUFITMcpRulcy4/jd+j9T6PbIzR0FuMcz/xwd+JwHoLPa1HmCesvR1RDOw9o4D+OFLwuXXfmGw=="
+  "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.63.4.tgz"
   "version" "0.63.4"
   dependencies:
     "@babel/runtime" "^7.0.0"
@@ -7509,7 +7511,7 @@
   dependencies:
     "ansi-regex" "^3.0.0"
 
-"strip-ansi@^5.0.0", "strip-ansi@^5.1.0", "strip-ansi@^5.2.0":
+"strip-ansi@^5.0.0", "strip-ansi@^5.1.0":
   "integrity" "sha1-jJpTb+tq/JYr36WxBKUJHBrZwK4="
   "resolved" "https://registry.npm.taobao.org/strip-ansi/download/strip-ansi-5.2.0.tgz?cache=0&sync_timestamp=1618553388833&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstrip-ansi%2Fdownload%2Fstrip-ansi-5.2.0.tgz"
   "version" "5.2.0"
@@ -7524,8 +7526,8 @@
     "ansi-regex" "^4.1.0"
 
 "strip-ansi@^5.2.0":
-  "integrity" "sha1-jJpTb+tq/JYr36WxBKUJHBrZwK4="
-  "resolved" "https://registry.npm.taobao.org/strip-ansi/download/strip-ansi-5.2.0.tgz?cache=0&sync_timestamp=1618553388833&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstrip-ansi%2Fdownload%2Fstrip-ansi-5.2.0.tgz"
+  "integrity" "sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA=="
+  "resolved" "https://registry.npmjs.org/strip-ansi/-/strip-ansi-5.2.0.tgz"
   "version" "5.2.0"
   dependencies:
     "ansi-regex" "^4.1.0"
@@ -7575,8 +7577,8 @@
     "has-flag" "^3.0.0"
 
 "supports-color@^7.1.0":
-  "integrity" "sha1-G33NyzK4E4gBs+R4umpRyqiWSNo="
-  "resolved" "https://registry.nlark.com/supports-color/download/supports-color-7.2.0.tgz?cache=0&sync_timestamp=1622293670728&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fsupports-color%2Fdownload%2Fsupports-color-7.2.0.tgz"
+  "integrity" "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="
+  "resolved" "https://registry.npmjs.org/supports-color/-/supports-color-7.2.0.tgz"
   "version" "7.2.0"
   dependencies:
     "has-flag" "^4.0.0"
@@ -7865,8 +7867,8 @@
     "crypto-random-string" "^2.0.0"
 
 "universalify@^0.1.0":
-  "integrity" "sha1-tkb2m+OULavOzJ1mOcgNwQXvqmY="
-  "resolved" "https://registry.npm.taobao.org/universalify/download/universalify-0.1.2.tgz"
+  "integrity" "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg=="
+  "resolved" "https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz"
   "version" "0.1.2"
 
 "universalify@^1.0.0":
