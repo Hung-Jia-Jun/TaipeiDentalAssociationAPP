@@ -10,6 +10,7 @@ if (!firebase.apps.length) {
 	firebase.initializeApp(config);
 }
 const database = firebase.database();
+var dbRef = database.ref();
 
 //NotifycationTopper.png
 const image = require('../assets/b-訊息中心（聊天室）.png');
@@ -33,21 +34,77 @@ class Message extends Component {
             jobTypeText : '',
             doctorType : '',
             publishDate : '',
+            Like : false,
         }
     }
     componentDidMount()
     {
         var item = this.props.navigation.getParam('item');
         this.setState({
-            item:item,
             title: item.publishClinicName,
+            publishClinicName :item.publishClinicName,
             item_image : require('../assets/Announcement_icon/listicon2.png'),
             numberOfPeople:item.numberOfPeople,
             jobTypeText : item.jobTypeText,
             doctorType : item.doctorType,
             clinicPGYType : item.clinicPGYType,
             publishDate : item.publishDate,
-        },()=>console.log(this.state.item));
+            jobDescription : item.jobDescription,
+            publishAccount : item.publishAccount,
+            clinicAddr : item.clinicAddr,
+        },()=>{
+            dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+                var favoritesLi = result.val();
+                Object.keys(favoritesLi).forEach(key=>{
+                    if (favoritesLi[key].type=='job')
+                    {
+                        if (favoritesLi[key].title == this.state.title)
+                        {
+                            this.setState({Like:true});
+                        }
+                    }
+                });
+            })});
+    }
+    onClickLike()
+    {              
+        var dbRef = database.ref();
+
+        //代表原本沒有收藏，現在要收藏了
+        if (this.state.Like == false)
+        {
+            //加入該用戶的收藏清單  
+            dbRef.child("user").child(global.username).child('favoritesLi').push({
+                    title : this.state.title,
+                    publishClinicName :this.state.publishClinicName,
+                    item_image : this.state.item_image,
+                    numberOfPeople : this.state.numberOfPeople,
+                    jobTypeText : this.state.jobTypeText,
+                    doctorType : this.state.doctorType,
+                    clinicPGYType : this.state.clinicPGYType,
+                    publishDate : this.state.publishDate,
+                    jobDescription : this.state.jobDescription,
+                    publishAccount : this.state.publishAccount,
+                    clinicAddr : this.state.clinicAddr,
+                    type:'job',
+            });
+        }
+        else
+        {
+            dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+                var favoritesLi = result.val();
+                Object.keys(favoritesLi).forEach(key=>{
+                    if (favoritesLi[key].type=='job')
+                    {
+                        if (favoritesLi[key].title == this.state.title)
+                        {
+                            dbRef.child("user").child(global.username).child('favoritesLi').child(key).remove();
+                        }
+                    }
+                });
+            });
+        }
+        this.setState({Like:!this.state.Like})
     }
     //把診所負責人加到群組裡面
     startContactClinic()
@@ -60,7 +117,6 @@ class Message extends Component {
         var chatID = timeStamp;
         var GroupUser = []
         
-        var publishAccount;
         var selfInfo;
             
         //將發布該職缺的診所負責人名稱從用戶資料那邊撈出來
@@ -71,7 +127,7 @@ class Message extends Component {
                     var _user = user[element];
                     switch (_user.username)
                     {
-                        case this.state.item.publishAccount:
+                        case this.state.publishAccount:
                             console.log(_user.username);
                             //加入用戶還有診所負責人到一對一診所聊天
                             GroupUser.push(_user);
@@ -114,7 +170,7 @@ class Message extends Component {
                                                             //設定群組為跟診所求職的通知，或是求職者發訊息給診所
                                                             groupType : 'clinicNotify',
                                                             //此聯繫的發起人是我，所以我要發給toUser那端的訊息
-                                                            toUser :  this.state.item.publishClinicName,
+                                                            toUser :  this.state.publishClinicName,
                                                     });
                             //更新用戶所屬群組的資訊
                             var GroupListRef = database.ref('/user'+"/" + _user.username);
@@ -132,7 +188,7 @@ class Message extends Component {
                                                         //設定群組為跟診所求職的通知，或是求職者發訊息給診所
                                                         groupType : 'clinicNotify',
                                                     },()=>{
-                                                        this.props.navigation.push('GroupChat',{GroupID : chatID , GroupName : this.state.item.publishAccount==global.username?global.username:this.state.item.publishClinicName,groupType:'clinicNotify'});
+                                                        this.props.navigation.push('GroupChat',{GroupID : chatID , GroupName : this.state.publishAccount==global.username?global.username:this.state.publishClinicName,groupType:'clinicNotify'});
                                                     });
             }
         });
@@ -186,7 +242,7 @@ class Message extends Component {
 									fontSize:18,
 									textAlign:'center',
 									zIndex:0,
-								color:'white'}}>{this.state.item.title}</Text>
+								color:'white'}}>{this.state.title}</Text>
 				</View>
 				
 				<View style={{
@@ -203,7 +259,7 @@ class Message extends Component {
                             paddingEnd:20,
                             marginTop:0}}>
                     <View style={{flex:0.45,flexDirection:'row'}}>
-                        <Image source={this.state.item.item_image} style={{
+                        <Image source={this.state.item_image} style={{
                             width: Dimensions.get('window').width*0.3,
                             height: Dimensions.get('window').height*0.33,
                             flex:1,
@@ -218,7 +274,7 @@ class Message extends Component {
                                         fontSize:24,
                                         color:'#5C6A6C'
                                         }}>
-                                {this.state.item.doctorType}
+                                {this.state.doctorType}
                             </Text>
                         </View>
                         <View style={{
@@ -231,9 +287,9 @@ class Message extends Component {
                                         color:'#5C6A6C',
                                         marginEnd:20,
                                         }}>
-                                {this.state.item.title}
+                                {this.state.title}
                             </Text>
-                            {this.state.item.clinicPGYType=="是"?
+                            {this.state.clinicPGYType=="是"?
                                 <View style={{
                                                 marginEnd:15,
                                                 borderRadius:30,
@@ -260,14 +316,14 @@ class Message extends Component {
                                         fontSize:18,
                                         color:'#5C6A6C'
                                         }}>
-                                {this.state.item.numberOfPeople}
+                                {this.state.numberOfPeople}
                             </Text>
                             <Text style={{
                                         marginStart:10,
                                         fontSize:18,
                                         color:'#01C5DE'
                                         }}>
-                                {this.state.item.jobTypeText}
+                                {this.state.jobTypeText}
                             </Text>
                         </View>
                         
@@ -278,7 +334,7 @@ class Message extends Component {
                                         fontSize:18,
                                         color:'#5C6A6C'
                                         }}>
-                                刊登時間 ： {this.state.item.publishDate}
+                                刊登時間 ： {this.state.publishDate}
                             </Text>
                         </View>
                         
@@ -293,7 +349,7 @@ class Message extends Component {
                                         fontSize:18,
                                         color:'#5C6A6C'
                                         }}>
-                                {this.state.item.jobDescription}
+                                {this.state.jobDescription}
                             </TextInput>
                         </View>
                     </View>
@@ -301,25 +357,50 @@ class Message extends Component {
             <View style={{flex: 0.01, flexDirection: 'column'}}>
                 <Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
             </View>
-            <View style={{  flex: 0.4,
+            <View style={{flex: 0.4,
+                            flexDirection: 'row',
+                            backgroundColor:'#01C5DE',
                             justifyContent:'space-between'}}>
                 <TouchableOpacity style={styles.button,{
-                        justifyContent:'center',
-                        flex:1,
-                        backgroundColor:'#01C5DE',
-                        alignItems:'center',
-                    }} onPress={()=> {
-                                            this.startContactClinic();
-                                        }}>
-                            <Text style={{
-                                textAlign:'center',
-                                color:'#FFF',
+                    flex:0.2,
+                    justifyContent:'center',
+                    alignItems:'center',
+                    backgroundColor:'#FFF',
+                }} onPress={()=>this.onClickLike()}>
+                    {this.state.Like==true?
+                        <Image source={require('../assets/GrayLike_Fill.png')}
+                        style={{
+                                resizeMode:'stretch',
+                                width:45,
+                                height:45,
+                            }}
+                        ></Image>
+                    :
+                        <Image source={require('../assets/GrayLike.png')}
+                                style={{
+                                        resizeMode:'stretch',
+                                        width:45,
+                                        height:45,
+                                    }}
+                        ></Image>
+                    }
+                </TouchableOpacity> 
+                <TouchableOpacity style={styles.button,{
+                    flex:0.9,
+                    justifyContent:'center',
+                    alignItems:'center',
+                    marginStart: Dimensions.get('window').width*0.03,
+                }} onPress={()=> this.startContactClinic()}>
+                    <Text style={{
+                                position: 'absolute',
+                                justifyContent:'center',
                                 fontSize:20,
+                                color:'white'
                                 }}>
                                     聯繫診所
-                                </Text>
-                </TouchableOpacity> 
-			</View>
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
   }

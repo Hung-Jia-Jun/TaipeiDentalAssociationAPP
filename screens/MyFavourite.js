@@ -10,6 +10,7 @@ if (!firebase.apps.length) {
 	firebase.initializeApp(config);
 }
 const database = firebase.database();
+var dbRef = database.ref();
 
 //NotifycationTopper.png
 const image = require('../assets/b-訊息中心（聊天室）.png');
@@ -27,7 +28,6 @@ const [shortDimension, longDimension] = width < height ? [width, height] : [heig
 
 const WidthScale = (size) => (shortDimension / guidelineBaseWidth) * size
 const HeightScale = (size) => (longDimension / guidelineBaseHeight) * size
-var dbRef = database.ref();
 class Message extends Component {
 	constructor(props) {
 		super(props);
@@ -72,19 +72,19 @@ class Message extends Component {
         dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
             var favoritesLi = result.val();
             var i=0;
+            console.log(filter);
             Object.keys(favoritesLi).forEach(key=>{
-                if (this.state.showClinic==true)
-                {
-                    filter.split(",").forEach(element => {
-                        if (favoritesLi[key].type == element)
-                        {
-                            favoritesLi[key].key=i.toString();
-                            _DATA.push(favoritesLi[key]);
-                            i++;
-                        }
-                    });
-                }
+                filter.split(",").forEach(element => {
+                    console.log(element);
+                    if (favoritesLi[key].type == element)
+                    {
+                        favoritesLi[key].key=i.toString();
+                        _DATA.push(favoritesLi[key]);
+                        i++;
+                    }
+                });
             })
+        console.log(_DATA);
         this.setState({DATA:_DATA});
         });
     }
@@ -159,7 +159,11 @@ class Message extends Component {
                                                 borderColor:this.state.showClinic==true?'#43D1E3':'#E2EBF6',
 												width:100,
 												height:40}}
-												onPress={()=>this.setState({showClinic : true,showEvent:false,showFood : false , showProduct: false})}>
+												onPress={()=>{
+                                                                this.setState({showClinic : true,showEvent:false,showFood : false , showProduct: false});
+                                                                this.showFilterResult("clinic,job");    
+                                                            }
+                                                            }>
 						<Text style={{marginTop:12,fontSize:15,color:this.state.showClinic==true?'#43D1E3':'#5C6A6C',textAlign:'center'}}>診所/職缺</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={{
@@ -169,7 +173,11 @@ class Message extends Component {
                                                 borderColor:this.state.showFood==true?'#43D1E3':'#E2EBF6',
 												width:100,
 												height:40}}
-												onPress={()=>this.setState({showClinic : false,showEvent:false,showFood : true , showProduct: false})}>
+												onPress={()=>{
+                                                                this.setState({showClinic : false,showEvent:false,showFood : true , showProduct: false});
+                                                                this.showFilterResult();    
+                                                            }
+                                                            }>
 						<Text style={{marginTop:12,fontSize:15,color:this.state.showFood==true?'#43D1E3':'#5C6A6C',textAlign:'center'}}>食衣住行</Text>
 					</TouchableOpacity>
                     <TouchableOpacity style={{
@@ -179,7 +187,11 @@ class Message extends Component {
                                                 borderColor:this.state.showEvent==true?'#43D1E3':'#E2EBF6',
 												width:100,
 												height:40}}
-												onPress={()=>this.setState({showClinic : false,showEvent:true,showFood : false , showProduct: false})}>
+												onPress={()=>{
+                                                                this.setState({showClinic : false,showEvent:true,showFood : false , showProduct: false});
+                                                                this.showFilterResult("academicEvent");    
+                                                            }
+                                                            }>
 						<Text style={{marginTop:12,fontSize:15,color:this.state.showEvent==true?'#43D1E3':'#5C6A6C',textAlign:'center'}}>活動</Text>
 					</TouchableOpacity>
                     <TouchableOpacity style={{
@@ -189,7 +201,11 @@ class Message extends Component {
                                                 borderColor:this.state.showProduct==true?'#43D1E3':'#E2EBF6',
 												width:100,
 												height:40}}
-												onPress={()=>this.setState({showClinic : false,showEvent:false,showFood : false , showProduct: true})}>
+												onPress={()=>{
+                                                                this.setState({showClinic : false,showEvent:false,showFood : false , showProduct: true});
+                                                                this.showFilterResult("dentalProcurement");    
+                                                            }
+                                                            }>
 						<Text style={{marginTop:12,fontSize:15,color:this.state.showProduct==true?'#43D1E3':'#5C6A6C',textAlign:'center'}}>商品</Text>
 					</TouchableOpacity>
 				</View>
