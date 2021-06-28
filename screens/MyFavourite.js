@@ -38,9 +38,8 @@ class Message extends Component {
             showProduct :false,
 
             //診所職缺那邊有HashTag要顯示
-            clinicShowAll : true,
             clinicShowClinic : false,
-            clinicShowJob : false,
+            clinicShowJob : true,
             DATA : [],
         }
 	}
@@ -53,12 +52,25 @@ class Message extends Component {
                 Object.keys(favoritesLi).forEach(key=>{
                     if (this.state.showClinic==true)
                     {
-                        if (favoritesLi[key].type == "clinic")
+                        if (this.state.clinicShowClinic==true)
                         {
-                            favoritesLi[key].key=i.toString();
-                            _DATA.push(favoritesLi[key]);
-                            i++;
+                            if (favoritesLi[key].type == "clinic")
+                            {
+                                favoritesLi[key].key=i.toString();
+                                _DATA.push(favoritesLi[key]);
+                                i++;
+                            }
                         }
+                        if (this.state.clinicShowJob==true)
+                        {
+                            if (favoritesLi[key].type == "job")
+                            {
+                                favoritesLi[key].key=i.toString();
+                                _DATA.push(favoritesLi[key]);
+                                i++;
+                            }
+                        }
+                        
                     }
                 })
             this.setState({DATA:_DATA});
@@ -69,23 +81,20 @@ class Message extends Component {
     {
        
         var _DATA=[]
-        dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
-            var favoritesLi = result.val();
-            var i=0;
-            console.log(filter);
-            Object.keys(favoritesLi).forEach(key=>{
-                filter.split(",").forEach(element => {
-                    console.log(element);
-                    if (favoritesLi[key].type == element)
+        this.setState({DATA:[]},()=>{
+            dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+                var favoritesLi = result.val();
+                var i=0;
+                Object.keys(favoritesLi).forEach(key=>{
+                    if (favoritesLi[key].type == filter)
                     {
                         favoritesLi[key].key=i.toString();
                         _DATA.push(favoritesLi[key]);
                         i++;
                     }
-                });
-            })
-        console.log(_DATA);
-        this.setState({DATA:_DATA});
+                })
+            this.setState({DATA:_DATA});
+            });
         });
     }
 	render() {
@@ -94,6 +103,12 @@ class Message extends Component {
 					item={item}
 					/>
 		);
+        const renderJobItem = ({ item }) => (
+			<JobItem _this={this} 
+					item={item}
+					/>
+		);
+        
 	return (
 		<View  key="container" style={styles.container,{flex: 1,
 										flexDirection: 'column',
@@ -225,34 +240,13 @@ class Message extends Component {
                                     marginEnd:15,
                                     borderRadius:5,
                                     borderWidth:1,
-                                    backgroundColor:this.state.clinicShowAll==true?'rgba(67,209,227,0.15)':null,
-                                    borderColor:'#43D1E3',
-                                    justifyContent:'center',
-                                    alignItems:'center',
-                                    }}
-                                    onPress={()=>{
-                                                    this.setState({clinicShowAll:true,clinicShowClinic:false,clinicShowJob:false});
-                                                    this.showFilterResult("clinic,job");
-                                                }}
-                                    >
-                            <Text style={{  
-                                            fontSize:15,
-                                            color :'#43D1E3',
-                                            justifyContent:'center',
-                                            textAlign:'center'}}># 全部</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{
-                                    flex: 0.15,
-                                    marginEnd:15,
-                                    borderRadius:5,
-                                    borderWidth:1,
                                     borderColor:'#43D1E3',
                                     backgroundColor:this.state.clinicShowClinic==true?'rgba(67,209,227,0.15)':null,
                                     justifyContent:'center',
                                     alignItems:'center',
                                     }}
                                     onPress={()=>{
-                                                    this.setState({clinicShowAll:false,clinicShowClinic:true,clinicShowJob:false});
+                                                    this.setState({clinicShowClinic:true,clinicShowJob:false});
                                                     this.showFilterResult("clinic");
                                                 }}
                                     >
@@ -273,7 +267,7 @@ class Message extends Component {
                                     alignItems:'center',
                                     }}
                                     onPress={()=>{
-                                                    this.setState({clinicShowAll:false,clinicShowClinic:false,clinicShowJob:true});
+                                                    this.setState({clinicShowClinic:false,clinicShowJob:true});
                                                     this.showFilterResult("job");
                                                 }}
                                     >
@@ -285,17 +279,31 @@ class Message extends Component {
                         </TouchableOpacity>
                     </View>
                 :null}
+                {this.state.clinicShowClinic}
                 <View style={{
                                 flex: 0.95,
-                                flexDirection: 'row'}}>
-                    <FlatList
-                        style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-                        contentContainerStyle={{ padding:15,}}
-                        data={this.state.DATA}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.key}
-                    />
+                                flexDirection: 'column'}}>
+                    {this.state.clinicShowClinic==true?
+                        <FlatList
+                            style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                            contentContainerStyle={{ padding:15,}}
+                            data={this.state.DATA}
+                            renderItem={renderItem}
+                            keyExtractor={item => item.key}
+                        />
+                    :null}
+                    {this.state.clinicShowJob==true?
+                        <FlatList
+                            style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                            contentContainerStyle={{ padding:15,}}
+                            data={this.state.DATA}
+                            renderItem={renderJobItem}
+                            keyExtractor={item => item.key}
+                        />
+                    :null}
+                    
                 </View>
+
             </View>
             
 			<View style={{flex: 0.01, flexDirection: 'column'}}>
@@ -390,6 +398,7 @@ const Item = ({ _this,item}) => (
                                         borderWidth:0,
                                         padding:5,
                                         }}>
+                {/* TODO 診所圖片要動態 */}
                 <Image source={ require('../assets/DetailImage.png') } style={{
                                                                                 width: '100%',
                                                                                 height:'100%',
@@ -446,6 +455,7 @@ const Item = ({ _this,item}) => (
                         {item.address}
             </Text>
         </View>
+        {/* TODO 要做徵才資訊的顯示 */}
         <View style={{
                         borderWidth:0,
                         flex:0.15,
@@ -454,12 +464,131 @@ const Item = ({ _this,item}) => (
             <Text style={{
                     fontSize:13,
                     color:'black'}}>
-                        徵才資訊 : 
+                        徵才資訊 : 無
             </Text>
         </View>
     </TouchableOpacity>
 );
 
+
+const JobItem = ({ _this,item}) => (
+    <TouchableOpacity style={styles.button,{
+        height: 100,
+        borderWidth:0,
+        borderColor:'black',
+        flexDirection:'column',
+        padding:10,
+        backgroundColor:'#FFF',
+        marginBottom:8,
+        borderRadius:5,
+        shadowOffset:{  width:5,  height:5},
+        shadowColor: 'black',
+        shadowOpacity: 0.1,
+        flex:1,
+        }}>
+        <View style={styles.container,{
+                                        borderWidth:0,
+                                        flex:1,
+                                        flexDirection:'row',
+                                        }}>
+            <View style={styles.container,{
+                                        flex: 0.3,
+                                        borderWidth:0,
+                                        padding:5,
+                                        }}>
+                {/* TODO 職缺圖片要動態 */}
+                <Image source={ require('../assets/DetailImage.png') } style={{
+                                                                                width: '100%',
+                                                                                height:'100%',
+                                                                                }}></Image>
+            </View>
+            <View style={styles.container,{ flex: 0.7,
+                                            flexDirection: 'column'}}>      
+                <View style={{
+                                flex:0.4,
+                                flexDirection:'row',
+                                borderWidth:0,}}>
+                    <View style={{flex:0.8}}>
+                        <Text style={{
+                            fontSize:20,
+                            color:'black'}}>
+                                {item.publishClinicName}
+                        </Text>
+                    </View>
+                    <View style={{
+                                flex:0.2,
+                                borderRadius:10,
+                                height:20,
+                                backgroundColor:item.clinicPGYType=="是"?'rgba(222, 142, 1, 0.15)':null,
+                                justifyContent:'center',
+                                alignContent:'center',
+                                alignItems:'center',
+                                }}>
+                    <Text style={{
+                            fontSize:13,
+                            color:item.clinicPGYType=="是"?'#F5A623':null}}>
+                                {item.clinicPGYType=="是"?"PGY":null}
+                    </Text>
+                 </View>
+                </View>
+                <View style={{flex:0.3,borderWidth:0,}}>
+                    <Text style={{
+                        fontSize:16,
+                        color:'gray'}}>
+                            {item.doctorType}
+                    </Text>
+                </View>
+                <View style={{
+                            flex:0.3,
+                            flexDirection:'row',
+                            alignItems:'center',
+                            }}>
+                    <View style={{
+                        flexDirection:'row',
+                        flex:0.5,
+                    }}>
+                        <Image source={require('../assets/doctorIcon.png')}
+                                style={{
+                                        width:18,
+                                        height:18,
+                                        resizeMode:'contain',
+                                        alignSelf:'center',
+                                    }}
+                                    ></Image>
+                        <Text style={{
+                                    marginStart:10,
+                                    fontSize:15,
+                                    textAlign:'center',
+                                    color:'#5C6A6C'
+                                    }}>
+                            {item.numberOfPeople}
+                        </Text>
+                        <Text style={{
+                                    marginStart:15,
+                                    fontSize:18,
+                                    color:'#01C5DE',
+                                    textAlign:'center',
+
+                                    }}>
+                            {item.jobTypeText}
+                        </Text>
+                    </View>
+                    <View style={{
+                                    flex:0.5,
+                                    alignItems:'flex-end',
+                                }}>
+                        <Text style={{
+                                    fontSize:18,
+                                    color:'gray',
+                                    }}>
+                            {item.publishDate}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+        </View>
+    </TouchableOpacity>
+);
 
 
 const styles = StyleSheet.create({

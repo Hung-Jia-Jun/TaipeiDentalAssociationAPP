@@ -772,8 +772,6 @@ class OverviewMap extends Component {
                             longitudeDelta: 0.05
                         }}
                         onMapReady={()=>{
-                            console.log("Done");
-                            // this.RegionChangeComplete(this);
                             this.showPassMarker()
                         }}
                         style={styles.borderBlackLine,{
