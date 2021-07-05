@@ -32,9 +32,9 @@ class Message extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            showClinic :false,
+            showClinic :true,
             showFood :false,
-            showEvent :true,
+            showEvent :false,
             showProduct :false,
 
             //診所職缺那邊有HashTag要顯示
@@ -75,7 +75,7 @@ class Message extends Component {
                 })
             this.setState({DATA:_DATA});
             });
-        this.showFilterResult("academicEvent");   
+        this.showFilterResult("clinic");   
 	}
     //篩選器
     showFilterResult(filter)
@@ -111,6 +111,11 @@ class Message extends Component {
 		);
         const renderEventItem = ({ item }) => (
 			<EventItem _this={this} 
+					item={item}
+					/>
+		);
+        const renderProductItem = ({ item }) => (
+			<ProductItem _this={this} 
 					item={item}
 					/>
 		);
@@ -317,6 +322,15 @@ class Message extends Component {
                                 keyExtractor={item => item.key}
                             />
                         :null}
+                         {this.state.showProduct==true?
+                            <FlatList
+                                style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                                contentContainerStyle={{ padding:15,}}
+                                data={this.state.DATA}
+                                renderItem={renderProductItem}
+                                keyExtractor={item => item.key}
+                            />
+                        :null}
                     
                 </View>
 
@@ -403,6 +417,9 @@ const Item = ({ _this,item}) => (
         shadowColor: 'black',
         shadowOpacity: 0.1,
         flex:1,
+        }}
+        onPress={() => {
+            _this.props.navigation.push('OverviewMap',{passMarker:item,zoomLevel:18});
         }}>
         <View style={styles.container,{
                                         borderWidth:0,
@@ -431,7 +448,7 @@ const Item = ({ _this,item}) => (
                         <Text style={{
                             fontSize:20,
                             color:'black'}}>
-                                {item.clinicName}
+                                {item.title}
                         </Text>
                     </View>
                     <View style={{
@@ -468,7 +485,7 @@ const Item = ({ _this,item}) => (
             <Text style={{
                     fontSize:13,
                     color:'black'}}>
-                        {item.address}
+                        {item.detailAddress}
             </Text>
         </View>
         {/* TODO 要做徵才資訊的顯示 */}
@@ -501,7 +518,7 @@ const JobItem = ({ _this,item}) => (
         shadowColor: 'black',
         shadowOpacity: 0.1,
         flex:1,
-        }}>
+        }}onPress={() => _this.props.navigation.push('ClinicRecruitmentDetail',{item:item})}>
         <View style={styles.container,{
                                         borderWidth:0,
                                         flex:1,
@@ -706,6 +723,74 @@ const EventItem = ({ _this,item}) => (
     </TouchableOpacity>
 );
 
+
+const ProductItem = ({ _this,item}) => (
+    <TouchableOpacity style={{
+    }} onPress={() => _this.props.navigation.push(item.sceneName,{   name : item.name,
+                                                                price : item.price,
+                                                                amount : item.amount,
+                                                                image : item.image,
+                                                                manufacturerInformation : item.manufacturerInformation,
+                                                                model : item.model,
+                                                                spec : item.spec,
+                                                                modelInfo : item.modelInfo,
+                                                                specInfo : item.specInfo,
+                                                            })}>
+    <View style={{  
+                    height:230,
+                    width:Dimensions.get('window').width*0.47,
+                    shadowOffset:{  width:WidthScale(0),  height:HeightScale(5)},
+                    shadowColor: 'black',
+                    shadowOpacity: 0.1,
+                    borderRadius:10,
+                    marginEnd:8,
+                    marginBottom:10,
+                    flex:1,
+                    backgroundColor:'#FFFFFF',
+                    }}>
+        <View style={styles.container,{flex: 0.8,
+                                        justifyContent:'center',
+                                        alignItems:'center',
+                                    }}>
+            <Image source={ { uri : item.image[0] }  } style={{
+                                                        width : WidthScale(130),
+                                                        height:HeightScale(130),
+                                                        resizeMode : 'contain',
+                                                }}></Image>
+        </View>
+        <View style={styles.container,{flex: 0.2, 
+                                        flexDirection: 'column',
+                                        backgroundColor:'#F4F9FD',
+                                        paddingLeft:20,
+                                        paddingBottom:20,
+                                        justifyContent:'center',
+                                        borderBottomRightRadius:10,
+                                        borderBottomLeftRadius:10,
+                                        }}>
+            <View style={{flexDirection:'row'}}>
+                <View style={{flex:0.65}}>
+                    <Text style={{
+                        fontSize:14,
+                        marginTop:8,
+                        color:'#3BD2E4'}}>
+                            $
+                        <Text style={{
+                            fontSize:23,
+                            color:'#3BD2E4'}}>
+                                {item.price}
+                        </Text>
+                    </Text>
+                </View>
+            </View>
+            <Text style={{
+                fontSize:17,
+                color:'black'}}>
+                    {item.name}
+            </Text>
+        </View>
+    </View> 
+    </TouchableOpacity>
+);
 
 
 const styles = StyleSheet.create({

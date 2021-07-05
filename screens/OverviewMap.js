@@ -108,6 +108,10 @@ class OverviewMap extends Component {
                 latitudeDelta: 0.04,
                 longitudeDelta: 0.05
             },
+            NowClickCoordinates : { 
+                latitude : "",
+                longitude : ""
+            },
            
         }
         
@@ -137,10 +141,15 @@ class OverviewMap extends Component {
         {
             //加入該用戶的收藏清單  
             dbRef.child("user").child(global.username).child('favoritesLi').push({
-                    clinicName : this.state.title,
-                    education : this.state.education,
-                    address : this.state.detailAddress,
+                    title : this.state.title,
+                    detailAddress : this.state.detailAddress,
                     phone : this.state.phone,
+                    education : this.state.education,
+                    status : '營業中',
+                    openTime : this.state.openTime,
+                    coordinates : this.state.NowClickCoordinates,
+                    hireInfo : this.state.hireInfo,
+                    clinicURL : this.state.clinicURL,
                     type:'clinic',
             });
         }
@@ -360,6 +369,7 @@ class OverviewMap extends Component {
                         Like: false,
                         clinicURL : this.state.clinicURL,
                         showParkOrder : this.state.showParkOrder,
+                        NowClickCoordinates : marker.coordinates,
                     });
         
         //當從搜尋頁面過來時，就要拉近到一個程度，但是日常滑動就要可以自由讓用戶設定縮放大小

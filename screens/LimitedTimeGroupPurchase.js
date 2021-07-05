@@ -91,23 +91,6 @@ class Message extends Component {
 			this.setState({DATA:this.state.DATA});
 		});
 	}
-    showScrollImage = (_this) => {
-        const imageScrollViews = [];
-        var i = 0;
-        _this.state.indexImage.forEach(e=>{
-            imageScrollViews.push(
-                <View key={i.toString()} style={styles.slide}>
-                    <Image source={ { uri: e.uri } } style={{
-                        width : WidthScale(315),
-                        height:HeightScale(200),
-                        resizeMode : 'contain',
-                }}></Image> 
-                </View>
-            )
-            i++;
-        })
-        return imageScrollViews;
-    }
 	onClickLike(item)
     {              
         var dbRef = database.ref();
@@ -120,6 +103,14 @@ class Message extends Component {
 					name : item.name,
 					price : item.price,
 					image : item.image,
+					name : item.name,
+					amount : item.amount,
+					manufacturerInformation : item.manufacturerInformation,
+					model : item.model,
+					spec : item.spec,
+					modelInfo : item.modelInfo,
+					specInfo : item.specInfo,
+					sceneName : item.sceneName,
                     type:'dentalProcurement',
             });
 			this.state.DATA.forEach(e=>{

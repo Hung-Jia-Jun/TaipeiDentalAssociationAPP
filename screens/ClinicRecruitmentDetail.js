@@ -231,7 +231,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.push('ClinicRecruitment')}>
+						onPress={()=>this.props.navigation.goBack()}>
                             <Image source={require('../assets/leftArrow.png')}></Image> 
 					</TouchableOpacity>
 				</View>
