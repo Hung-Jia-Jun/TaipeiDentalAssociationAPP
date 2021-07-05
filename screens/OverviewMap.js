@@ -150,6 +150,7 @@ class OverviewMap extends Component {
                     coordinates : this.state.NowClickCoordinates,
                     hireInfo : this.state.hireInfo,
                     clinicURL : this.state.clinicURL,
+                    Like : true,
                     type:'clinic',
             });
         }
@@ -158,7 +159,7 @@ class OverviewMap extends Component {
             dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
                 var favoritesLi = result.val();
                 Object.keys(favoritesLi).forEach(key=>{
-                    if (favoritesLi[key].clinicName == this.state.title)
+                    if (favoritesLi[key].title == this.state.title)
                     {
                         dbRef.child("user").child(global.username).child('favoritesLi').child(key).remove();
                     }
@@ -352,7 +353,7 @@ class OverviewMap extends Component {
             var favoritesLi = result.val();
             console.log(favoritesLi);
             Object.keys(favoritesLi).forEach(key=>{
-                if (favoritesLi[key].clinicName == marker.title)
+                if (favoritesLi[key].title == marker.title)
                 {
                     this.setState({ Like : true});
                 }
@@ -365,8 +366,8 @@ class OverviewMap extends Component {
                         detailAddress : marker.detailAddress,        
                         education : marker.education,
                         phone : phone,
+                        Like : false,
                         hireInfo : this.state.hireInfo,
-                        Like: false,
                         clinicURL : this.state.clinicURL,
                         showParkOrder : this.state.showParkOrder,
                         NowClickCoordinates : marker.coordinates,
