@@ -325,6 +325,7 @@ const Item = ({ _this,
                                                                 subTitle : subTitle,
                                                                 title : title,
                                                                 date : date,
+                                                                sceneName : sceneName,
                                                                 })}>
                 <Image source={ {uri : item_image} } style={{
                         width: Dimensions.get('window').width*0.3,

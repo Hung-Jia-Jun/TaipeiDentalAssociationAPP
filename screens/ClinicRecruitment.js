@@ -410,7 +410,12 @@ const Item = ({ _this,item,title,item_image,sceneName }) => (
                                     {item.doctorType}
                     </Text>
                    <View style={{flexDirection:'row',marginTop:10,alignItems:'center'}}>
-                        <Image source={require('../assets/doctorIcon.png')}></Image>
+                        <Image source={require('../assets/doctorIcon.png')}
+                                style={{
+                                    height:20,
+                                    width:20,
+                                }}
+                        ></Image>
                         <Text style={{
                                         fontSize:17,
                                         color:'black'

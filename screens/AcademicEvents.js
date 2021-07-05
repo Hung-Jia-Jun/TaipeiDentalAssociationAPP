@@ -198,7 +198,6 @@ class Page extends Component {
                             <View style={{flex:1,
                                             justifyContent:'center',
                                             alignItems:'center',}}>
-                                <Image></Image>
                             </View>
                         </TouchableOpacity>
             </View>
@@ -325,6 +324,7 @@ const Item = ({ _this,
                                                                 subTitle : subTitle,
                                                                 title : title,
                                                                 date : date,
+                                                                sceneName: sceneName,
                                                                 })}>
                 <Image source={ {uri : item_image} } style={{
                         width: Dimensions.get('window').width*0.3,

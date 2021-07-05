@@ -10,7 +10,7 @@ if (!firebase.apps.length) {
 	firebase.initializeApp(config);
 }
 const database = firebase.database();
-
+const dbRef = database.ref();
 //NotifycationTopper.png
 const image = require('../assets/b-訊息中心（聊天室）.png');
 
@@ -43,8 +43,8 @@ class Message extends Component {
         var that = this;
         var _DATA = [];
         var _indexImage = [];
-        var ref = firebase.database().ref('/limitTimeGroupPurchaseProduct');
-		ref.child('item').on('value', function (snapshot) {
+		
+		dbRef.child('limitTimeGroupPurchaseProduct/item').on('value', function (snapshot) {
 			var i=0;
 			snapshot.forEach((childSnapshot) => {
 				_DATA.push({   key:i.toString(),
@@ -62,13 +62,35 @@ class Message extends Component {
 									})
 				i+=1;
 			});
-			that.setState({DATA : _DATA,showDetail:true})
+			that.setState({DATA : _DATA,showDetail:true},()=>{
+				that.setLikeStatus();
+			})
 		});
     }
     componentDidMount()
     {
         this.fetchDataFromFirebase();
     }
+	setLikeStatus()
+	{
+		dbRef.child("user").child(global.username).child('favoritesLi').get().then((result)=>{
+			var favoritesLi = result.val();
+			Object.keys(favoritesLi).forEach(key=>{
+				if (favoritesLi[key].type=='dentalProcurement')
+				{
+					var i=0;
+					this.state.DATA.forEach(e=>{
+						if (favoritesLi[key].name == e.name)
+						{
+							this.state.DATA[i].Like=true
+						}
+						i+=1;
+					})
+				}
+			});
+			this.setState({DATA:this.state.DATA});
+		});
+	}
     showScrollImage = (_this) => {
         const imageScrollViews = [];
         var i = 0;
@@ -100,6 +122,13 @@ class Message extends Component {
 					image : item.image,
                     type:'dentalProcurement',
             });
+			this.state.DATA.forEach(e=>{
+				if (e.name == item.name)
+				{
+					e.Like=true;
+				}
+			this.setState({DATA:this.state.DATA});
+			});
         }
         else
         {
@@ -113,16 +142,17 @@ class Message extends Component {
                             dbRef.child("user").child(global.username).child('favoritesLi').child(key).remove();
                         }
                     }
+					this.state.DATA.forEach(e=>{
+						if (e.name == item.name)
+						{
+							e.Like=false;
+						}
+					});
                 });
+				this.setState({DATA:this.state.DATA});
             });
         }
-		this.state.DATA.forEach(e=>{
-			if (e.name == item.name)
-			{
-				e.Like=true;
-			}
-		})
-		this.setState({DATA:this.state.DATA});
+		
     }
 	render() {
 		const renderItem = ({ item }) => (

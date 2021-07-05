@@ -94,6 +94,7 @@ class Page extends Component {
                     subTitle :this.state.DATA[0].subTitle,
                     date :this.state.DATA[0].date,
                     title :this.state.DATA[0].title,
+                    sceneName : this.state.DATA[0].sceneName,
                     type:'academicEvent',
             });
         }
@@ -127,6 +128,7 @@ class Page extends Component {
                 subTitle : this.props.navigation.getParam('subTitle'),
                 date : this.props.navigation.getParam('date'),
                 title : this.props.navigation.getParam('title'),
+                sceneName : this.props.navigation.getParam('sceneName'),
             }
         ];
         this.setState({DATA:_DATA , showDetail:true},()=>{

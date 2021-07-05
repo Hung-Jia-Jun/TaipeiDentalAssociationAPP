@@ -32,14 +32,14 @@ class Message extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            showClinic :true,
+            showClinic :false,
             showFood :false,
-            showEvent :false,
+            showEvent :true,
             showProduct :false,
 
             //診所職缺那邊有HashTag要顯示
-            clinicShowClinic : false,
-            clinicShowJob : true,
+            clinicShowClinic : true,
+            clinicShowJob : false,
             DATA : [],
         }
 	}
@@ -75,6 +75,7 @@ class Message extends Component {
                 })
             this.setState({DATA:_DATA});
             });
+        this.showFilterResult("academicEvent");   
 	}
     //篩選器
     showFilterResult(filter)
@@ -108,6 +109,12 @@ class Message extends Component {
 					item={item}
 					/>
 		);
+        const renderEventItem = ({ item }) => (
+			<EventItem _this={this} 
+					item={item}
+					/>
+		);
+        
         
 	return (
 		<View  key="container" style={styles.container,{flex: 1,
@@ -149,16 +156,7 @@ class Message extends Component {
 						flex:0.3,
 						alignItems:'flex-end',
 					}}>
-					<TouchableOpacity style={{
-							alignItems:'center',
-							justifyContent:'center',
-							height:50,
-							width:50,
-						}} 
-						onPress={()=>this.props.navigation.push('InviteGroupChat')}>
-						<Image source={require('../assets/MessageBtn.png')}></Image>
-					</TouchableOpacity>
-				</View>
+                </View>
 			</View>
 			<View style={{flex: 0.25,
 							flexDirection: 'column',
@@ -175,8 +173,16 @@ class Message extends Component {
 												width:100,
 												height:40}}
 												onPress={()=>{
-                                                                this.setState({showClinic : true,showEvent:false,showFood : false , showProduct: false});
-                                                                this.showFilterResult("clinic,job");    
+                                                                this.setState({showClinic : true,showEvent:false,showFood : false , showProduct: false,showEvent : false},()=>{
+                                                                    if (this.state.clinicShowClinic)
+                                                                    {
+                                                                        this.showFilterResult("clinic");    
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        this.showFilterResult("job");    
+                                                                    }
+                                                                });
                                                             }
                                                             }>
 						<Text style={{marginTop:12,fontSize:15,color:this.state.showClinic==true?'#43D1E3':'#5C6A6C',textAlign:'center'}}>診所/職缺</Text>
@@ -189,7 +195,7 @@ class Message extends Component {
 												width:100,
 												height:40}}
 												onPress={()=>{
-                                                                this.setState({showClinic : false,showEvent:false,showFood : true , showProduct: false});
+                                                                this.setState({showClinic : false,showEvent:false,showFood : true , showProduct: false,showEvent : false});
                                                                 this.showFilterResult();    
                                                             }
                                                             }>
@@ -203,7 +209,7 @@ class Message extends Component {
 												width:100,
 												height:40}}
 												onPress={()=>{
-                                                                this.setState({showClinic : false,showEvent:true,showFood : false , showProduct: false});
+                                                                this.setState({showClinic : false,showEvent:true,showFood : false , showProduct: false,showEvent : true});
                                                                 this.showFilterResult("academicEvent");    
                                                             }
                                                             }>
@@ -217,7 +223,7 @@ class Message extends Component {
 												width:100,
 												height:40}}
 												onPress={()=>{
-                                                                this.setState({showClinic : false,showEvent:false,showFood : false , showProduct: true});
+                                                                this.setState({showClinic : false,showEvent:false,showFood : false , showProduct: true,showEvent : false});
                                                                 this.showFilterResult("dentalProcurement");    
                                                             }
                                                             }>
@@ -283,24 +289,34 @@ class Message extends Component {
                 <View style={{
                                 flex: 0.95,
                                 flexDirection: 'column'}}>
-                    {this.state.clinicShowClinic==true?
-                        <FlatList
-                            style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-                            contentContainerStyle={{ padding:15,}}
-                            data={this.state.DATA}
-                            renderItem={renderItem}
-                            keyExtractor={item => item.key}
-                        />
-                    :null}
-                    {this.state.clinicShowJob==true?
-                        <FlatList
-                            style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-                            contentContainerStyle={{ padding:15,}}
-                            data={this.state.DATA}
-                            renderItem={renderJobItem}
-                            keyExtractor={item => item.key}
-                        />
-                    :null}
+                    
+                        {this.state.clinicShowClinic==true&this.state.showClinic==true?
+                            <FlatList
+                                style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                                contentContainerStyle={{ padding:15,}}
+                                data={this.state.DATA}
+                                renderItem={renderItem}
+                                keyExtractor={item => item.key}
+                            />
+                        :null}
+                        {this.state.clinicShowJob==true&this.state.showClinic==true?
+                            <FlatList
+                                style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                                contentContainerStyle={{ padding:15,}}
+                                data={this.state.DATA}
+                                renderItem={renderJobItem}
+                                keyExtractor={item => item.key}
+                            />
+                        :null}
+                        {this.state.showEvent==true?
+                            <FlatList
+                                style={{zIndex:0,marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                                contentContainerStyle={{ padding:15,}}
+                                data={this.state.DATA}
+                                renderItem={renderEventItem}
+                                keyExtractor={item => item.key}
+                            />
+                        :null}
                     
                 </View>
 
@@ -589,6 +605,107 @@ const JobItem = ({ _this,item}) => (
         </View>
     </TouchableOpacity>
 );
+
+//活動收藏
+const EventItem = ({ _this,item}) => (
+    <TouchableOpacity style={styles.button,{
+        height: 136,
+        borderWidth:0,
+        borderColor:'black',
+        flexDirection:'column',
+        padding:10,
+        backgroundColor:'#FFF',
+        marginBottom:8,
+        borderRadius:5,
+        shadowOffset:{  width:5,  height:5},
+        shadowColor: 'black',
+        shadowOpacity: 0.1,
+        flex:1,
+        }}
+        onPress={()=>_this.props.navigation.push(item.sceneName,{
+            subDescription : item.description,
+            subPageImage : item.item_image,
+            subTitle : item.subTitle,
+            title : item.title,
+            date : item.date,
+            sceneName: item.sceneName,
+            })}>
+        <View style={styles.container,{
+                                        borderWidth:0,
+                                        flex:1,
+                                        flexDirection:'row',
+                                        }}>
+            <View style={styles.container,{
+                                        flex: 0.3,
+                                        borderWidth:0,
+                                        padding:10,
+                                        }}>
+                <Image source={ {uri:item.item_image[0]} } style={{
+                                                                                width: '100%',
+                                                                                height:'100%',
+                                                                                }}></Image>
+            </View>
+            <View style={styles.container,{ flex: 0.7,
+                                            padding:8,
+                                            flexDirection: 'column'}}>      
+                <View style={{
+                                flex:0.4,
+                                flexDirection:'row',
+                                borderWidth:0,}}>
+                    <View style={{flex:0.8}}>
+                        <Text style={{
+                            fontSize:20,
+                            color:'black'}}>
+                                {item.title}
+                        </Text>
+                    </View>
+                </View>
+                <View style={{flex:0.3,borderWidth:0,}}></View>
+                <View style={{flex:0.3,borderWidth:0,flexDirection:'row'}}>
+                    <Image source={require('../assets/AcademicEvents_icon/meeting.png')}
+                        style={{
+                            width: "8%",
+                            height: "65%",
+                            resizeMode:'stretch',
+                            marginEnd:10,
+                        }}
+                        ></Image>
+                    <Text style={{
+                        fontSize:15,
+                        color:'#43D1E3'}}>
+                            {item.date}
+                    </Text>
+                    <TouchableOpacity style={styles.button,{
+                            height: 50,
+                            flex:1,
+                            alignItems:'flex-end',
+                            // marginStart: 20,
+                        }} onPress={()=>_this.props.navigation.push(item.sceneName,{
+                                                                    subDescription : item.description,
+                                                                    subPageImage : item.item_image,
+                                                                    subTitle : item.subTitle,
+                                                                    title : item.title,
+                                                                    date : item.date,
+                                                                    sceneName: item.sceneName,
+                                                                    })}>
+                            <View style={{flex:0.6,
+                                            justifyContent:'center',
+                                            borderRadius:30,
+                                            width:Dimensions.get('window').width*0.15,
+                                            backgroundColor:'#43D1E3',
+                                            alignItems:'center',}}>
+                                <Text style={{
+                                    fontSize:16,
+                                    color:'white'
+                                    }}>報名</Text>
+                            </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </View>
+    </TouchableOpacity>
+);
+
 
 
 const styles = StyleSheet.create({

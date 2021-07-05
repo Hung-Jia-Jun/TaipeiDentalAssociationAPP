@@ -310,7 +310,12 @@ class Message extends Component {
                                     flexDirection:'row',
                                     alignItems:'center',
                                     }}>
-                            <Image source={require('../assets/doctorIcon.png')}></Image>
+                            <Image source={require('../assets/doctorIcon.png')}
+                                    style={{
+                                        height:20,
+                                        width:20,
+                                    }}
+                                    ></Image>
                             <Text style={{
                                         marginStart:10,
                                         fontSize:18,
