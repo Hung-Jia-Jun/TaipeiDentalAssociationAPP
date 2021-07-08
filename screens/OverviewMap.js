@@ -477,7 +477,11 @@ class OverviewMap extends Component {
                                     <TouchableOpacity style={{
                                             alignItems:'center',
                                             justifyContent:'center',
-                                        }} >
+                                        }} 
+                                        onPress={()=>{
+                                            this.props.navigation.push('HightStoreMaps')
+                                        }}
+                                        >
                                             <Image source={require('../assets/leftArrowGray.png')}
                                                     style={{
                                                         height:23,
@@ -527,7 +531,7 @@ class OverviewMap extends Component {
                     </View>
                 </ImageBackground>
                 
-                <View style={styles.borderBlackLine,{flex: 0.1, flexDirection: 'row',
+                <View style={styles.borderBlackLine,{flex: 0.001, flexDirection: 'row',
                         borderWidth:0,
                         zIndex: 1,}}>
                     {this.state.showParkOrder ? (
@@ -751,7 +755,7 @@ class OverviewMap extends Component {
                         // height:Dimensions.get('screen').height*0.8,
                         // width:width,
                         // marginStart:WidthScale(27),
-                        marginTop:HeightScale(-190),
+                        marginTop:HeightScale(-100),
                         zIndex:0,
                         }}>
                     <View style={styles.borderBlackLine,{flex: 0.1, flexDirection: 'row',
@@ -765,7 +769,7 @@ class OverviewMap extends Component {
                             shadowColor: 'black',
                             shadowOpacity: 0.3,
                             marginStart:width < guidelineBaseWidth ? WidthScale(20) : WidthScale(29) ,
-                            marginTop:(height /10)*1.1,
+                            marginTop:(height /10)*1,
                         }} 
                         onPress={()=>this.props.navigation.push('OverviewMap')}>
                             <Text style={styles.borderBlackLine,{marginStart:WidthScale(23),fontSize:16,marginTop:HeightScale(15),color:'white'}}>診所/人力/車位</Text>
@@ -779,7 +783,7 @@ class OverviewMap extends Component {
                             shadowColor: 'black',
                             shadowOpacity: 0.3,
                             marginStart:width < guidelineBaseWidth ? WidthScale(10) : WidthScale(15) ,
-                            marginTop:(height /10)*1.1,
+                            marginTop:(height /10)*1,
                         }} onPress={()=>this.props.navigation.push('Food')}>
                             <Text style={styles.borderBlackLine,{marginStart:WidthScale(40),fontSize:16,marginTop:HeightScale(15)}}>食衣住行</Text>
                         </TouchableOpacity>
@@ -790,7 +794,7 @@ class OverviewMap extends Component {
                             shadowColor: 'black',
                             shadowOpacity: 0.3,
                             marginStart:WidthScale(15),
-                            marginTop:(height /10)*1.1,
+                            marginTop:(height /10)*1,
                         }} onPress={()=>this.props.navigation.push('FilterStroe')}>
                             <Image source={filterButton_image} style={styles.borderBlackLine,{marginStart:WidthScale(5)}}></Image>
                         </TouchableOpacity>
