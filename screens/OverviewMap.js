@@ -458,17 +458,46 @@ class OverviewMap extends Component {
                             <View style={{flex:0.1,
                                         }}></View>
                             <View style={{flex:0.5,
+                                            borderWidth:1,
+                                            flexDirection:'row',
                                             alignItems:'flex-start'
                                         }}>
-                                <Text style={{
-                                                justifyContent:'center',
-                                                alignContent:'center',
-                                                color:'#47DCEF',
-                                                flex:0.5,
-                                                fontSize:28,
-                                                height:60,
-                                                marginTop: -(height/10) *1.5,
-                                                }}>Hi {global.username}</Text>
+                                <View style={{
+                                            flex:0.5,
+                                            borderWidth:1,
+                                        }}>
+                                    <TouchableOpacity style={{
+                                            alignItems:'center',
+                                            justifyContent:'center',
+                                            borderWidth:1,
+                                            // height:60,
+                                            // width:60,
+                                            // marginTop: -(height/10) *1.5,
+                                        }} >
+                                            <Image source={require('../assets/leftArrowGray.png')}
+                                                    style={{
+                                                        height:20,
+                                                        width:20,
+                                                        resizeMode:'stretch',
+                                                    }}
+                                                    ></Image>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{
+                                            flex:0.1,
+                                            borderWidth:1,
+                                        }}>
+                                    <Text style={{
+                                                    justifyContent:'center',
+                                                    alignContent:'center',
+                                                    color:'#47DCEF',
+                                                    flex:0.5,
+                                                    borderWidth:1,
+                                                    fontSize:28,
+                                                    height:60,
+                                                    marginTop: -(height/10) *1.5,
+                                                    }}>Hi {global.username}</Text>
+                                </View>
                             </View>
                             <View style={{flex:0.5,
                                         }}></View>
@@ -771,7 +800,7 @@ class OverviewMap extends Component {
                             this.mapRef = ref
                         }}
                         
-                        provider="google"
+                        // provider="google"
                         customMapStyle={mapStyle}
                         onRegionChange = {this.onRegionChange.bind(this)}
                         onRegionChangeComplete={this.RegionChangeComplete.bind(this)}
