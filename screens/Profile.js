@@ -111,7 +111,7 @@ class Page extends Component {
 	}
   	render() {
 	const renderItem = ({ item }) => (
-		<Item _this={this} title={item.title} sceneName={item.sceneName} />
+		<Item _this={this} title={item.title} item_image={item.item_image} sceneName={item.sceneName} />
 	);
 
 	return (
@@ -144,15 +144,15 @@ class Page extends Component {
 								flexDirection: 'column',
 								padding:10,
 								borderRadius:30,
+								shadowOffset:{  width:5,  height:5},
+								shadowColor: 'black',
+								shadowOpacity: 0.2,
 								zIndex: 1}}>
 					<ImageBackground source={require('../assets/pointBackground.png')}
                             style={{
-                                // marginEnd:WidthScale(20),
-                                // marginStart : WidthScale(15),
-                                // marginTop:HeightScale(40),
 								width:Dimensions.get('window').width *0.95,
 								height:Dimensions.get('window').height*0.25,
-								borderRadius:45,
+								borderRadius:15,
                                 overflow: 'hidden',
 								resizeMode:'stretch',
 								padding:20,
@@ -322,31 +322,31 @@ const DATA = [
 	{
 		key: '0',
 		title: '購買清單',
-		item_image : require('../assets/profileIcon/Profile_0.png'),
+		item_image : require('../assets/Profile_0.png'),
 		sceneName:'ShoppingCart',
 	},
-	// {
-	// 	key: '1',
-	// 	title: '領取獎勵',
-	// 	item_image : require('../assets/profileIcon/Profile_1.png'),
-    //     sceneName:'ReceiveAward',
-	// },
 	{
 		key: '1',
-		title: '修改個人資訊',
-		item_image : require('../assets/profileIcon/Profile_2.png'),
-        sceneName:'EditProfile',
+		title: '領取獎勵',
+		item_image : require('../assets/Profile_1.png'),
+        sceneName:'ReceiveAward',
 	},
 	{
 		key: '2',
+		title: '修改個人資訊',
+		item_image : require('../assets/Profile_2.png'),
+        sceneName:'EditProfile',
+	},
+	{
+		key: '3',
 		title: '個人名片',
-		item_image : require('../assets/profileIcon/Profile_3.png'),
+		item_image : require('../assets/Profile_3.png'),
         sceneName:'PersonalBusinessCard',
   	},
 	{
-		key: '3',
+		key: '4',
 		title: '我的收藏',
-		item_image : require('../assets/profileIcon/Profile_4.png'),
+		item_image : require('../assets/Profile_4.png'),
         sceneName:'MyFavourite',
 	},
 	// {
@@ -360,23 +360,37 @@ const DATA = [
 const Item = ({ _this,title,item_image,sceneName }) => (
     <ImageBackground style={styles.ProfileMenuItemBackground}>
             <TouchableOpacity style={styles.button,{
+				flexDirection:'row',
                 height: 62,
                 width:Dimensions.get('window').width,
                 marginStart: 0,
                 marginTop:0,
             }} onPress={() => _this.props.navigation.push(sceneName)}>
-
-            <Image source={ item_image } style={styles.profileIconImage}></Image>
-            <Text style={{
-                        position: 'absolute',
-                        top: -1,
-                        left : -1,
-                        marginTop: 20,
-                        marginLeft: 89,
-                        fontSize:18,
-                        color:'#8E949B'}}>
-                            {title}
-            </Text>
+			
+			
+			<View style={{
+				justifyContent:'center',
+				alignItems:'center',
+				alignContent:'center',
+				flex:0.2,
+			}}>
+				<Image source={ item_image} style={{
+					width : 30,
+					height : 31,
+					resizeMode : 'stretch',
+				}}></Image>
+			</View>
+			<View style={{
+				justifyContent:'center',
+				alignItems:'flex-start',
+				flex:0.8,
+			}}>
+				<Text style={{
+							fontSize:18,
+							color:'#8E949B'}}>
+								{title}
+				</Text>
+			</View>
     
         </TouchableOpacity>
     </ImageBackground>

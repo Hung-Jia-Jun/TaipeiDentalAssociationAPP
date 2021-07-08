@@ -178,7 +178,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.push("Message")}
+						onPress={()=>this.props.navigation.goBack()}
 						>
 						<Image source={require('../assets/sdfghkjlgfd.png')}></Image>
 					</TouchableOpacity>

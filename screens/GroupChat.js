@@ -155,8 +155,33 @@ class Message extends Component {
 		this.setState({InputMSG:''});
 
 	}
-	
-  render() {
+
+	//取得目前在群組的用戶
+	getGroupUserAndRedrict()
+	{
+		firebase.database().ref('/group'+"/" + this.props.navigation.state.params.GroupID).child('GroupUser').get().then((result)=>{
+			if (result.exists()) {
+				var users = result.val();
+				var i = 0;
+				Object.keys(users).forEach(key=>{
+					var u = {   key:i.toString(),
+								title : users[key].username,
+								toggled:true,
+								//可以在好友列表內出現，因為自己的帳號一定要在群組裡面，但又不用出現在好友列表防止選錯
+								visible:true,
+								item_image : require('../assets/MessageIcon.png'),//users[key].userIcon,
+							};
+					this.state.ToggleBtn.push(u);
+					i += 1;
+				});
+				this.setState({ToggleBtn:this.state.ToggleBtn},()=>{
+					this.props.navigation.push("CreateChatRoom",{ToggleBtn:JSON.stringify( this.getGroupUser() )})
+
+				});
+			}
+		})
+	}
+  	render() {
 	const renderItem = ({ item }) => (
 		<Item 	_this={this}
 				item={item}
@@ -266,7 +291,9 @@ class Message extends Component {
 							marginTop:HeightScale(10),
 							height:50,
 							flexDirection:'row',
-						}}>
+						}}
+						onPress={()=>this.getGroupUserAndRedrict()}
+						>
 							<Image source={require('../assets/34567kjhgfds.png')}></Image>
 							<Text style={{
 								color:'white',
