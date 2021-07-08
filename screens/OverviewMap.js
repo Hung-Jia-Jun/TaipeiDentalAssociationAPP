@@ -1,7 +1,7 @@
 // import * as React from 'react';
 import MapView, { Marker,animateToRegion } from 'react-native-maps';
 import React, { Component , useState} from "react";
-import { Dimensions,Linking,Alert,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import { Dimensions,Linking,Alert,StyleSheet,Image,TouchableOpacity,SafeAreaView,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 
 const image = require('../assets/b-圖資-資訊.png');
 const filterButton_image = require('../assets/filterButton.png');
@@ -438,138 +438,97 @@ class OverviewMap extends Component {
     render() {
 
         return (
-            <View  style={styles.borderBlackLine,{flex:1}}>
-            <View style={styles.container,{flex: 3, flexDirection: 'column',borderWidth:1,
-                                        borderColor:'black'}}>
-                <View style={{flexDirection: 'column',
-                                zIndex: 1,
-                                flex:0.84,
+            <SafeAreaView style={styles.borderBlackLine,{flex:1,
+                                // position: 'absolute',
                                 }}>
-                    <Image source={overviewMapTopper_image} style={
-                                        {
-                                        marginTop: (height /10)*0.4,
-                                        resizeMode:'stretch',
-                                        width:width}}></Image>
-                        <View style={{
-                                        flex:1,
-                                        
-                                        flexDirection:'row',
+                <ImageBackground source={overviewMapTopper_image} style={{flex:0.12,
+                                    flexDirection: 'column',
+                                    // resizeMode:'contain',
+                                    borderWidth:0,
+                                    zIndex:1,
                                     }}>
-                            <View style={{flex:0.1,
-                                        }}></View>
-                            <View style={{flex:0.5,
-                                            borderWidth:1,
-                                            flexDirection:'row',
-                                            alignItems:'flex-start'
-                                        }}>
+                    <View style={{
+                                    flex:1,
+                                    zIndex:0,
+                                    flexDirection:'row',
+                                }}>
+                        <View style={{flex:0.8,
+                                        borderWidth:0,
+                                        alignItems:'flex-start'
+                                    }}>
+                             <View style={{
+                                flex:0.1,
+                                flexDirection:'row',
+                                borderWidth:0,
+                            }}></View>
+                            <View style={{
+                                flex:0.3,
+                                flexDirection:'row',
+                                borderWidth:0,
+                            }}>
                                 <View style={{
-                                            flex:0.5,
-                                            borderWidth:1,
+                                    flex:0.1,
+                                    borderWidth:0,
+                                }}></View>
+                                <View style={{
+                                            flex:0.2,
+                                            justifyContent:'center',
                                         }}>
                                     <TouchableOpacity style={{
                                             alignItems:'center',
                                             justifyContent:'center',
-                                            borderWidth:1,
-                                            // height:60,
-                                            // width:60,
-                                            // marginTop: -(height/10) *1.5,
                                         }} >
                                             <Image source={require('../assets/leftArrowGray.png')}
                                                     style={{
-                                                        height:20,
-                                                        width:20,
+                                                        height:23,
+                                                        width:13,
                                                         resizeMode:'stretch',
                                                     }}
                                                     ></Image>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{
-                                            flex:0.1,
-                                            borderWidth:1,
+                                <View style={{flex:0.5,
+                                            justifyContent:'center',
                                         }}>
                                     <Text style={{
                                                     justifyContent:'center',
                                                     alignContent:'center',
                                                     color:'#47DCEF',
-                                                    flex:0.5,
-                                                    borderWidth:1,
                                                     fontSize:28,
-                                                    height:60,
-                                                    marginTop: -(height/10) *1.5,
+                                                    // marginTop: -(height/10) *1.5,
                                                     }}>Hi {global.username}</Text>
                                 </View>
                             </View>
-                            <View style={{flex:0.5,
-                                        }}></View>
-                            <View style={{flex:0.5,
-                                            alignItems:'flex-end'
-                                        }}>
-                                <TouchableOpacity style={{
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        
-                                        height:60,
-                                        width:60,
-                                        marginTop: -(height/10) *1.5,
-                                    }} 
-                                    onPress={()=>{
-                                            let UspaceUrl = "https://uspace.app.link/WDk6EQIyteb";
-                                            Linking.canOpenURL(UspaceUrl).then((supported) => {
-                                                if (!supported) {
-                                                    console.log('Can not handle UspaceUrl:' + UspaceUrl)
-                                                } else {
-                                                    return Linking.openURL(UspaceUrl)
-                                                }
-                                            }).catch(error => console.log('url error', error))
-                                    }}>
-                                        <Image source={require('../assets/uspaceLogo.png')}></Image>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{flex:0.1}}></View>
                         </View>
-                </View>
-                <View style={styles.borderBlackLine,{flex: 0.01, flexDirection: 'row',
-                        zIndex: 1,}}>
-                    <TouchableOpacity style={styles.button,{
-                        height:HeightScale(50),
-                        width:145,
-                        borderRadius:30,
-                        backgroundColor:'#8E949B',
-                        shadowOffset:{  width:WidthScale(5),  height:HeightScale(5)},
-                        shadowColor: 'black',
-                        shadowOpacity: 0.3,
-                        marginStart:width < guidelineBaseWidth ? WidthScale(20) : WidthScale(29) ,
-                        marginTop:(height /10)*0.32,
-                    }} 
-                    onPress={()=>this.props.navigation.push('OverviewMap')}>
-                    <Text style={styles.borderBlackLine,{marginStart:WidthScale(23),fontSize:16,marginTop:HeightScale(15),color:'white'}}>診所/人力/車位</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity id={'foodFilterBtn'} style={styles.button,{
-                        height:HeightScale(50),
-                        width:WidthScale(145),
-                        borderRadius:30,
-                        backgroundColor:'#F9FCFF',
-                        shadowOffset:{  width:WidthScale(5),  height:HeightScale(5)},
-                        shadowColor: 'black',
-                        shadowOpacity: 0.3,
-                        marginStart:width < guidelineBaseWidth ? WidthScale(10) : WidthScale(15) ,
-                        marginTop:(height /10)*0.32,
-                    }} onPress={()=>this.props.navigation.push('Food')}>
-                    <Text style={styles.borderBlackLine,{marginStart:WidthScale(40),fontSize:16,marginTop:HeightScale(15)}}>食衣住行</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button,{
-                        height:HeightScale(50),
-                        width:WidthScale(50),
-                        shadowOffset:{  width:WidthScale(5),  height:HeightScale(5)},
-                        shadowColor: 'black',
-                        shadowOpacity: 0.3,
-                        marginStart:WidthScale(15),
-                        marginTop:(height /10)*0.32,
-                    }} onPress={()=>this.props.navigation.push('FilterStroe')}>
-                    <Image source={filterButton_image} style={styles.borderBlackLine,{marginStart:WidthScale(5)}}></Image>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.borderBlackLine,{flex: 0.14, flexDirection: 'row',
+                        <View style={{flex:0.5,
+                                        alignItems:'flex-end'
+                                    }}>
+                            <TouchableOpacity style={{
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    height:60,
+                                    width:60,
+                                    // marginTop: -(height/10) *1.5,
+                                }} 
+                                onPress={()=>{
+                                        let UspaceUrl = "https://uspace.app.link/WDk6EQIyteb";
+                                        Linking.canOpenURL(UspaceUrl).then((supported) => {
+                                            if (!supported) {
+                                                console.log('Can not handle UspaceUrl:' + UspaceUrl)
+                                            } else {
+                                                return Linking.openURL(UspaceUrl)
+                                            }
+                                        }).catch(error => console.log('url error', error))
+                                }}>
+                                    <Image source={require('../assets/uspaceLogo.png')}></Image>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{flex:0.1}}></View>
+                    </View>
+                </ImageBackground>
+                
+                <View style={styles.borderBlackLine,{flex: 0.1, flexDirection: 'row',
+                        borderWidth:0,
                         zIndex: 1,}}>
                     {this.state.showParkOrder ? (
                             <TouchableOpacity style={styles.button,{
@@ -601,7 +560,7 @@ class OverviewMap extends Component {
                                     style={{resizeMode:'contain',
                                             padding:20,
                                             height:height < guidelineBaseHeight ? HeightScale(315) : HeightScale(279),
-                                            marginTop:(height/10)*4.6,
+                                            marginTop:(height/10)*4,
                                             width:width,
                                             }}>
                                 </Image>
@@ -636,7 +595,7 @@ class OverviewMap extends Component {
                                                 }}
                                                 ></Image>
                                         <Text style={styles.borderBlackLine,{
-                                                                           fontSize:16,
+                                                                            fontSize:16,
                                                                             textAlign:'center',
                                                                             color:'#47DCEF'}}>導航</Text>
                                     </TouchableOpacity>
@@ -762,7 +721,7 @@ class OverviewMap extends Component {
                                 
                             </View>
                             <View style={styles.borderBlackLine,{flex:10,width:100,height:100}}>
-                                 <Text style={styles.borderBlackLine,{marginTop: height < guidelineBaseHeight ? HeightScale(90) :  HeightScale(105),
+                                    <Text style={styles.borderBlackLine,{marginTop: height < guidelineBaseHeight ? HeightScale(90) :  HeightScale(105),
                                     marginStart:WidthScale(30),
                                     width:WidthScale(380),
                                     height:HeightScale(25),
@@ -785,15 +744,57 @@ class OverviewMap extends Component {
                         </View>
                     ) : null}
                 </View>
-                <View style={{flex: 5.15,
-                        backgroundColor:'white',
+                <View style={{flex: 0.88,
+                        // backgroundColor:'white',
+                        backgroundColor:'black',
                         flexDirection: 'column', 
                         // height:Dimensions.get('screen').height*0.8,
                         // width:width,
                         // marginStart:WidthScale(27),
-                        marginTop:HeightScale(-100),
-                        zIndex:0
+                        marginTop:HeightScale(-190),
+                        zIndex:0,
                         }}>
+                    <View style={styles.borderBlackLine,{flex: 0.1, flexDirection: 'row',
+                        zIndex: 1,}}>
+                        <TouchableOpacity style={styles.button,{
+                            height:HeightScale(50),
+                            width:145,
+                            borderRadius:30,
+                            backgroundColor:'#8E949B',
+                            shadowOffset:{  width:WidthScale(5),  height:HeightScale(5)},
+                            shadowColor: 'black',
+                            shadowOpacity: 0.3,
+                            marginStart:width < guidelineBaseWidth ? WidthScale(20) : WidthScale(29) ,
+                            marginTop:(height /10)*1.1,
+                        }} 
+                        onPress={()=>this.props.navigation.push('OverviewMap')}>
+                            <Text style={styles.borderBlackLine,{marginStart:WidthScale(23),fontSize:16,marginTop:HeightScale(15),color:'white'}}>診所/人力/車位</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity id={'foodFilterBtn'} style={styles.button,{
+                            height:HeightScale(50),
+                            width:WidthScale(145),
+                            borderRadius:30,
+                            backgroundColor:'#F9FCFF',
+                            shadowOffset:{  width:WidthScale(5),  height:HeightScale(5)},
+                            shadowColor: 'black',
+                            shadowOpacity: 0.3,
+                            marginStart:width < guidelineBaseWidth ? WidthScale(10) : WidthScale(15) ,
+                            marginTop:(height /10)*1.1,
+                        }} onPress={()=>this.props.navigation.push('Food')}>
+                            <Text style={styles.borderBlackLine,{marginStart:WidthScale(40),fontSize:16,marginTop:HeightScale(15)}}>食衣住行</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button,{
+                            height:HeightScale(50),
+                            width:WidthScale(50),
+                            shadowOffset:{  width:WidthScale(5),  height:HeightScale(5)},
+                            shadowColor: 'black',
+                            shadowOpacity: 0.3,
+                            marginStart:WidthScale(15),
+                            marginTop:(height /10)*1.1,
+                        }} onPress={()=>this.props.navigation.push('FilterStroe')}>
+                            <Image source={filterButton_image} style={styles.borderBlackLine,{marginStart:WidthScale(5)}}></Image>
+                        </TouchableOpacity>
+                    </View>
                     <MapView 
                         // ref = {this.mapRef}
                         ref={ref => {
@@ -804,7 +805,7 @@ class OverviewMap extends Component {
                         customMapStyle={mapStyle}
                         onRegionChange = {this.onRegionChange.bind(this)}
                         onRegionChangeComplete={this.RegionChangeComplete.bind(this)}
-                       
+                        
                         initialRegion={{
                             latitude: this.state.mapviewCenter.latitude,
                             longitude: this.state.mapviewCenter.longitude,
@@ -816,15 +817,17 @@ class OverviewMap extends Component {
                         }}
                         style={styles.borderBlackLine,{
                             flexDirection: 'column', 
-                            height:Dimensions.get('screen').height,
+                            height:'100%',
                             width:width}}>
-                              
+                                
                         {this.state.markers.map((marker,index) => (
                                 <View>
                                     <Marker coordinate={marker.coordinates} 
                                         key={index}
                                         title={this.state.outline == false ? marker.title : null}
                                         onPress={() => {this.state.outline == false ? this.ClinicOnClick(marker,false) : null}}
+                                        style={{
+                                        }}
                                         >
                                         {marker.education == "北醫" ? ( <Image
                                             source={this.state.outline == false ? require('../assets/Marker_TaipeiGroup.png') : null}
@@ -862,62 +865,70 @@ class OverviewMap extends Component {
 
                                 </View>
                             ))}
-                        
-                            
                     </MapView>
-                    
-                    
                 </View>
-                <View style={styles.borderBlackLine,{flex: 0.01,zIndex:3, flexDirection: 'column'}}>
-                    <Image source={footer_image} style={styles.borderBlackLine,
-                                                        {marginStart:WidthScale(0),
-                                                        marginTop:height < guidelineBaseHeight ? HeightScale(-10) : HeightScale(0),
-                                                        width:width}}></Image>
-                </View>
-                <View style={styles.borderBlackLine,{flex: 0.5,zIndex:3, flexDirection: 'row'}}>
+                
+                <View style={styles.borderBlackLine,{flex: 0.08,
+                                                        backgroundColor:'#FFFF',
+                                                        justifyContent:'center',
+                                                        alignItems:'center',
+                                                        flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button,{
-                        height: height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-                        width:WidthScale(50),
-                        marginStart:WidthScale(30),
-                        marginTop:HeightScale(10),
-                       
+                        flex:0.2,
                     }} onPress={()=>this.props.navigation.push('MainMenu')}>
+                        <Image source={require('../assets/HomeIcon.png')} style={styles.borderBlackLine,
+                                                        {alignSelf:'center',
+                                                            height:37,
+                                                            width:37,
+                                                            }}></Image>
                     </TouchableOpacity> 
                     <TouchableOpacity style={styles.button,{
-                        height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-                        width:WidthScale(50),
-                        marginStart:WidthScale(21),
-                        marginTop:HeightScale(10),
-                       
+                        flex:0.2,
                     }} onPress={()=>this.props.navigation.push('Search')}>
+                        <Image source={require('../assets/SearchIcon.png')} style={styles.borderBlackLine,
+                                                        {alignSelf:'center',
+                                                            height:37,
+                                                            width:37,
+                                                            }}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-                        width:WidthScale(50),
-                        marginStart:WidthScale(39),
-                        marginTop:HeightScale(10),
-                       
+                        flex:0.2,
                     }} onPress={()=>this.props.navigation.push('OverviewMap')}>
+                        <Image source={require('../assets/OverViewMapIcon.png')} style={styles.borderBlackLine,
+                                                        {alignSelf:'center',
+                                                            height:45,
+                                                            width:50,
+                                                            resizeMode:'stretch',
+                                                            }}></Image>
+                        
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-                        width:WidthScale(50),
-                        marginStart:WidthScale(35),
-                        marginTop:HeightScale(10),
-                       
+                        flex:0.2,
                     }} onPress={()=>this.props.navigation.push('Notifycation')}>
+                        <Image source={require('../assets/MessageIcon_.png')} style={styles.borderBlackLine,
+                                                        {alignSelf:'center',
+                                                            height:37,
+                                                            width:37,
+                                                            }}></Image>
+                        
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button,{
-                        height:height < guidelineBaseHeight ? HeightScale(60) : HeightScale(50),
-                        width:WidthScale(50),
-                        marginStart:WidthScale(20),
-                        marginTop:HeightScale(10),
-                       
+                        flex:0.2,
                     }} onPress={()=>this.props.navigation.push('Profile')}>
+                        <Image source={{uri : global.userIcon}} 
+                                            style={{
+                                                alignSelf:'center',
+                                                borderWidth:3,
+                                                height:40,
+                                                width:40,
+                                                borderRadius:100,
+                                                borderColor:'#FFF',
+                                                resizeMode:'contain',
+                                            }}    
+                        ></Image>
                     </TouchableOpacity>
                 </View>
-            </View>
-        </View>
+            </SafeAreaView>
     );
   }
 }
