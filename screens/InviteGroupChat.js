@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import { Dimensions,TouchableWithoutFeedback,Keyboard,KeyboardAvoidingView,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 import MultiSelect from 'react-native-multiple-select';
 import * as firebase from 'firebase';
 
@@ -39,30 +39,45 @@ class Message extends Component {
         }
     }
     
+    //檢查該用戶是否在群組內，如果有的話，追加就不用顯示在這邊了
+    checkInGroupUser(item)
+    {
+        var isInGroup=false;
+        var needCheckUsername = item['needCheckUsername']
+        if (needCheckUsername==global.username){
+            isInGroup = true;
+        }
+        
+        item['GroupUsers'].forEach((e)=>{
+            if (e.title == needCheckUsername)
+            {
+                isInGroup = true;
+            }
+        })
+        //只顯示目前未在群組的用戶
+        return !isInGroup;
+    }
     componentDidMount()
     {
+        var _GroupUsers = this.props.navigation.getParam('GroupUsers')
+        if (_GroupUsers.length>0)
+        {
+            _GroupUsers = JSON.parse(_GroupUsers);
+        }
         var dbRef = database.ref();
         var selfName = global.username;
         dbRef.child("user").once('value').then((result) => {
 		if (result.exists()) {
-			var user = result.val();
+			var users = result.val();
             var i = 0;
-            Object.keys(user).forEach(element=>{
+            Object.keys(users).forEach(key=>{
                 var u = {   key:i.toString(),
-                            title : user[element].username,
-                            toggled:false,
+                            title : users[key].username,
+                            toggled:users[key].username==global.username?true:false,
                             //可以在好友列表內出現，因為自己的帳號一定要在群組裡面，但又不用出現在好友列表防止選錯
-                            visible:true,
-                            item_image : require('../assets/MessageIcon.png'),//user[element].userIcon,
+                            visible:this.checkInGroupUser({GroupUsers:_GroupUsers,needCheckUsername : users[key].username}),
+                            item_image : require('../assets/MessageIcon.png'),//user[key].userIcon,
                         };
-                if (selfName == user[element].username)
-                {
-                    //自己一定要在群組裡面，所以預設勾選
-                    u.toggled = true;
-
-                    //但因為列表可以被取消勾選，為了防止使用者誤觸，就先隱藏起來
-                    u.visible = false;
-                }
                 this.state.ToggleBtn.push(u);
                 i += 1;
             });
@@ -124,7 +139,14 @@ class Message extends Component {
     }
     onSelectMemberToGroup()
     {
-        this.props.navigation.push('CreateChatRoom',{ToggleBtn : JSON.stringify(this.state.ToggleBtn)});
+        // if (this.props.navigation.getParam('ReferPage') == 'GroupSetting')
+        // {
+        //     this.props.navigation.push('GroupSetting',{ToggleBtn : JSON.stringify(this.state.ToggleBtn)});
+        // }
+        // else
+        // {
+            this.props.navigation.push('CreateChatRoom',{ToggleBtn : JSON.stringify(this.state.ToggleBtn)});
+        // }
     }
   render() {
     const renderItem = ({ item }) => (
@@ -143,140 +165,146 @@ class Message extends Component {
     );
     
     return (
-        <View style={styles.container,{flex: 1,
-                                        flexDirection: 'column',
-                                        }}>
-            
-            <View style={{flex: 0.3,
-                            flexDirection: 'column',
-                            }}>
-                <Image source={NotifycationTopper_image} style={styles.image,
-                                                                            {zIndex:1,
-                                                                            resizeMode:'stretch',
-                                                                            height:Dimensions.get('window').height*0.2,
-                                                                            width:Dimensions.get('window').width,
-                                                                            marginTop:0
-                                                                            }}></Image>
-            </View>
-            <View style={{flex: 0.25,
-							justifyContent:'center',
-							alignItems:'center',
-							zIndex:0,
-							flexDirection: 'row',
-							}}>
-				<View style={{
-						flex:0.3,
-						alignItems:'flex-start',
-					}}>
-                          
-                        {this.props.navigation.state.params!=undefined?null
-                        :
-                            <TouchableOpacity style={{
-                                alignItems:'center',
-                                justifyContent:'center',
-                                height:50,
-                                width:50,
-                            }} 
-                            onPress={()=>this.props.navigation.push("Message")}>
-                                <Image source={require('../assets/sdfghkjlgfd.png')}></Image>
-                            </TouchableOpacity>
-                        }
-				</View>
-				<View style={{
-						flex:0.3,
-					}}>
-					<Text style={{
-                                    fontSize:18,
-                                    // marginStart:WidthScale(165),
-                                    textAlign:'center',
+        <KeyboardAvoidingView 
+					behavior={Platform.OS == "ios" ? "padding" : "height"}
+					style={styles.container}>
+					<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container,{flex: 1,
+                                                flexDirection: 'column',
+                                                }}>
+                    
+                    <View style={{flex: 0.3,
+                                    flexDirection: 'column',
+                                    }}>
+                        <Image source={NotifycationTopper_image} style={styles.image,
+                                                                                    {zIndex:1,
+                                                                                    resizeMode:'stretch',
+                                                                                    height:Dimensions.get('window').height*0.2,
+                                                                                    width:Dimensions.get('window').width,
+                                                                                    marginTop:0
+                                                                                    }}></Image>
+                    </View>
+                    <View style={{flex: 0.25,
+                                    justifyContent:'center',
+                                    alignItems:'center',
                                     zIndex:0,
-                                color:'white'}}>選擇人員</Text>
-				</View>
-				
-				<View style={{
-						flex:0.3,
-						alignItems:'flex-end',
-					}}>
-					<TouchableOpacity style={{
-							alignItems:'center',
-							justifyContent:'center',
-							height:50,
-							width:50,
-						}} 
-						onPress={()=>this.props.navigation.push("CreateChatRoom",{ToggleBtn:JSON.stringify(this.state.ToggleBtn)})}
-						>
-						 <Text style={{
-                                fontSize:15,
-                                zIndex:0,
-                                color:'darkgreen'}}>
-                                    確認
-                            </Text>
-					</TouchableOpacity>
-				</View>
-			</View>
-            <View style={{flex: 0.25,
-                            justifyContent:'top',
-                            alignItems:'center',
-                            flexDirection: 'column',
-                            zIndex:0,
+                                    flexDirection: 'row',
+                                    }}>
+                        <View style={{
+                                flex:0.3,
+                                alignItems:'flex-start',
                             }}>
-            </View>
-            <View style={{flex: 0.25,
-                            justifyContent:'center',
-                            alignItems:'center',
-                            flexDirection: 'column',
-                            zIndex:0,
+                                
+                                {this.props.navigation.state.params!=undefined?null
+                                :
+                                    <TouchableOpacity style={{
+                                        alignItems:'center',
+                                        justifyContent:'center',
+                                        height:50,
+                                        width:50,
+                                    }} 
+                                    onPress={()=>this.props.navigation.push("Message")}>
+                                        <Image source={require('../assets/sdfghkjlgfd.png')}></Image>
+                                    </TouchableOpacity>
+                                }
+                        </View>
+                        <View style={{
+                                flex:0.3,
                             }}>
-                <TextInput style={{
-                                paddingHorizontal:30,
-                                marginTop:0,
-                                backgroundColor:'#ECF0F6',
-                                borderRadius:30,
-                                height:Dimensions.get('window').height*0.8,
-                                width:Dimensions.get('window').width*0.8,
-                                height:43,
-                                zIndex:2}}
-                                onChangeText={(text) => this.setState({searchString: text})}
-                                onSubmitEditing = {()=>{this.doSearch()}}
-                                placeholder = '搜尋'
-                                class = 'placeholder'
-                                // value = {this.state.searchString.toString()}
-                />    
-            </View>
-            <View style={{flex: 3.35,
-                            zIndex:0,
-                            flexDirection: 'column',
-                            marginTop:5}}>
-                    <FlatList
-                        style={{marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-						contentContainerStyle={{ marginTop: 0}}
-						data={this.state.ToggleBtn}
-						renderItem={renderItem}
-						keyExtractor={item => item.key.toString()}
-					/>
-                    
-                    
-            </View>
-            {this.state.showSelectList==true?
-                <View style={{
-                    flex:0.5,
-                    borderWidth:1,
-                    backgroundColor:'#D8F4FB',
-                    borderColor:'#01C5DE'
-                }}>
-                    <FlatList
-                            horizontal
-                            contentContainerstyle={{ 
-                                flexDirection: 'row',
-                                                    marginStart:150,}}
-                                                    style={{marginTop:0,marginStart:0}}//backgroundColor:'#EBF0F3'}}
-                                                    data={this.state.ToggleBtn}
-                                                    renderItem={renderOnSelectItem}
-                                                    keyExtractor={item => item.key.toString()}
-                                                    />
+                            <Text style={{
+                                            fontSize:18,
+                                            // marginStart:WidthScale(165),
+                                            textAlign:'center',
+                                            zIndex:0,
+                                        color:'white'}}>選擇人員</Text>
+                        </View>
+                        
+                        <View style={{
+                                flex:0.3,
+                                alignItems:'flex-end',
+                            }}>
+                            <TouchableOpacity style={{
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    height:50,
+                                    width:50,
+                                }} 
+                                onPress={()=>this.props.navigation.push("CreateChatRoom",{ToggleBtn:JSON.stringify(this.state.ToggleBtn)})}
+                                >
+                                <Text style={{
+                                        fontSize:15,
+                                        zIndex:0,
+                                        color:'darkgreen'}}>
+                                            確認
+                                    </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={{flex: 0.25,
+                                    justifyContent:'top',
+                                    alignItems:'center',
+                                    flexDirection: 'column',
+                                    zIndex:0,
+                                    }}>
+                    </View>
+                    <View style={{flex: 0.25,
+                                    justifyContent:'center',
+                                    alignItems:'center',
+                                    flexDirection: 'column',
+                                    zIndex:0,
+                                    }}>
+                        <TextInput style={{
+                                        paddingHorizontal:30,
+                                        marginTop:0,
+                                        backgroundColor:'#ECF0F6',
+                                        borderRadius:30,
+                                        height:Dimensions.get('window').height*0.8,
+                                        width:Dimensions.get('window').width*0.8,
+                                        height:43,
+                                        zIndex:2}}
+                                        onChangeText={(text) => this.setState({searchString: text})}
+                                        onSubmitEditing = {()=>{this.doSearch()}}
+                                        placeholder = '搜尋'
+                                        class = 'placeholder'
+                                        // value = {this.state.searchString.toString()}
+                        />    
+                    </View>
+                    <View style={{flex: 3.35,
+                                    zIndex:0,
+                                    flexDirection: 'column',
+                                    marginTop:5}}>
+                            <FlatList
+                                style={{marginTop:0,width:Dimensions.get('window').width,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                                contentContainerStyle={{ marginTop: 0}}
+                                data={this.state.ToggleBtn}
+                                renderItem={renderItem}
+                                keyExtractor={item => item.key.toString()}
+                            />
+                            
+                            
+                    </View>
+                    {this.state.showSelectList==true?
+                        <View style={{
+                            flex:0.5,
+                            borderWidth:1,
+                            backgroundColor:'#D8F4FB',
+                            borderColor:'#01C5DE'
+                        }}>
+                            <FlatList
+                                    horizontal
+                                    contentContainerstyle={{ 
+                                        flexDirection: 'row',
+                                                            marginStart:150,}}
+                                                            style={{marginTop:0,marginStart:0}}//backgroundColor:'#EBF0F3'}}
+                                                            data={this.state.ToggleBtn}
+                                                            renderItem={renderOnSelectItem}
+                                                            keyExtractor={item => item.key.toString()}
+                                                            />
+                        </View>
+                    :null}
                 </View>
-            :null}
-        </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
   }
 }

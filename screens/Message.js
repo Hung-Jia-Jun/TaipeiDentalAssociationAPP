@@ -156,7 +156,7 @@ class Message extends Component {
 							height:50,
 							width:50,
 						}} 
-						onPress={()=>this.props.navigation.push('InviteGroupChat')}>
+						onPress={()=>this.props.navigation.push('InviteGroupChat',{GroupUsers:[]})}>
 						<Image source={require('../assets/MessageBtn.png')}></Image>
 					</TouchableOpacity>
 				</View>

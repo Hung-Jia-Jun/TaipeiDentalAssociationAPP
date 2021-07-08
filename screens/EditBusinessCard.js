@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
+import { Dimensions,TouchableWithoutFeedback,Keyboard,KeyboardAvoidingView,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View } from "react-native";
 import * as firebase from 'firebase';
 
 const appConfig = require('../app.json');
@@ -207,199 +207,207 @@ class Message extends Component {
 		);
 		
 	return (
-		<View  key="container" style={styles.container,{flex: 1,
-										flexDirection: 'column',
-										}}>
-			<View style={{flex: 0.3,
-							flexDirection: 'column',
-							}}>
-				<Image source={NotifycationTopper_image} style={styles.image,
-																			{zIndex:1,
-																			resizeMode:'stretch',
-																			height:Dimensions.get('window').height*0.2,
-																			width:Dimensions.get('window').width,
-																			marginTop:0
-																			}}></Image>
-			</View>
-			<View style={{flex: 0.55,
-							justifyContent:'center',
-							alignItems:'center',
-							zIndex:0,
-							flexDirection: 'row',
-							}}>
-				<View style={{
-						flex:0.3,
-						alignItems:'flex-start',
-					}}>
-                    <TouchableOpacity style={{
-							alignItems:'center',
-							justifyContent:'center',
-							height:50,
-							width:50,
-						}} 
-						onPress={()=>this.props.navigation.push('PersonalBusinessCard')}>
-						<Image source={require('../assets/adsfsdfsdfdxcvcxv.png')}></Image>
-					</TouchableOpacity>
-				</View>
-				<View style={{
-						flex:0.3,
-					}}>
-					<Text style={{
-									fontSize:18,
-									textAlign:'center',
-									zIndex:0,
-								color:'white'}}>個人名片</Text>
-				</View>
-				
-				<View style={{
-						flex:0.3,
-						alignItems:'flex-end',
-					}}>
-				 	<TouchableOpacity style={{
-							alignItems:'center',
-							justifyContent:'center',
-							height:50,
-							width:50,
-						}} 
-						onPress={()=>this.removeCardById(this.state.cardId,this.props.navigation.push('PersonalBusinessCard'))}>
-						<Image source={require('../assets/whiteTrachcan.png')}></Image>
-					</TouchableOpacity>
-				</View>
-			</View>
-			<View style={{flex: 3.7,
-							zIndex:0,
-							flexDirection: 'column',
-							padding:50}}>
-				<Text style={{
-							fontSize:18,
-							textAlign:'left',
-							zIndex:0,}}>中文姓名 :</Text>		
-				<TextInput style={styles.TextInputclass}
-									onChangeText={(text) => this.setState({businessCardName: text})}
-									value={this.state.businessCardName}
-									placeholder={"中文姓名"}
-									// placeholder = '    username'
-									class = 'placeholder'
-								/>
-				<View style={{}}>
-					<View style={{flexDirection:'row',alignItems:'center'}}>
-						<Text style={{
-									fontSize:18,
-									marginTop:15,
-									textAlign:'left',
-									zIndex:0,}}>學歷 :</Text>		
-						<TouchableOpacity style={{
-								width:40,
-								marginStart:10,
-								height:40,
-								marginTop:15,
-								justifyContent:'center',
-								alignItems:'center',
-								}}
-								onPress={()=>{
-									if (this.state.educationList==undefined)
-									{
-										this.setState({educationList:[]},()=>{
-											this.state.educationList.push({
-												key : this.state.educationList.length,
-												placeholderText: '學歷',
-												value:"",
-											});
-											this.setState({educationList : this.state.educationList});
-										});
-									}
-									else
-									{
-										this.state.educationList.push({
-											key : this.state.educationList.length,
-											placeholderText: '學歷',
-											value:"",
-										});
-										this.setState({educationList : this.state.educationList});
-									}
-									
-								}}
-								>
-							<Image source={require('../assets/plus.png')}></Image>
-						</TouchableOpacity>
+		<KeyboardAvoidingView 
+			behavior={Platform.OS == "ios" ? "padding" : "height"}
+			style={styles.container}>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+				<View  key="container" style={styles.container,{flex: 1,
+												flexDirection: 'column',
+												}}>
+					<View style={{flex: 0.3,
+									flexDirection: 'column',
+									}}>
+						<Image source={NotifycationTopper_image} style={styles.image,
+																					{zIndex:1,
+																					resizeMode:'stretch',
+																					height:Dimensions.get('window').height*0.2,
+																					width:Dimensions.get('window').width,
+																					marginTop:0
+																					}}></Image>
 					</View>
-					<FlatList
-						style={{width:WidthScale(350)}}//backgroundColor:'#EBF0F3'}}
-						contentContainerStyle={{ marginTop: 0}}
-						data={this.state.educationList}
-						renderItem={renderItem}
-						keyExtractor={item => item.key.toString()}
-					/>
-				</View>
-
-				<View style={{flexDirection:'row',alignItems:'center'}}>
-					<Text style={{
-								fontSize:18,
-								marginTop:15,
-								textAlign:'left',
-								zIndex:0,}}>經歷 :</Text>		
-					<TouchableOpacity style={{
-							width:40,
-							marginStart:10,
-							height:40,
-							marginTop:15,
-							justifyContent:'center',
-							alignItems:'center',
-							}}
-							onPress={()=>{
-								if (this.state.experienceList==undefined)
-								{
-									this.setState({experienceList:[]},()=>{
-										this.state.experienceList.push({
-											key : this.state.experienceList.length,
-											placeholderText: '經歷',
-											value:"",
-										});
-										this.setState({experienceList : this.state.experienceList});
-									});
-								}
-								else
-									{
-										this.state.experienceList.push({
-											key : this.state.experienceList.length,
-											placeholderText: '經歷',
-											value:"",
-										});
-										this.setState({experienceList : this.state.experienceList});
-									}
-							}}
-							>
-						<Image source={require('../assets/plus.png')}></Image>
-					</TouchableOpacity>
-				</View>
-				<FlatList
-					style={{}}//backgroundColor:'#EBF0F3'}}
-					contentContainerStyle={{ marginTop: 0}}
-					data={this.state.experienceList}
-					renderItem={renderItem2}
-					keyExtractor={item => item.key.toString()}
-				/>
-			</View>
-			<View style={{flex: 0.01, flexDirection: 'column'}}>
-				<Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
-			</View>
-			<View style={{flex: 0.5,justifyContent:'space-between'}}>
-			<TouchableOpacity style={styles.button,{
-					justifyContent:'center',
-					flex:1,
-					backgroundColor:'#01C5DE',
-					alignItems:'center',
-				}} onPress={()=> this.uploadSelfBusinessCard(this.props.navigation.push('PersonalBusinessCard')) }>
+					<View style={{flex: 0.55,
+									justifyContent:'center',
+									alignItems:'center',
+									zIndex:0,
+									flexDirection: 'row',
+									}}>
+						<View style={{
+								flex:0.3,
+								alignItems:'flex-start',
+							}}>
+							<TouchableOpacity style={{
+									alignItems:'center',
+									justifyContent:'center',
+									height:50,
+									width:50,
+								}} 
+								onPress={()=>this.props.navigation.push('PersonalBusinessCard')}>
+								<Image source={require('../assets/adsfsdfsdfdxcvcxv.png')}></Image>
+							</TouchableOpacity>
+						</View>
+						<View style={{
+								flex:0.3,
+							}}>
+							<Text style={{
+											fontSize:18,
+											textAlign:'center',
+											zIndex:0,
+										color:'white'}}>個人名片</Text>
+						</View>
+						
+						<View style={{
+								flex:0.3,
+								alignItems:'flex-end',
+							}}>
+							<TouchableOpacity style={{
+									alignItems:'center',
+									justifyContent:'center',
+									height:50,
+									width:50,
+								}} 
+								onPress={()=>this.removeCardById(this.state.cardId,this.props.navigation.push('PersonalBusinessCard'))}>
+								<Image source={require('../assets/whiteTrachcan.png')}></Image>
+							</TouchableOpacity>
+						</View>
+					</View>
+					<View style={{flex: 3.7,
+									zIndex:0,
+									flexDirection: 'column',
+									padding:50}}>
 						<Text style={{
-                            textAlign:'center',
-                            color:'#FFF',
-                            fontSize:20,
-                            }}>
-                                確認
-                            </Text>
-				</TouchableOpacity> 
-			</View>
-		</View>
+									fontSize:18,
+									textAlign:'left',
+									marginBottom : 15,
+									marginTop:20,
+									zIndex:0,}}>中文姓名 :</Text>		
+						<TextInput style={styles.TextInputclass}
+											onChangeText={(text) => this.setState({businessCardName: text})}
+											value={this.state.businessCardName}
+											placeholder={"中文姓名"}
+											// placeholder = '    username'
+											class = 'placeholder'
+										/>
+						<View style={{}}>
+							<View style={{flexDirection:'row',alignItems:'center'}}>
+								<Text style={{
+											fontSize:18,
+											marginTop:15,
+											textAlign:'left',
+											zIndex:0,}}>學歷 :</Text>		
+								<TouchableOpacity style={{
+										width:40,
+										marginStart:10,
+										height:40,
+										marginTop:15,
+										justifyContent:'center',
+										alignItems:'center',
+										}}
+										onPress={()=>{
+											if (this.state.educationList==undefined)
+											{
+												this.setState({educationList:[]},()=>{
+													this.state.educationList.push({
+														key : this.state.educationList.length,
+														placeholderText: '學歷',
+														value:"",
+													});
+													this.setState({educationList : this.state.educationList});
+												});
+											}
+											else
+											{
+												this.state.educationList.push({
+													key : this.state.educationList.length,
+													placeholderText: '學歷',
+													value:"",
+												});
+												this.setState({educationList : this.state.educationList});
+											}
+											
+										}}
+										>
+									<Image source={require('../assets/plus.png')}></Image>
+								</TouchableOpacity>
+							</View>
+							<FlatList
+								style={{width:WidthScale(350)}}//backgroundColor:'#EBF0F3'}}
+								contentContainerStyle={{ marginTop: 0}}
+								data={this.state.educationList}
+								renderItem={renderItem}
+								keyExtractor={item => item.key.toString()}
+							/>
+						</View>
+
+						<View style={{flexDirection:'row',alignItems:'center'}}>
+							<Text style={{
+										fontSize:18,
+										marginTop:15,
+										textAlign:'left',
+										zIndex:0,}}>經歷 :</Text>		
+							<TouchableOpacity style={{
+									width:40,
+									marginStart:10,
+									height:40,
+									marginTop:15,
+									justifyContent:'center',
+									alignItems:'center',
+									}}
+									onPress={()=>{
+										if (this.state.experienceList==undefined)
+										{
+											this.setState({experienceList:[]},()=>{
+												this.state.experienceList.push({
+													key : this.state.experienceList.length,
+													placeholderText: '經歷',
+													value:"",
+												});
+												this.setState({experienceList : this.state.experienceList});
+											});
+										}
+										else
+											{
+												this.state.experienceList.push({
+													key : this.state.experienceList.length,
+													placeholderText: '經歷',
+													value:"",
+												});
+												this.setState({experienceList : this.state.experienceList});
+											}
+									}}
+									>
+								<Image source={require('../assets/plus.png')}></Image>
+							</TouchableOpacity>
+						</View>
+						<FlatList
+							style={{}}//backgroundColor:'#EBF0F3'}}
+							contentContainerStyle={{ marginTop: 0}}
+							data={this.state.experienceList}
+							renderItem={renderItem2}
+							keyExtractor={item => item.key.toString()}
+						/>
+					</View>
+					<View style={{flex: 0.01, flexDirection: 'column'}}>
+						<Image source={Footer_image} style={{marginStart:0,marginTop:0,width:Dimensions.get('window').width}}></Image>
+					</View>
+					<View style={{flex: 0.5,justifyContent:'space-between'}}>
+					<TouchableOpacity style={styles.button,{
+							justifyContent:'center',
+							flex:1,
+							backgroundColor:'#01C5DE',
+							alignItems:'center',
+						}} onPress={()=> this.uploadSelfBusinessCard(this.props.navigation.push('PersonalBusinessCard')) }>
+								<Text style={{
+									textAlign:'center',
+									color:'#FFF',
+									fontSize:20,
+									}}>
+										確認
+									</Text>
+						</TouchableOpacity> 
+					</View>
+				</View>
+			</TouchableWithoutFeedback>
+		</KeyboardAvoidingView>
 	);
   }
 }

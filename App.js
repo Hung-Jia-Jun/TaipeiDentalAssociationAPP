@@ -79,6 +79,7 @@ import PublishRecruitment from "./screens/PublishRecruitment";
 import PublishRecruitmentHumanSupport from "./screens/PublishRecruitmentHumanSupport";
 import ClinicRecruitmentDetail from "./screens/ClinicRecruitmentDetail";
 import MapDetail from "./screens/MapDetail";
+import GroupSetting from "./screens/GroupSetting";
 
 const AppNavigator = createStackNavigator({
 	Index: {
@@ -558,6 +559,14 @@ const AppNavigator = createStackNavigator({
 			headerShown: false
 		}
 	},
+	GroupSetting : {
+		screen: GroupSetting,
+		navigationOptions: {
+			animationEnabled: false,
+			headerShown: false
+		}
+	},
+	
 	
 });
 

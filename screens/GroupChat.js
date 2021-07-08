@@ -43,6 +43,7 @@ class Message extends Component {
 			keyboardOpen : false,
 			showGroupSetting : false,
 			sendImage:'',
+			ToggleBtn :[],
 		}
 	}
 
@@ -76,6 +77,7 @@ class Message extends Component {
 	}
 	msgUpdate()
 	{
+		//TODO 發送訊息後要及時更新到在該群組用戶的手機中
 		var that = this; 
 		var ref = firebase.database().ref('/group'+"/" + this.props.navigation.state.params.GroupID + '/msg');
 		var _GroupMSG = []
@@ -129,7 +131,7 @@ class Message extends Component {
 	}
 	sendText()
 	{
-		this.setState({ keyboardOpen: false });
+		// this.setState({ keyboardOpen: false });
 		if (this.state.InputMSG=='')
 		{
 			return;
@@ -159,24 +161,24 @@ class Message extends Component {
 	//取得目前在群組的用戶
 	getGroupUserAndRedrict()
 	{
+		return null;
 		firebase.database().ref('/group'+"/" + this.props.navigation.state.params.GroupID).child('GroupUser').get().then((result)=>{
 			if (result.exists()) {
 				var users = result.val();
 				var i = 0;
 				Object.keys(users).forEach(key=>{
 					var u = {   key:i.toString(),
-								title : users[key].username,
+								title : users[key].title,
 								toggled:true,
 								//可以在好友列表內出現，因為自己的帳號一定要在群組裡面，但又不用出現在好友列表防止選錯
-								visible:true,
+								visible:users[key].title==global.username?false:true,
 								item_image : require('../assets/MessageIcon.png'),//users[key].userIcon,
 							};
 					this.state.ToggleBtn.push(u);
 					i += 1;
 				});
 				this.setState({ToggleBtn:this.state.ToggleBtn},()=>{
-					this.props.navigation.push("CreateChatRoom",{ToggleBtn:JSON.stringify( this.getGroupUser() )})
-
+					this.props.navigation.push("GroupSetting",{GroupUsers:JSON.stringify( this.state.ToggleBtn )})
 				});
 			}
 		})
@@ -387,7 +389,7 @@ class Message extends Component {
 											onChangeText={(text) => this.setState({InputMSG: text})}
 											onSubmitEditing={()=>{
 																	this.sendText();
-																	this.setState({ keyboardOpen: false });
+																	// this.setState({ keyboardOpen: false });
 																}}
 											class = 'placeholder'
 											value={this.state.InputMSG}

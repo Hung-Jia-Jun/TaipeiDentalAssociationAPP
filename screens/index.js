@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView,Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View, Alert } from "react-native";
+import { SafeAreaView,TouchableWithoutFeedback,Keyboard,KeyboardAvoidingView,Dimensions,StyleSheet,Image,TouchableOpacity,Button,FlatList,ImageBackground,TextInput,Text, View, Alert } from "react-native";
 import * as firebase from 'firebase';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -112,150 +112,156 @@ class Index extends Component {
 	render() {
 		return (
 			<SafeAreaView style={{flex:1}}>
-				<View style={styles.container,{flex: 1,flexWrap: 'wrap', flexDirection: 'column'}}>
-					<ImageBackground source={image} style={styles.image,{width:Dimensions.get('window').width,height:Dimensions.get('window').height}}>
-						<View style={{flex: 2.3, flexDirection: 'column'}}>
-						</View>
-						<View style={{	flex: 2,
-									 	flexDirection: 'column',
-										width:WidthScale(380),
-										justifyContent:'center',
-										alignSelf:'center',
-										borderRadius:30,
-										backgroundColor:'white',
-										alignItems: 'center'}}>
-							<View style={{flexDirection:"row",
-											marginTop:HeightScale(-80),
-											}}>
-								<TouchableOpacity style={styles.button,{
-									height: 50,
-									width:150,
-									elevation: 8,
-									// marginTop:136,
-									// borderRadius: 63,
-									paddingVertical: 10,
-									paddingHorizontal: 12
-									
-								}} onPress={()=>this.props.navigation.push('Index')}>
-									<Text style={ {fontSize: 18,
-												color: "#27D0E5",
-												fontWeight: "bold",
-												marginBottom : HeightScale(10),
-												// justifyContent:'center',
-												alignSelf: "center",
-												textTransform: "uppercase"}}>登入</Text>
-										<View style={{ borderWidth:1.5,
-														borderColor:"#27D0E5"
-												}}></View>
-								</TouchableOpacity>
-								<TouchableOpacity style={styles.button,{
-									height: 50,
-									width:150,
-									elevation: 8,
-									// marginTop:136,
-									// borderRadius: 63,
-									paddingVertical: 10,
-									paddingHorizontal: 12
-								}} onPress={()=>this.props.navigation.push('Register')}>
-									<Text style={ {fontSize: 18,
-												color: "#B9C2CC",
-												fontWeight: "bold",
-												marginBottom:HeightScale(10),
-												alignSelf: "center",
-												textTransform: "uppercase"}}>註冊</Text>
-									<View style={{ borderWidth:1.5,
-														borderColor:"#B9C2CC"
-												}}></View>
-								</TouchableOpacity>
-							</View>
-							<View style={{marginTop:HeightScale(60)}}>
-								<TextInput style={styles.UsernameTextInputclass}
-									onChangeText={(text) => this.setState({username: text})}
-									value={this.state.username}
-									placeholder={"中文姓名"}
-									// placeholder = '    username'
-									class = 'placeholder'
-								/>
-								<TouchableOpacity style={{borderRadius:10,
-												height: 50,		
-												justifyContent:'center',	
-												width:255,
-												marginTop:HeightScale(10),
-												backgroundColor:'#ECF2F6'}}
-										onPress={()=>this.setState({showBirthDay:!this.state.showBirthDay,
-																		})}>	
-										<Text style={{paddingHorizontal:20,color:this.state.birthday_str=="密碼（出生年月日）"?'#A4B9CC' : 'black'}}>{this.state.birthday_str}</Text>
-								</TouchableOpacity>
-							</View>
-						</View>
-						<View style={{flex: 1.5, 
-										flexDirection: 'column',
-										alignSelf:'center',}}>
-							<TouchableOpacity style={styles.button,{
-								height: 50,
-								width:255,
-								elevation: 8,
-								// marginTop:136,
-								backgroundColor: "#27D0E5",
-								borderRadius: 63,
-								paddingVertical: 10,
-								paddingHorizontal: 12
-								 
-							}} onPress={this.signin.bind(this)}>
-								<Text style={ {fontSize: 18,
-											color: "#fff",
-											fontWeight: "bold",
-											// justifyContent:'center',
-											alignSelf: "center",
-											textTransform: "uppercase"}}>確認</Text>
-							</TouchableOpacity>
-						</View>
-						{this.state.showBirthDay==false?null:
-							<View style={{borderWidth:1,
-											width:Dimensions.get('window').width,
-											flex:0.01,
-											justifyContent:'flex-end',
-											marginBottom:40,
-													}}>
-							<View style={{
+				<KeyboardAvoidingView 
+					behavior={Platform.OS == "ios" ? "padding" : "height"}
+					style={styles.container}>
+					<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+						<View style={styles.container,{flex: 1,flexWrap: 'wrap', flexDirection: 'column'}}>
+							<ImageBackground source={image} style={styles.image,{width:Dimensions.get('window').width,height:Dimensions.get('window').height}}>
+								<View style={{flex: 2.3, flexDirection: 'column'}}>
+								</View>
+								<View style={{	flex: 2,
+												flexDirection: 'column',
+												width:WidthScale(380),
 												justifyContent:'center',
-												borderTopWidth:3,
-												borderTopColor:'#B9C2CC',
-												alignItems:'flex-end',
-												backgroundColor:'#FFF',
-												height:50}}>
-									<TouchableOpacity style={{alignContent:'center',
-																justifyContent:'center',
-																marginEnd:15,
-																textAlign:'center',
-																flex:1,
-																justifyContent:'center',
-																height:40,
-																width:60,
-																}}
-														onPress={()=>{this.setState({showEnrollmentYear:false,
-															showMemberType:false,
-															showBirthDay:false,})}}
-													>
-										<Text style={{textAlign:'center',fontSize:20,}}>確認</Text>
+												alignSelf:'center',
+												borderRadius:30,
+												backgroundColor:'white',
+												alignItems: 'center'}}>
+									<View style={{flexDirection:"row",
+													marginTop:HeightScale(-80),
+													}}>
+										<TouchableOpacity style={styles.button,{
+											height: 50,
+											width:150,
+											elevation: 8,
+											// marginTop:136,
+											// borderRadius: 63,
+											paddingVertical: 10,
+											paddingHorizontal: 12
+											
+										}} onPress={()=>this.props.navigation.push('Index')}>
+											<Text style={ {fontSize: 18,
+														color: "#27D0E5",
+														fontWeight: "bold",
+														marginBottom : HeightScale(10),
+														// justifyContent:'center',
+														alignSelf: "center",
+														textTransform: "uppercase"}}>登入</Text>
+												<View style={{ borderWidth:1.5,
+																borderColor:"#27D0E5"
+														}}></View>
+										</TouchableOpacity>
+										<TouchableOpacity style={styles.button,{
+											height: 50,
+											width:150,
+											elevation: 8,
+											// marginTop:136,
+											// borderRadius: 63,
+											paddingVertical: 10,
+											paddingHorizontal: 12
+										}} onPress={()=>this.props.navigation.push('Register')}>
+											<Text style={ {fontSize: 18,
+														color: "#B9C2CC",
+														fontWeight: "bold",
+														marginBottom:HeightScale(10),
+														alignSelf: "center",
+														textTransform: "uppercase"}}>註冊</Text>
+											<View style={{ borderWidth:1.5,
+																borderColor:"#B9C2CC"
+														}}></View>
+										</TouchableOpacity>
+									</View>
+									<View style={{marginTop:HeightScale(60)}}>
+										<TextInput style={styles.UsernameTextInputclass}
+											onChangeText={(text) => this.setState({username: text})}
+											value={this.state.username}
+											placeholder={"中文姓名"}
+											// placeholder = '    username'
+											class = 'placeholder'
+										/>
+										<TouchableOpacity style={{borderRadius:10,
+														height: 50,		
+														justifyContent:'center',	
+														width:255,
+														marginTop:HeightScale(10),
+														backgroundColor:'#ECF2F6'}}
+												onPress={()=>this.setState({showBirthDay:!this.state.showBirthDay,
+																				})}>	
+												<Text style={{paddingHorizontal:20,color:this.state.birthday_str=="密碼（出生年月日）"?'#A4B9CC' : 'black'}}>{this.state.birthday_str}</Text>
+										</TouchableOpacity>
+									</View>
+								</View>
+								<View style={{flex: 1.5, 
+												flexDirection: 'column',
+												alignSelf:'center',}}>
+									<TouchableOpacity style={styles.button,{
+										height: 50,
+										width:255,
+										elevation: 8,
+										// marginTop:136,
+										backgroundColor: "#27D0E5",
+										borderRadius: 63,
+										paddingVertical: 10,
+										paddingHorizontal: 12
+										
+									}} onPress={this.signin.bind(this)}>
+										<Text style={ {fontSize: 18,
+													color: "#fff",
+													fontWeight: "bold",
+													// justifyContent:'center',
+													alignSelf: "center",
+													textTransform: "uppercase"}}>確認</Text>
 									</TouchableOpacity>
-
 								</View>
-								<View style={{
-												backgroundColor:'#FFF',
-												height:200}}>
+								{this.state.showBirthDay==false?null:
+									<View style={{borderWidth:1,
+													width:Dimensions.get('window').width,
+													flex:0.01,
+													justifyContent:'flex-end',
+													marginBottom:40,
+															}}>
+									<View style={{
+														justifyContent:'center',
+														borderTopWidth:3,
+														borderTopColor:'#B9C2CC',
+														alignItems:'flex-end',
+														backgroundColor:'#FFF',
+														height:50}}>
+											<TouchableOpacity style={{alignContent:'center',
+																		justifyContent:'center',
+																		marginEnd:15,
+																		textAlign:'center',
+																		flex:1,
+																		justifyContent:'center',
+																		height:40,
+																		width:60,
+																		}}
+																onPress={()=>{this.setState({showEnrollmentYear:false,
+																	showMemberType:false,
+																	showBirthDay:false,})}}
+															>
+												<Text style={{textAlign:'center',fontSize:20,}}>確認</Text>
+											</TouchableOpacity>
 
-									<DateTimePicker 
-										value={ this.state.birthday }
-										mode='date'
-										display='spinner'
-										onChange={ (event,date) => this.setSelectedBirthDay(date) } />
-								</View>
-							</View>
-						}
-						
-					</ImageBackground>
-				</View>
+										</View>
+										<View style={{
+														backgroundColor:'#FFF',
+														height:200}}>
+
+											<DateTimePicker 
+												value={ this.state.birthday }
+												mode='date'
+												display='spinner'
+												onChange={ (event,date) => this.setSelectedBirthDay(date) } />
+										</View>
+									</View>
+								}
+								
+							</ImageBackground>
+						</View>
+					</TouchableWithoutFeedback>
+				</KeyboardAvoidingView>
 			</SafeAreaView>
 		);
 	}
